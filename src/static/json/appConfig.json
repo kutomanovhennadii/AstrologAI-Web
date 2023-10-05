@@ -1,0 +1,17 @@
+{
+    "backgroundImagePath": "../../static/image/space1.png",
+    "GreetingPage": [
+        {
+            "headerText": "Welcome to the world of astrology!",
+            "bodyText": "Our app will help you discover what the stars have to say about your future..."
+        },
+        {
+            "headerText": "Discover Your Horoscope!",
+            "bodyText": "Find out what your zodiac sign reveals about you..."
+        },
+        {
+            "headerText": "Daily Predictions",
+            "bodyText": "Get personalized daily predictions based on your star sign..."
+        }
+    ]
+}
