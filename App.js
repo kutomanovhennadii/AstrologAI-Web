@@ -6,6 +6,7 @@ import SignUp from './src/components/user/signup/SignUp'
 import GreetingForm from './src/components/user/greeting/GreetingForm'
 import UserGate from './src/components/user/UserGate'
 import Terms from './src/components/user/Terms'
+import Verification from './src/components/user/verification/Verification'
 
 
 
@@ -15,10 +16,11 @@ const App = () => {
   return (
     <BackgroundImage>
       {/* <Terms /> */}
-      <UserGate />
+      {/* <UserGate /> */}
       {/* <GreetingForm /> */}
       {/* <SignIn /> */}
       {/* <SignUp /> */}
+      <Verification />
     </BackgroundImage>
   );
 };
