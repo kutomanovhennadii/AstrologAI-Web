@@ -2,14 +2,11 @@ import React from 'react';
 import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useField } from 'formik';
 
-import PromptWithActionLink from '../common/PromptWithActionLink';
-
-const CheckboxLabel = ({ name, promt, buttonText, onLinkPress }) => {
+const CheckboxLabel = ({ name, label }) => {
     const [field, , helpers] = useField(name);
 
     const toggleCheckbox = () => {
         helpers.setValue(!field.value);
-        console.log("toggleCheckbox");
     };
 
     return (
@@ -17,13 +14,7 @@ const CheckboxLabel = ({ name, promt, buttonText, onLinkPress }) => {
             <View style={styles.checkbox}>
                 <Text style={styles.icon}>{field.value ? '✔️' : ''}</Text>
             </View>
-            <View style={styles.promptContainer}>
-                <PromptWithActionLink
-                    promt={promt}  
-                    buttonText={buttonText} 
-                    onLinkPress={onLinkPress} 
-                />
-            </View>
+            <Text style={styles.label}>{label}</Text>
         </TouchableOpacity>
     );
 };
@@ -31,8 +22,8 @@ const CheckboxLabel = ({ name, promt, buttonText, onLinkPress }) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        alignItems: 'flex-start',  
-        top: 12
+        alignItems: 'center',
+        paddingTop: 20
     },
     checkbox: {
         width: 32,
@@ -42,17 +33,15 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#ccc',
     },
-    promptContainer: {
-        justifyContent: 'center',
-    },
     icon: {
         fontSize: 24,
     },
-    text: {
+    label: {
         marginLeft: 8,
-        color: '#1976d2',
+        fontSize: 20,
+        fontFamily: "Roboto",
+        color: "#fff",
     },
-
 });
 
 export default CheckboxLabel;

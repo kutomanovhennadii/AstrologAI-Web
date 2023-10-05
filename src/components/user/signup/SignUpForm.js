@@ -5,9 +5,9 @@ import * as Yup from 'yup';
 
 import CustomInput from '../common/CustomInput';
 import SubmitButton from '../common/SubmitButton';
-import CheckboxLabel from './CheckboxLabel'
+import CheckboxLabelLink from '../../common/CheckboxLabelLink'
 
-const SignUpForm = ({ onSubmit }) => {
+const SignUpForm = ({ onSubmit, goToTerms, termsAccepted = false }) => {
     const validationSchema = Yup.object({
         userName: Yup.string()
             .min(5, 'User name must contain at least 5 characters')
@@ -21,14 +21,17 @@ const SignUpForm = ({ onSubmit }) => {
         cofirmPassword: Yup.string()
             .min(8, 'Password must contain at least 8 characters')
             .required('Required field')
-            .oneOf([Yup.ref('password')], 'Passwords must match'), 
+            .oneOf([Yup.ref('password')], 'Passwords must match'),
+        agreeToTerms: Yup.bool()
+            .oneOf([true], 'You must accept the terms of using')
     });
 
     console.log("Render SignUpForm")
 
     const handleAgreeToTermsPress = () => {
-        // Здесь ваш код для обработки клика по "Privacy Policy"
+        
         console.log('AgreeToTerms');
+        goToTerms();
     };
 
     return (
@@ -38,7 +41,7 @@ const SignUpForm = ({ onSubmit }) => {
                 email: '',
                 password: '',
                 cofirmPassword: '',
-                agreeToTerms: false
+                agreeToTerms: termsAccepted
             }}
             validationSchema={validationSchema}
             onSubmit={(values, { isValid }) => {
@@ -72,10 +75,11 @@ const SignUpForm = ({ onSubmit }) => {
                         placeholder="Repeat your password"
                         type="password"
                     />
-                    <CheckboxLabel
+                    <CheckboxLabelLink
                         promt="  I accept "
                         buttonText="the terms of using"
                         name="agreeToTerms"
+                        isChecked={termsAccepted}
                         onLinkPress={handleAgreeToTermsPress}
                     />
                     <SubmitButton

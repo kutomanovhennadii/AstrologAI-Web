@@ -6,6 +6,7 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 
 import SignIn from './signin/SignIn';
 import SignUp from './signup/SignUp';
+import Terms from './Terms'
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ export default function UserGate() {
             <Stack.Navigator initialRouteName="SignIn">
                 <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
                 <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
+                <Stack.Screen name="Terms" component={Terms} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from "react-native";
 
 import Container from '../../common/Container';
@@ -7,11 +7,16 @@ import SocialLogin from '../socialLogin/SocialLogin';
 import PromptWithActionLink from '../common/PromptWithActionLink';
 import SignUpForm from './SignUpForm';
 
-const SignUp = ({ navigation }) => {
-    console.log("Render Sign Up")
+const SignUp = ({ navigation, route }) => {
+    const { termsAccepted = false } = route.params || {};
+    console.log("Render Sign Up. termsAccepted = " + route);
 
     const goToSignIn = () => {
         navigation.navigate('SignIn');
+    };
+
+    const goToTerms = () => {
+        navigation.navigate('Terms');
     };
 
     return (
@@ -24,7 +29,11 @@ const SignUp = ({ navigation }) => {
                 <Text style={[styles.inputTitle]}>Sign up</Text>
             </Container>
 
-            <SignUpForm onSubmit={(values) => { console.log(values); }} />
+            <SignUpForm
+                termsAccepted={termsAccepted}
+                goToTerms={goToTerms}
+                onSubmit={(values) => { console.log(values); }}
+            />
             <SocialLogin />
             <PromptWithActionLink
                 promt="Have an account?"
