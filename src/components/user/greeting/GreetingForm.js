@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 
 import GreetingPage from './GreetingPage';
 import appConfig from '../../../static/json/appConfig.json';
+import SubmitButton from '../common/SubmitButton';
 
 const GreetingForm = () => {
     const [currentPage, setCurrentPage] = useState(0);
 
     const renderItem = ({ item }) => {
-        //console.log("Render renderItem, title = " + item.headerText)
+        //console.log("Rendering item with header text: " + item.headerText);
         return (
             <GreetingPage
                 imageSource={require('../../../static/image/midjourneycat_by_Bess_Hamiti_Starry_sky_realistic_photo.png')}
@@ -18,57 +19,93 @@ const GreetingForm = () => {
         );
     };
 
+    const onViewableItemsChanged = useCallback(({ viewableItems }) => {
+        if (viewableItems.length > 0) {
+            const firstVisibleItem = viewableItems[0];
+            setCurrentPage(firstVisibleItem.index);
+        }
+    }, []);
+
     const navigateToNextPage = () => {
         console.log("Навигация на следующую страницу");
     };
 
-    console.log("Render GreetingForm, currentPage = " + currentPage);
+    //console.log("Render GreetingForm, currentPage = " + currentPage);
     return (
-        <View style={{ flex: 1 }}>
-            <FlatList
-                horizontal
-                pagingEnabled
-                data={appConfig.GreetingPage}
-                renderItem={renderItem}
-                keyExtractor={(item, index) => 'page_' + index}
-                onScrollEndDrag={(e) => {
-                    const newPage = Math.round(
-                        e.nativeEvent.contentOffset.x / e.nativeEvent.layoutMeasurement.width
-                    );
-                    if (newPage >= appConfig.GreetingPage.length-1) {
-                        navigateToNextPage(); // ваша функция для перехода на другую страницу
-                    } else {
+        <View style={styles.container}>
+            <View>
+                <FlatList
+                    horizontal
+                    pagingEnabled
+                    data={appConfig.GreetingPage}
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => 'page_' + index}
+                    onViewableItemsChanged={onViewableItemsChanged}
+                    onScrollEndDrag={(e) => {
+                        const offsetX = e.nativeEvent.contentOffset.x;
+                        const width = e.nativeEvent.layoutMeasurement.width;
+                        const newPage = Math.round(offsetX / width);
+
                         setCurrentPage(newPage);
-                    }
-                }}
-            />
-            <View style={{ flexDirection: 'row', justifyContent: 'center', marginVertical: 20 }}>
+                    }}
+                />
+            </View>
+
+            <View style={styles.paginationDots}>
                 {appConfig.GreetingPage.map((_, i) => {
+                    //console.log(`Rendering dot with index: ${i}, current page: ${currentPage}`);
                     return (
                         <View
                             key={i}
-                            style={{
-                                width: 10,
-                                height: 10,
-                                margin: 20,
-                                backgroundColor: i === currentPage ? 'white' : '#888',
-                                borderRadius: 5,
-                                bottom: 20,
-                            }}
+                            style={[
+                                styles.dot,
+                                i === currentPage ? styles.activeDot : styles.inactiveDot
+                            ]}
                         />
                     );
                 })}
             </View>
+
+            <View style={styles.submitFrame}>
+                <SubmitButton text="Continue" onSubmit={navigateToNextPage} />
+            </View>
+
         </View>
     );
 };
-
 
 const styles = StyleSheet.create({
     size100: {
         width: "100%",
         height: "100%",
     },
+
+    submitFrame: {
+        position: 'absolute',
+        bottom: 50,
+        left: 0,
+        right: 0,
+    },
+    container: {
+        flex: 1,
+    },
+    paginationDots: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        position: 'absolute',
+        bottom: 80,
+        left: 0,
+        right: 0,
+    },
+    dot: {
+        width: 10,
+        height: 10,
+        margin: 20,
+        borderRadius: 5,
+        bottom: 20
+    },
+    activeDot: { backgroundColor: 'white' },
+    inactiveDot: { backgroundColor: '#888' },
 });
 
 export default GreetingForm;

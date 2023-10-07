@@ -19,6 +19,10 @@ const SignUp = ({ navigation, route }) => {
         navigation.navigate('Terms');
     };
 
+    const goToVerification = () => {
+        navigation.navigate('Verification');
+    };
+
     return (
         <View style={[styles.size100]}>
 
@@ -32,7 +36,7 @@ const SignUp = ({ navigation, route }) => {
             <SignUpForm
                 termsAccepted={termsAccepted}
                 goToTerms={goToTerms}
-                onSubmit={(values) => { console.log(values); }}
+                onSubmit={goToVerification}
             />
             <SocialLogin />
             <PromptWithActionLink

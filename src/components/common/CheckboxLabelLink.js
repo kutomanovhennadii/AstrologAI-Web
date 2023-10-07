@@ -11,8 +11,8 @@ const CheckboxLabelLink = ({ name, promt, buttonText, onLinkPress, isChecked = f
         helpers.setValue(isChecked);
     }, [isChecked, helpers]);
 
-    console.log(`Field value for ${name}:`, field.value);
-    console.log(`Field error for ${name}:`, meta.error);
+    // console.log(`Field value for ${name}:`, field.value);
+    // console.log(`Field error for ${name}:`, meta.error);
 
     const toggleCheckbox = () => {
         helpers.setValue(!field.value);

@@ -17,10 +17,10 @@ const App = () => {
     <BackgroundImage>
       {/* <Terms /> */}
       {/* <UserGate /> */}
-      {/* <GreetingForm /> */}
+      <GreetingForm />
       {/* <SignIn /> */}
       {/* <SignUp /> */}
-      <Verification />
+      {/* <Verification /> */}
     </BackgroundImage>
   );
 };

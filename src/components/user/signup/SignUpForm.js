@@ -9,28 +9,28 @@ import CheckboxLabelLink from '../../common/CheckboxLabelLink'
 
 const SignUpForm = ({ onSubmit, goToTerms, termsAccepted = false }) => {
     const validationSchema = Yup.object({
-        userName: Yup.string()
-            .min(5, 'User name must contain at least 5 characters')
-            .required('Required field'),
-        email: Yup.string()
-            .email('Invalid email')
-            .required('Required field'),
-        password: Yup.string()
-            .min(8, 'Password must contain at least 8 characters')
-            .required('Required field'),
-        cofirmPassword: Yup.string()
-            .min(8, 'Password must contain at least 8 characters')
-            .required('Required field')
-            .oneOf([Yup.ref('password')], 'Passwords must match'),
-        agreeToTerms: Yup.bool()
-            .oneOf([true], 'You must accept the terms of using')
+        // userName: Yup.string()
+        //     .min(5, 'User name must contain at least 5 characters')
+        //     .required('Required field'),
+        // email: Yup.string()
+        //     .email('Invalid email')
+        //     .required('Required field'),
+        // password: Yup.string()
+        //     .min(8, 'Password must contain at least 8 characters')
+        //     .required('Required field'),
+        // cofirmPassword: Yup.string()
+        //     .min(8, 'Password must contain at least 8 characters')
+        //     .required('Required field')
+        //     .oneOf([Yup.ref('password')], 'Passwords must match'),
+        // agreeToTerms: Yup.bool()
+        //     .oneOf([true], 'You must accept the terms of using')
     });
 
     console.log("Render SignUpForm")
 
     const handleAgreeToTermsPress = () => {
-        
-        console.log('AgreeToTerms');
+
+        //console.log('AgreeToTerms');
         goToTerms();
     };
 
@@ -47,7 +47,13 @@ const SignUpForm = ({ onSubmit, goToTerms, termsAccepted = false }) => {
             onSubmit={(values, { isValid }) => {
                 console.log("onSubmit");
                 console.log(values);
-
+                validationSchema.isValid(values).then((isValid) => {
+                    console.log("isValid = ", isValid);
+                    if (isValid) {
+                        onSubmit();  // ваш метод для перенаправления
+                    }
+                    actions.setSubmitting(false);
+                });
             }}
         >
             {({ handleSubmit }) => (

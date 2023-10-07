@@ -23,7 +23,9 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         alignItems: 'center',
-        marginTop: 107,
+        marginTop: 80,
+        // borderWidth: 1,
+        // borderColor: "red" 
     },
     image: {
         width: 320,
@@ -32,7 +34,8 @@ const styles = StyleSheet.create({
     textContainer: {
         padding: 16,
         marginTop: 68,
-        width: screenWidth ,
+        width: screenWidth,
+        
     },
     header: {
         fontSize: 34,
@@ -45,12 +48,13 @@ const styles = StyleSheet.create({
     body: {
         fontSize: 23,
         lineHeight: 32,
-        marginTop: 24,
+        paddingTop: 24,
         color: '#fff',
         textAlign: 'center',
         fontFamily: 'Roboto',
-        marginTop: 24,
         flexWrap: 'wrap',
+        // borderWidth: 1,
+        // borderColor: "red" 
     },
     
 });

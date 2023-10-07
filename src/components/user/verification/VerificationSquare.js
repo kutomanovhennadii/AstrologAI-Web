@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         margin: 10,
+        borderRadius: 4,
     },
     textInput: {
         fontSize: 30,
