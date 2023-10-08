@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Field, ErrorMessage, useField } from 'formik';
 
-import PromptWithActionLink from '../user/common/PromptWithActionLink';
+import PromptWithActionLink from './PromptWithActionLink';
 
 const CheckboxLabelLink = ({ name, promt, buttonText, onLinkPress, isChecked = false }) => {
     const [field, meta, helpers] = useField(name);
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-start',
         top: 12,
-        
+
     },
     checkbox: {
         width: 32,

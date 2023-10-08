@@ -15,8 +15,8 @@ const Container = ({ children, topOffset }) => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',  
-    // borderWidth: 0,
-    // borderColor: 'red',
+    borderWidth: 0,
+    borderColor: 'red',
   },
 });
 

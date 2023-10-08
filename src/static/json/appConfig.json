@@ -13,5 +13,49 @@
             "headerText": "Daily Predictions",
             "bodyText": "Get personalized daily predictions based on your star sign..."
         }
+    ],
+    "Subscribtion": [
+        {
+            "Title": "Free",
+            "PerMonth": 0,
+            "PerYear": 0,
+            "Items": {
+                "Zodiac Sign": "true",
+                "Daily": "false",
+                "Weekly": "false",
+                "Monthly 3 month": "true",
+                "AstroBot Selection": "true",
+                "Date Selection": "false"
+            },
+            "Description": "Experience astrology at no cost with our FREE plan. Enjoy monthly forecasts for the next three months and immediate AstroBot switching for your zodiac sign. Note: Individual daily and weekly forecasts not included."
+        },
+        {
+            "Title": "Standart",
+            "PerMonth": 10,
+            "PerYear": 120,
+            "Items": {
+                "Zodiac Sign": "true",
+                "Daily": "true",
+                "Weekly": "true",
+                "Monthly": "true",
+                "AstroBot Selection": "true",
+                "Date Selection": "false"
+            },
+            "Description": "Upgrade to the STANDART plan for tailored astrological insights. Get daily to monthly forecasts for you or your zodiac sign. Switch AstroBots on-the-go for fresh, next-day perspectives. Past dates are just a scroll away in your feed. Note: Date selection not included."
+        },
+        {
+            "Title": "Premium",
+            "PerMonth": 36,
+            "PerYear": 360,
+            "Items": {
+                "Zodiac Sign": "true",
+                "Daily": "true",
+                "Weekly": "true",
+                "Monthly": "true",
+                "AstroBot Selection": "true",
+                "Date Selection": "true"
+            },
+            "Description": "Unlock the full potential of astrology with our PREMIUM plan. Benefit from daily, weekly, and monthly forecasts, plus the freedom to select your preferred AstroBot and specific dates for immediate insights. Enjoy up to 200 queries per month for tailor-made celestial guidance."
+        } 
     ]
 }

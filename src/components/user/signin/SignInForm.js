@@ -3,8 +3,8 @@ import { View } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import CustomInput from '../common/CustomInput';
-import SubmitButton from '../common/SubmitButton';
+import CustomInput from '../../common/CustomInput';
+import SubmitButton from '../../common/SubmitButton';
 
 const SignInForm = ({ onSubmit }) => {
     const validationSchema = Yup.object({

@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Container from '../../common/Container';
 import AstrologAIText from '../../common/AstrologAIText';
 import SocialLogin from '../socialLogin/SocialLogin';
-import PromptWithActionLink from '../common/PromptWithActionLink';
+import PromptWithActionLink from '../../common/PromptWithActionLink';
 import SignUpForm from './SignUpForm';
 
 const SignUp = ({ navigation, route }) => {

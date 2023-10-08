@@ -4,7 +4,7 @@ import { Formik, Form } from 'formik';
 
 import ScrollingText from '../common/ScrollingText';
 import CheckboxLabel from '../common/CheckboxLabel'
-import SubmitButton from './common/SubmitButton';
+import SubmitButton from '../common/SubmitButton';
 import termsOfUseJson from '../../static/json/termsOfUse.json';
 
 const termsArray = termsOfUseJson.TermOfUse;

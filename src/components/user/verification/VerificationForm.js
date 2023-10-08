@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
 
-import SubmitButton from '../common/SubmitButton';
+import SubmitButton from '../../common/SubmitButton';
 import VerificationSquare from './VerificationSquare'
 import Container from '../../common/Container';
 

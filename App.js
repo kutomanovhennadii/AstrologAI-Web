@@ -7,7 +7,8 @@ import GreetingForm from './src/components/user/greeting/GreetingForm'
 import UserGate from './src/components/user/UserGate'
 import Terms from './src/components/user/Terms'
 import Verification from './src/components/user/verification/Verification'
-
+import SubscriptionPage from './src/components/user/subsription/SubscriptionPage'
+import Subscription from './src/components/user/subsription/Subscription'
 
 
 const App = () => {
@@ -17,10 +18,11 @@ const App = () => {
     <BackgroundImage>
       {/* <Terms /> */}
       {/* <UserGate /> */}
-      <GreetingForm />
+      {/* <GreetingForm /> */}
       {/* <SignIn /> */}
       {/* <SignUp /> */}
       {/* <Verification /> */}
+      <Subscription />
     </BackgroundImage>
   );
 };

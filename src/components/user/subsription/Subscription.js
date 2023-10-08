@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 
-import GreetingPage from './GreetingPage';
 import appConfig from '../../../static/json/appConfig.json';
-import SubmitButton from '../../common/SubmitButton';
+import SubscriptionPage from './SubscriptionPage'
 
-const GreetingForm = () => {
+const Subscription = () => {
     const [currentPage, setCurrentPage] = useState(0);
 
+    //console.log(appConfig.Subscribtion);  
+
     const renderItem = ({ item }) => {
-        //console.log("Rendering item with header text: " + item.headerText);
+        console.log("Rendering item with header text: " + item);
         return (
-            <GreetingPage
-                imageSource={require('../../../static/image/midjourneycat_by_Bess_Hamiti_Starry_sky_realistic_photo.png')}
-                headerText={item.headerText}
-                bodyText={item.bodyText}
+            <SubscriptionPage data={item}
             />
         );
     };
@@ -37,7 +35,7 @@ const GreetingForm = () => {
                 <FlatList
                     horizontal
                     pagingEnabled
-                    data={appConfig.GreetingPage}
+                    data={appConfig.Subscribtion}
                     renderItem={renderItem}
                     keyExtractor={(item, index) => 'page_' + index}
                     onViewableItemsChanged={onViewableItemsChanged}
@@ -50,7 +48,7 @@ const GreetingForm = () => {
                     }}
                 />
             </View>
- 
+
             <View style={styles.paginationDots}>
                 {appConfig.GreetingPage.map((_, i) => {
                     //console.log(`Rendering dot with index: ${i}, current page: ${currentPage}`);
@@ -65,11 +63,6 @@ const GreetingForm = () => {
                     );
                 })}
             </View>
-
-            <View style={styles.submitFrame}>
-                <SubmitButton text="Continue" onSubmit={navigateToNextPage} />
-            </View>
-
         </View>
     );
 };
@@ -93,7 +86,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         position: 'absolute',
-        bottom: 80,
+        bottom: 20,
         left: 0,
         right: 0,
     },
@@ -108,4 +101,4 @@ const styles = StyleSheet.create({
     inactiveDot: { backgroundColor: '#888' },
 });
 
-export default GreetingForm;
+export default Subscription;
