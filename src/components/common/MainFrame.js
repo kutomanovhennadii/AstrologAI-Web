@@ -18,9 +18,9 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scaled: {
-        paddingTop: 10,
+        paddingTop: 30,
         marginBottom: -20,
-        transform: [{ scale: 0.66 }],
+        transform: [{ scale: 0.5 }],
     },
 });
 

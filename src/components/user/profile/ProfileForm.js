@@ -1,17 +1,18 @@
-import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { Formik } from 'formik';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
-import DatePickerDialog from 'react-native-datepicker-dialog';
 import DateInput from '../../common/DateInput'
 
 import CustomInput from '../../common/CustomInput';
 import SubmitButton from '../../common/SubmitButton';
 
 const ProfileForm = ({ onSubmit }) => {
-    const [datePickerVisible, setDatePickerVisible] = React.useState(false);
     const [date, setDate] = React.useState(new Date());
 
+    const emailRef = React.useRef(null);
+    const passwordRef = React.useRef(null);
+    const dateInputRef = React.useRef(null);
 
     const validationSchema = Yup.object({
         email: Yup.string()
@@ -22,17 +23,26 @@ const ProfileForm = ({ onSubmit }) => {
             .required('Required field'),
     });
 
-    const showDatePicker = () => {
-        setDatePickerVisible(true);
-    };
+    const removeFocusFromAll = (exceptRef) => {
+        console.log("exceptRef = ", exceptRef.current.myUniqueId);
 
-    const onDatePicked = (date) => {
-        setDate(date);
-        setDatePickerVisible(false);
-    };
 
+        if ("email" !== exceptRef.current.myUniqueId) {
+            console.log("Blurring email input");
+            emailRef.current.blur();
+        }
+        if ("password" !== exceptRef.current.myUniqueId) {
+            console.log("Blurring password input");
+            passwordRef.current.blur();
+        }
+        if ("birthDate" !== exceptRef.current.myUniqueId) {
+            console.log("Removing focus from date input");
+            dateInputRef.current.removeFocus();
+        }
+        console.log('removeFocusFromAll called');
+    };
     return (
-
+        <View style={styles.container}>
         <Formik
             initialValues={{
                 birthDate: date,
@@ -48,42 +58,47 @@ const ProfileForm = ({ onSubmit }) => {
         >
             {({ handleSubmit }) => (
                 <View>
-                    <DateInput name="dateOfBirth" />
-
+                    <Field name="birthDate">
+                        {({ field, form }) => (
+                            <DateInput
+                                name="birthDate"
+                                label="Date of Birth"
+                                field={field}
+                                form={form}
+                                ref={dateInputRef}
+                                removeFocusFromAll={removeFocusFromAll}
+                            />
+                        )}
+                    </Field>
                     <CustomInput
                         name="email"
                         label="Email"
                         placeholder="Enter your email"
+                        ref={emailRef}
+                        removeFocusFromAll={removeFocusFromAll}
                     />
                     <CustomInput
                         name="password"
                         label="Password"
                         placeholder="Enter your password"
                         type="password"
+                        ref={passwordRef}
+                        removeFocusFromAll={removeFocusFromAll}
                     />
                     <SubmitButton
                         text="Continue"
                         onSubmit={handleSubmit} />
                 </View>
             )}
-        </Formik>
+            </Formik>
+        </View>  
     );
 };
 
 const styles = StyleSheet.create({
-    input: {
-        width: "100%",
-        flexDirection: "column",
-        overflow: "hidden",
-        paddingTop: 5
-    },
-    defaultSlot: {
-        fontSize: 16,
-        letterSpacing: 1,
-        lineHeight: 24,
-        fontFamily: "Roboto",
-        color: "#fafafa",
-        textAlign: "left",
+    container: {
+        // borderWidth: 1,
+        // borderColor: "red" 
     },
 });
 

@@ -10,7 +10,7 @@ const imageContext = require.context('../../../static/image', true);
 const Profile = () => {
 
     return (
-        <Container topOffset={81}>
+        <Container topOffset={50}>
             <ProfileForm/>
         </Container>
     );
@@ -19,6 +19,8 @@ const Profile = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        // borderWidth: 1,
+        // borderColor: "red" 
     },
     
 });

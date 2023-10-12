@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, TextInput, StyleSheet, View } from "react-native";
 import { Field } from 'formik';
 
-const CustomInput = ({ label, validate, ...props }) => {
-    //console.log("Props name is: ", props.name);
-
+// const CustomInput = React.forwardRef(({ label, validate, removeFocusFromAll, name, ...props }, ref) => {
+const CustomInput = React.forwardRef((props, ref) => {
+    const { label, validate, removeFocusFromAll, name } = props;
     const [isFocused, setFocused] = useState(false);
+
+    useEffect(() => {
+
+        if (ref.current && name) {
+            ref.current.myUniqueId = name;
+            console.log(`myUniqueId for ${name} set successfully`);
+        }
+    }, [name]);
 
     return (
         <Field name={props.name} validate={validate}>
             {({ field, form }) => {
-                //console.log("Field object:", JSON.stringify(field, null, 2));
+
+
                 return (
                     <View style={styles.input}>
                         <Text style={styles.defaultSlot}>{label}</Text>
                         <TextInput
+                            ref={ref}
                             style={[styles.textInput, isFocused ? styles.focused : null]}
                             placeholder={props.placeholder}
                             placeholderTextColor="#fafafa"
@@ -22,11 +32,12 @@ const CustomInput = ({ label, validate, ...props }) => {
                             value={field.value}
                             onChangeText={form.handleChange(field.name)}
                             onBlur={() => {
+                                console.log("CustomInput on blur")
                                 setFocused(false);
-                                form.handleBlur(field.name);
+                                //removeFocusFromAll(); 
                             }}
                             onFocus={() => {
-                                //console.log('Input focused');
+                                removeFocusFromAll(ref); // Убираем фокус из других полей
                                 setFocused(true);
                             }}
                             secureTextEntry={props.type === 'password'}
@@ -39,7 +50,7 @@ const CustomInput = ({ label, validate, ...props }) => {
             }}
         </Field>
     );
-};
+});
 
 const styles = StyleSheet.create({
     input: {

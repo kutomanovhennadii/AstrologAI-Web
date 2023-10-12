@@ -17,9 +17,14 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath('com.android.tools.build:gradle:7.4.2')
-        classpath('com.facebook.react:react-native-gradle-plugin')
+        classpath('com.android.tools.build:gradle:7.0.2')
+        classpath('com.facebook.react:react-native-gradle-plugin:0.72.5')
     }
+    ext {
+    compileSdkVersion = 30
+    targetSdkVersion = 30
+    javaVersion = 11 // Указываем версию Java
+}
 }
 
 allprojects {
