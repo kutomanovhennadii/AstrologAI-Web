@@ -1,24 +1,38 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import AstrobotPage from "./AstrobotPage"
+import MainFrame from '../../common/MainFrame';
 
-import GreetingPage from './GreetingPage';
 import appConfig from '../../../static/json/appConfig.json';
-import SubmitButton from '../../common/SubmitButton';
 
-const GreetingForm = () => {
+const imageContext = require.context('../../../static/image', true);
+
+const Astrobots = () => {
+    const [images, setImages] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
 
+    // Загрузка изображений 
+    const astrobots = appConfig.Astrobots;
+    useEffect(() => {
+        const loadedImages = astrobots.reduce((acc, astrobot) => {
+            acc[astrobot.name] = imageContext('./' + astrobot.image);
+            return acc;
+        }, {});
+        setImages(loadedImages);
+    }, []);
+
+    // Верстка страницы
     const renderItem = ({ item }) => {
-        //console.log("Rendering item with header text: " + item.headerText);
         return (
-            <GreetingPage
-                imageSource={require('../../../static/image/midjourneycat_by_Bess_Hamiti_Starry_sky_realistic_photo.png')}
-                headerText={item.headerText}
-                bodyText={item.bodyText}
+            <AstrobotPage
+                image={images[item.name]}
+                name={item.name}
+                description={item.description}
             />
         );
     };
 
+    // Обновление номера страницы
     const onViewableItemsChanged = useCallback(({ viewableItems }) => {
         if (viewableItems.length > 0) {
             const firstVisibleItem = viewableItems[0];
@@ -26,18 +40,15 @@ const GreetingForm = () => {
         }
     }, []);
 
-    const navigateToNextPage = () => {
-        console.log("Навигация на следующую страницу");
-    };
 
-    //console.log("Render GreetingForm, currentPage = " + currentPage);
     return (
-        <View style={styles.container}>
+        <>
+            {/* Страницы с ботами */}
             <View>
                 <FlatList
                     horizontal
                     pagingEnabled
-                    data={appConfig.GreetingPage}
+                    data={appConfig.Astrobots}
                     renderItem={renderItem}
                     keyExtractor={(item, index) => 'page_' + index}
                     onViewableItemsChanged={onViewableItemsChanged}
@@ -50,9 +61,10 @@ const GreetingForm = () => {
                     }}
                 />
             </View>
- 
+
+            {/* Пагинация */}
             <View style={styles.paginationDots}>
-                {appConfig.GreetingPage.map((_, i) => {
+                {appConfig.Astrobots.map((_, i) => {
                     //console.log(`Rendering dot with index: ${i}, current page: ${currentPage}`);
                     return (
                         <View
@@ -66,21 +78,11 @@ const GreetingForm = () => {
                 })}
             </View>
 
-            <View style={styles.submitFrame}>
-                <SubmitButton text="Continue" onSubmit={navigateToNextPage} />
-            </View>
-
-        </View>
+        </>
     );
 };
 
 const styles = StyleSheet.create({
-    submitFrame: {
-        position: 'absolute',
-        bottom: 50,
-        left: 0,
-        right: 0,
-    },
     container: {
         flex: 1,
     },
@@ -88,7 +90,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         position: 'absolute',
-        bottom: 80,
+        bottom: 30,
         left: 0,
         right: 0,
     },
@@ -101,6 +103,11 @@ const styles = StyleSheet.create({
     },
     activeDot: { backgroundColor: 'white' },
     inactiveDot: { backgroundColor: '#888' },
+    scaled: {
+        paddingTop: 10,
+        marginBottom: -20,
+        transform: [{ scale: 0.5 }]
+    }
 });
 
-export default GreetingForm;
+export default Astrobots;

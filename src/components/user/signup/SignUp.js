@@ -26,9 +26,9 @@ const SignUp = ({ navigation, route }) => {
     return (
         <View style={[styles.size100]}>
 
-            <Container topOffset={122}>
+            {/* <Container topOffset={122}>
                 <AstrologAIText />
-            </Container>
+            </Container> */}
             <Container topOffset={41}>
                 <Text style={[styles.inputTitle]}>Sign up</Text>
             </Container>

@@ -9,6 +9,8 @@ import SignUp from './signup/SignUp';
 import Terms from './Terms'
 import Verification from './verification/Verification'
 import GreetingForm from './greeting/GreetingForm'
+import Container from '../common/Container';
+import AstrologAIText from '../common/AstrologAIText';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +26,9 @@ const MyTheme = {
 export default function UserGate() {
     return (
         <NavigationContainer theme={MyTheme}>
+            <Container topOffset={122}>
+                <AstrologAIText />
+            </Container>
             <Stack.Navigator initialRouteName="SignIn">
                 <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
                 <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />

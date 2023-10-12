@@ -18,9 +18,9 @@ const SignIn = ({ navigation }) => {
     return (
         <View style={[styles.size100]}>
 
-            <Container topOffset={122}>
+            {/* <Container topOffset={122}>
                 <AstrologAIText />
-            </Container>
+            </Container> */}
             <Container topOffset={81}>
                 <Text style={[styles.inputTitle]}>Sign in to your account</Text>
             </Container>

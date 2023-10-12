@@ -16,7 +16,7 @@ const Verification = ({ navigation }) => {
     return (
         <View style={[styles.size100]}>
 
-            <Container topOffset={98}>
+            <Container topOffset={38}>
                 <Text style={styles.title}>Verification</Text>
             </Container>
             <Container topOffset={60}>

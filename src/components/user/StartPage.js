@@ -7,7 +7,7 @@ import AstrologAIText from '../common/AstrologAIText';
 
 
 const StartPage = () => {
-    const topOffset = 0;
+    const topOffset = 400;
 
     return (
         <Container topOffset={topOffset}>

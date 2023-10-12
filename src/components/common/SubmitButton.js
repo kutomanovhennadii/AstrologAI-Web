@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     },
     button: {
         borderRadius: 4,
-        backgroundColor: '#1976d2',
+        backgroundColor: '#9593FB',
         width: '100%',
         height: 44,
         justifyContent: 'center',
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase',
         fontWeight: '500',
         fontFamily: 'Roboto',
-        color: '#fff',
+        color: '#000',
         textAlign: 'center',
     },
 });

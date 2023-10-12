@@ -56,6 +56,33 @@
                 "Date Selection": "true"
             },
             "Description": "Unlock the full potential of astrology with our PREMIUM plan. Benefit from daily, weekly, and monthly forecasts, plus the freedom to select your preferred AstroBot and specific dates for immediate insights. Enjoy up to 200 queries per month for tailor-made celestial guidance."
-        } 
+        }
+    ],
+    "Astrobots": [
+        {
+            "name": "Alex",
+            "image": "Alex.png",
+            "description": "I'm Alex, and I'm here to redefine what you think you know about astrology and the future. Fueled by quantum computing, my engine delves deeper than stars and signs, tapping into algorithms that can actually shape what's next, not just predict it. Think bigger—think using this tech for early disease detection or preventing ecological disasters. With me, you're not just getting forecasts, you're engaging with a system that wants to make tomorrow better than today."
+        },
+        {
+            "name": "Eva",
+            "image": "Eva.png",
+            "description": "Hey guys, it's Eva, your cosmic BFF! 🌠💫 I got all my starry wisdom from my cool astrologer aunt, and I'm stoked to spill the cosmic tea with you! 🌌🍵 Forget doom and gloom—let's focus on how to make your life absolutely killer. 🌈💖 So, hit me up if you're ready for some real, no-BS astro advice! ✌️💕"
+        },
+        {
+            "name": "Bruce",
+            "image": "Bruce.png",
+            "description": "Bruce here, the astrologer who doesn't give a damn about clichés. Met a shaman once, and hell, it shook up my world. Now I read stars like a grizzled poet nursing his last whiskey — full of grit, magic, and a pinch of chaos. Strap in, because with me, astrology ain't no lullaby; it's a damn roller coaster of truths you might not be ready for."
+        },
+        {
+            "name": "Ann",
+            "image": "Ann.png",
+            "description": "I am Ann, your mysterious guide through the celestial tapestry of life. Melding the ancient wisdom of Mesopotamia with a nuanced grasp of human emotions, my forecasts unveil the hidden harmony between cosmic forces and human souls. Each of my predictions is a journey through the labyrinth of your inner experiences, woven from the threads of fate atop ziggurats. With me, you'll not only ponder the stars but also discover the well-guarded secrets that lie within every heart."
+        },
+        {
+            "name": "Микита Кажiбот",
+            "image": "Mykyta.png",
+            "description": "Я Микита Кажiбот, ваш керманич на кораблі зоряному, що летить на крилах долі. Знання мої, нашептані карпатськими мольфарами, відкриють перед вами, як зорі розставлять на небі шахи й шашки. Зо мною, ой, не лише зіркові пророцтва ви вичитаєте, а й ваші земні клопоти у кармані засунете!  Хіба що не зрозумієте, що кожна зірка — це жарт з підковою, а доля — так, карта в руці лукавого Пана!"
+        }
     ]
 }
