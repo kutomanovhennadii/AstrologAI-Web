@@ -3,18 +3,18 @@ import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } fr
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Field } from 'formik';
 
-const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, name}, ref) => {
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(field.value || '');
-    const [isFocused, setFocused] = useState(false);  // Добавлено новое состояние
+const TimeInput = React.forwardRef(({ label, field, form, removeFocusFromAll, name }, ref) => {
+    const [showTimePicker, setShowTimePicker] = useState(false);
+    const [selectedTime, setSelectedTime] = useState(field.value || '');
+    const [isFocused, setFocused] = useState(false);
 
-    console.log("Render DateInput")
+    console.log("Render TimeInput");
 
-    const handleChange = (event, selectedDate) => {
-        setShowDatePicker(Platform.OS === 'ios');
-        if (selectedDate) {
-            setSelectedDate(selectedDate);
-            form.setFieldValue(field.name, selectedDate);
+    const handleChange = (event, selectedTime) => {
+        setShowTimePicker(Platform.OS === 'ios');
+        if (selectedTime) {
+            setSelectedTime(selectedTime);
+            form.setFieldValue(field.name, selectedTime);
             form.setFieldTouched(field.name, true);
         }
     };
@@ -31,14 +31,13 @@ const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
     useEffect(() => {
         if (ref.current && name) {
             ref.current.myUniqueId = name;
-            console.log(`myUniqueId for ${name} set successfully`);
         }
     }, [name]);
 
-    const toggleDatePicker = () => {
+    const toggleTimePicker = () => {
         removeFocusFromAll(ref);
         setFocused(true);
-        setShowDatePicker(!showDatePicker);
+        setShowTimePicker(!showTimePicker);
     };
 
     return (
@@ -46,7 +45,7 @@ const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
             <Text style={styles.text}>{label}</Text>
             <TouchableOpacity
                 ref={ref}
-                onPress={toggleDatePicker}
+                onPress={toggleTimePicker}
                 onBlur={() => {
                     setFocused(false);
                     form.handleBlur(field.name);
@@ -55,22 +54,21 @@ const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
                 <View style={[styles.datePickerBox, isFocused ? styles.focused : null]}>
                     <View style={styles.dateTextBox}>
                         <Text style={styles.dateText}>
-                            {selectedDate ? selectedDate.toDateString() : 'Select Date'}
+                            {selectedTime ? selectedTime.toTimeString().split(' ')[0] : 'Select Time'}
                         </Text>
                     </View>
                 </View>
             </TouchableOpacity>
 
-            {showDatePicker && (
+            {showTimePicker && (
                 <TouchableWithoutFeedback onPressOut={() => setShowDatePicker(false)}>
                     <View>
                         <DateTimePicker
-                            value={selectedDate || new Date()}
-                            mode="date"
+                            value={selectedTime || new Date()}
+                            mode="time"
                             is24Hour={true}
                             display="default"
                             onChange={handleChange}
-                            maximumDate={new Date()}
                             onBlur={() => {
                                 setFocused(false);
                                 form.handleBlur(field.name);
@@ -79,7 +77,6 @@ const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
                     </View>
                 </TouchableWithoutFeedback>
             )}
-            
             {form.touched[field.name] && form.errors[field.name] ? (
                 <Text style={styles.errorText}>{form.errors[field.name]}</Text>
             ) : null}
@@ -130,4 +127,5 @@ const styles = StyleSheet.create({
     },
 });
 
-export default DateInput;
+
+export default TimeInput;

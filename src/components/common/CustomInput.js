@@ -2,24 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Text, TextInput, StyleSheet, View } from "react-native";
 import { Field } from 'formik';
 
-// const CustomInput = React.forwardRef(({ label, validate, removeFocusFromAll, name, ...props }, ref) => {
 const CustomInput = React.forwardRef((props, ref) => {
     const { label, validate, removeFocusFromAll, name } = props;
     const [isFocused, setFocused] = useState(false);
 
     useEffect(() => {
-
         if (ref.current && name) {
             ref.current.myUniqueId = name;
-            console.log(`myUniqueId for ${name} set successfully`);
         }
     }, [name]);
 
     return (
         <Field name={props.name} validate={validate}>
             {({ field, form }) => {
-
-
                 return (
                     <View style={styles.input}>
                         <Text style={styles.defaultSlot}>{label}</Text>
@@ -34,10 +29,9 @@ const CustomInput = React.forwardRef((props, ref) => {
                             onBlur={() => {
                                 console.log("CustomInput on blur")
                                 setFocused(false);
-                                //removeFocusFromAll(); 
                             }}
                             onFocus={() => {
-                                removeFocusFromAll(ref); // Убираем фокус из других полей
+                                removeFocusFromAll(ref); 
                                 setFocused(true);
                             }}
                             secureTextEntry={props.type === 'password'}
