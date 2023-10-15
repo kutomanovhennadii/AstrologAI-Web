@@ -9,6 +9,7 @@ import CustomInput from '../../common/CustomInput';
 import SubmitButton from '../../common/SubmitButton';
 import CustomPicker from '../../common/CustomPicker';
 import FilteredPicker from '../../common/FilteredPicker';
+import GenderPicker from '../../common/GenderPicker';
 
 import { getCountries, getCitiesByCountry } from '../../../util/countryCityUtils';
 
@@ -93,7 +94,8 @@ const ProfileForm = ({ onSubmit }) => {
                     country: "",
                     city: "",
                     email: '',
-                    password: ''
+                    password: '',
+                    gender: ''
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { isValid }) => {
@@ -104,6 +106,23 @@ const ProfileForm = ({ onSubmit }) => {
             >
                 {({ handleSubmit }) => (
                     <View>
+                        <View>
+                            {/* <label>Gender:</label> */}
+                            <Field
+                                name="gender"
+                                
+                                render={({ field }) => (
+                                    <GenderPicker
+                                        label="Select your gender"
+                                        onSelectGender={(gender) => {
+                                            console.log("Selected gender:", gender); // Вывод значения гендера в консоль
+                                            //onSelectGender(gender);
+                                        }}
+                                    />
+                                )}
+                            />
+                        </View>
+
                         <View style={styles.twoWrapper}>
                             <Field name="birthDate">
                                 {({ field, form }) => (
@@ -132,26 +151,35 @@ const ProfileForm = ({ onSubmit }) => {
                             </Field>
                         </View>
 
-                        <FilteredPicker
-                            name="countryPicker"
-                            label="Select a country"
-                            ref={countryInputRef}
-                            options={countryList}
-                            placeholder="Select country"
-                            onSelectOption={onSelectCountry}
-                            removeFocusFromAll={removeFocusFromAll}
-                        />
+                        <Field name="countryPicker">
+                            {({ field, form }) => (
+                                <FilteredPicker
+                                    name="countryPicker"
+                                    label="Select a country"
+                                    ref={countryInputRef}
+                                    options={countryList}
+                                    placeholder="Select country"
+                                    onSelectOption={onSelectCountry}
+                                    removeFocusFromAll={removeFocusFromAll}
+                                    form={form} // Переименованный параметр
+                                />
+                            )}
+                        </Field>
 
-                        <FilteredPicker
-                            name="cityPicker"
-                            label="Select a city"
-                            ref={cityInputRef}
-                            options={cityList}
-                            placeholder="Select country"
-                            onSelectOption={onSelectCity}
-                            removeFocusFromAll={removeFocusFromAll}
-                            //form={form}
-                        />
+                        <Field name="countryPicker">
+                            {({ field, form }) => (
+                                <FilteredPicker
+                                    name="cityPicker"
+                                    label="Select a city"
+                                    ref={cityInputRef}
+                                    options={cityList}
+                                    placeholder="Select country"
+                                    onSelectOption={onSelectCity}
+                                    removeFocusFromAll={removeFocusFromAll}
+                                    form={form}
+                                />
+                            )}
+                        </Field>
 
                         <CustomInput
                             name="email"

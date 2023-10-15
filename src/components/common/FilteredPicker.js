@@ -3,11 +3,10 @@ import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Keyboard
 import { Field } from 'formik';
 
 const FilteredPicker = forwardRef((props, ref) => {
-    const { label, options, removeFocusFromAll, name, validate, onSelectOption } = props;
+    const { label, options, removeFocusFromAll, name, validate, onSelectOption, form } = props;
     const [isFocused, setFocused] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState(options);
     const [inputValue, setInputValue] = useState('');
-    const [formInstance, setFormInstance] = useState(null);
 
     useEffect(() => {
         if (ref.current && name) {
@@ -24,7 +23,7 @@ const FilteredPicker = forwardRef((props, ref) => {
         },
         removeValue: () => {
             setInputValue("");
-            //form.setFieldValue(field.name, item.value);
+            form.setFieldValue(name, '');
 
          }
     }));
