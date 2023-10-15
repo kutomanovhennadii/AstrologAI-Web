@@ -8,8 +8,9 @@ import TimeInput from '../../common/TimeInput'
 import CustomInput from '../../common/CustomInput';
 import SubmitButton from '../../common/SubmitButton';
 import CustomPicker from '../../common/CustomPicker';
+import FilteredPicker from '../../common/FilteredPicker';
 
-import appConfig from '../../../static/json/appConfig.json';
+import { getCountries, getCitiesByCountry } from '../../../util/countryCityUtils';
 
 const ProfileForm = ({ onSubmit }) => {
     const [date, setDate] = React.useState(new Date());
@@ -25,35 +26,53 @@ const ProfileForm = ({ onSubmit }) => {
         console.log("exceptRef = ", exceptRef.current.myUniqueId);
 
         if ("email" !== exceptRef.current.myUniqueId) {
-            console.log("Removing focus email input");
+            //console.log("Removing focus email input");
             emailRef.current.blur();
         }
         if ("password" !== exceptRef.current.myUniqueId) {
-            console.log("Removing focus password input");
+            //console.log("Removing focus password input");
             passwordRef.current.blur();
         }
         if ("birthDate" !== exceptRef.current.myUniqueId) {
-            console.log("Removing focus from date input");
+            //console.log("Removing focus from date input");
             dateInputRef.current.removeFocus();
         }
         if ("birthTime" !== exceptRef.current.myUniqueId) {
-            console.log("Removing focus from time input");
+            //console.log("Removing focus from time input");
             timeInputRef.current.removeFocus();
         }
         if ("countryPicker" !== exceptRef.current.myUniqueId) {
-            console.log("Removing focus from country input");
+            //console.log("Removing focus from country input");
             countryInputRef.current.removeFocus();
+        }
+        if ("cityPicker" !== exceptRef.current.myUniqueId) {
+            //console.log("Removing focus from country input");
+            cityInputRef.current.removeFocus();
         }
 
         console.log('removeFocusFromAll called');
     };
 
-    const countries = appConfig.Countries;
+    const countries = getCountries();
     const countryList = countries.map((country) => {
         return { label: country, value: country };
     });
+    const [cityList, setCityList] = React.useState([]);
     const onSelectCountry = (country) => {
         console.log("Selected ", country);
+        const newCityList = getCitiesByCountry(country).map((city) => {
+            return { label: city, value: city };
+            
+        });
+        setCityList(newCityList);
+        if (cityInputRef.current) {
+            cityInputRef.current.removeValue();
+        }
+        //setFieldValue("cityPicker", '');
+    }
+
+    const onSelectCity = (city) => {
+        console.log("Selected ", city);
     }
 
     const validationSchema = Yup.object({
@@ -70,6 +89,9 @@ const ProfileForm = ({ onSubmit }) => {
             <Formik
                 initialValues={{
                     birthDate: date,
+                    birtTime: "",
+                    country: "",
+                    city: "",
                     email: '',
                     password: ''
                 }}
@@ -110,7 +132,7 @@ const ProfileForm = ({ onSubmit }) => {
                             </Field>
                         </View>
 
-                        <CustomPicker
+                        <FilteredPicker
                             name="countryPicker"
                             label="Select a country"
                             ref={countryInputRef}
@@ -118,6 +140,17 @@ const ProfileForm = ({ onSubmit }) => {
                             placeholder="Select country"
                             onSelectOption={onSelectCountry}
                             removeFocusFromAll={removeFocusFromAll}
+                        />
+
+                        <FilteredPicker
+                            name="cityPicker"
+                            label="Select a city"
+                            ref={cityInputRef}
+                            options={cityList}
+                            placeholder="Select country"
+                            onSelectOption={onSelectCity}
+                            removeFocusFromAll={removeFocusFromAll}
+                            //form={form}
                         />
 
                         <CustomInput

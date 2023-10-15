@@ -12,6 +12,7 @@ const CustomPicker = React.forwardRef((props, ref) => {
     useEffect(() => {
         if (ref.current && name) {
             ref.current.myUniqueId = name;
+            console.log("Set ref name ", name)
         }
     }, [name]);
 
