@@ -7,32 +7,30 @@ import DateInput from '../../common/DateInput'
 import TimeInput from '../../common/TimeInput'
 import CustomInput from '../../common/CustomInput';
 import SubmitButton from '../../common/SubmitButton';
-import CustomPicker from '../../common/CustomPicker';
+
 import FilteredPicker from '../../common/FilteredPicker';
 import GenderPicker from '../../common/GenderPicker';
+import MultilineInput from '../../common/MultilineInput';
 
 import { getCountries, getCitiesByCountry } from '../../../util/countryCityUtils';
 
 const ProfileForm = ({ onSubmit }) => {
     const [date, setDate] = React.useState(new Date());
 
-    const emailRef = React.useRef(null);
+    const biographyRef = React.useRef(null);
     const passwordRef = React.useRef(null);
     const dateInputRef = React.useRef(null);
     const timeInputRef = React.useRef(null);
     const countryInputRef = React.useRef(null);
     const cityInputRef = React.useRef(null);
+    const genderInputRef = React.useRef(null);    
 
     const removeFocusFromAll = (exceptRef) => {
-        console.log("exceptRef = ", exceptRef.current.myUniqueId);
+        console.log("exceptRef = ", exceptRef.current.blur);
 
-        if ("email" !== exceptRef.current.myUniqueId) {
-            //console.log("Removing focus email input");
-            emailRef.current.blur();
-        }
-        if ("password" !== exceptRef.current.myUniqueId) {
-            //console.log("Removing focus password input");
-            passwordRef.current.blur();
+        if ("Biography" !== exceptRef.current.myUniqueId) {
+            console.log("Removing focus Biography input");
+            biographyRef.current.blur();
         }
         if ("birthDate" !== exceptRef.current.myUniqueId) {
             //console.log("Removing focus from date input");
@@ -49,6 +47,10 @@ const ProfileForm = ({ onSubmit }) => {
         if ("cityPicker" !== exceptRef.current.myUniqueId) {
             //console.log("Removing focus from country input");
             cityInputRef.current.removeFocus();
+        }
+        if ("genderPicker" !== exceptRef.current.myUniqueId) {
+            //console.log("Removing focus from country input");
+            genderInputRef.current.removeFocus();
         }
 
         console.log('removeFocusFromAll called');
@@ -95,7 +97,8 @@ const ProfileForm = ({ onSubmit }) => {
                     city: "",
                     email: '',
                     password: '',
-                    gender: ''
+                    gender: '', 
+                    biography: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values, { isValid }) => {
@@ -108,19 +111,20 @@ const ProfileForm = ({ onSubmit }) => {
                     <View>
                         <View>
                             {/* <label>Gender:</label> */}
-                            <Field
-                                name="gender"
-                                
-                                render={({ field }) => (
+                            <Field name="genderPicker">
+                                {({ field, form }) => (
                                     <GenderPicker
+                                        name="genderPicker"
                                         label="Select your gender"
+                                        ref={genderInputRef}
+                                        removeFocusFromAll={removeFocusFromAll}
                                         onSelectGender={(gender) => {
                                             console.log("Selected gender:", gender); // Вывод значения гендера в консоль
                                             //onSelectGender(gender);
                                         }}
                                     />
                                 )}
-                            />
+                            </Field>
                         </View>
 
                         <View style={styles.twoWrapper}>
@@ -158,7 +162,7 @@ const ProfileForm = ({ onSubmit }) => {
                                     label="Select a country"
                                     ref={countryInputRef}
                                     options={countryList}
-                                    placeholder="Select country"
+                                    //placeholder="Select country"
                                     onSelectOption={onSelectCountry}
                                     removeFocusFromAll={removeFocusFromAll}
                                     form={form} // Переименованный параметр
@@ -166,14 +170,14 @@ const ProfileForm = ({ onSubmit }) => {
                             )}
                         </Field>
 
-                        <Field name="countryPicker">
+                        <Field name="cityPicker">
                             {({ field, form }) => (
                                 <FilteredPicker
                                     name="cityPicker"
                                     label="Select a city"
                                     ref={cityInputRef}
                                     options={cityList}
-                                    placeholder="Select country"
+                                    //placeholder="Select country"
                                     onSelectOption={onSelectCity}
                                     removeFocusFromAll={removeFocusFromAll}
                                     form={form}
@@ -181,21 +185,21 @@ const ProfileForm = ({ onSubmit }) => {
                             )}
                         </Field>
 
-                        <CustomInput
-                            name="email"
-                            label="Email"
-                            placeholder="Enter your email"
-                            ref={emailRef}
+                        <MultilineInput
+                            name="Biography"
+                            label="Biography"
+                            placeholder="Tell about yourself, this will make the predictions more personal"
+                            ref={biographyRef}
                             removeFocusFromAll={removeFocusFromAll}
                         />
-                        <CustomInput
+                        {/* <CustomInput
                             name="password"
                             label="Password"
                             placeholder="Enter your password"
                             type="password"
                             ref={passwordRef}
                             removeFocusFromAll={removeFocusFromAll}
-                        />
+                        /> */}
                         <SubmitButton
                             text="Continue"
                             onSubmit={handleSubmit} />

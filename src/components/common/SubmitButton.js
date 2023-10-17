@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 
+import inputStyles from '../../styles/InputStyles';
+import colors from '../../styles/colors';
+import designConstants from '../../styles/designConstants';
+
 const SubmitButton = ({ text, onSubmit }) => {
     return (
         <View style={styles.buttonContainer}>
@@ -22,24 +26,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     button: {
-        borderRadius: 4,
-        backgroundColor: '#9593FB',
+        borderRadius: designConstants.borderRadius,
+        backgroundColor: colors.blueBell,
         width: '100%',
-        height: 44,
+        height: designConstants.inputHeight,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 16,
         top: 15,
     },
     text: {
-        fontSize: 14,
         letterSpacing: 1,
-        lineHeight: 36,
         textTransform: 'uppercase',
-        fontWeight: '500',
-        fontFamily: 'Roboto',
         color: '#000',
         textAlign: 'center',
+        fontSize: 16,
+        fontFamily: "Raleway-SemiBold",
     },
 });
 

@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useImperativeHandle } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { Field } from 'formik';
+
+import inputStyles from '../../styles/InputStyles';
+import colors from '../../styles/colors';
 
 const TimeInput = React.forwardRef(({ label, field, form, removeFocusFromAll, name }, ref) => {
     const [showTimePicker, setShowTimePicker] = useState(false);
@@ -41,8 +43,8 @@ const TimeInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
     };
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>{label}</Text>
+        <View style={[inputStyles.container, inputStyles.width50]}>
+            <Text style={inputStyles.text}>{label}</Text>
             <TouchableOpacity
                 ref={ref}
                 onPress={toggleTimePicker}
@@ -51,9 +53,14 @@ const TimeInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
                     form.handleBlur(field.name);
                 }}
             >
-                <View style={[styles.datePickerBox, isFocused ? styles.focused : null]}>
+                <View style={[inputStyles.border, isFocused ? inputStyles.focused : null]}>
                     <View style={styles.dateTextBox}>
-                        <Text style={styles.dateText}>
+                        <Text
+                            style={[
+                                inputStyles.text,
+                                !selectedTime ? { color: colors.placeholderTextColor } : {}
+                            ]}
+                        >
                             {selectedTime ? selectedTime.toTimeString().split(' ')[0] : 'Select Time'}
                         </Text>
                     </View>
@@ -78,52 +85,16 @@ const TimeInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
                 </TouchableWithoutFeedback>
             )}
             {form.touched[field.name] && form.errors[field.name] ? (
-                <Text style={styles.errorText}>{form.errors[field.name]}</Text>
+                <Text style={inputStyles.errorText}>{form.errors[field.name]}</Text>
             ) : null}
         </View>
     );
 });
 
 const styles = StyleSheet.create({
-    container: {
-        marginTop: 10,
-        width: '48%',
-        flexDirection: 'column',
-        overflow: 'hidden',
-        paddingTop: 5,
-    },
-    datePickerBox: {
-        alignSelf: 'stretch',
-        borderRadius: 4,
-        borderColor: '#fafafa',
-        borderWidth: 1,
-        paddingHorizontal: 12,
-        paddingVertical: 0,
-        height: 36,
-    },
-    text: {
-        color: 'white',
-        fontSize: 16,
-        letterSpacing: 1,
-        fontFamily: 'Roboto',
-        textAlign: 'left',
-    },
     dateTextBox: {
         flex: 1,
         justifyContent: 'center', // Центрирование по вертикали
-    },
-    dateText: {
-        color: 'white',
-        fontSize: 16,
-        letterSpacing: 1,
-        fontFamily: 'Roboto',
-        textAlign: 'left',
-    },
-    errorText: {
-        color: 'red',
-    },
-    focused: {
-        borderColor: 'blue',
     },
 });
 

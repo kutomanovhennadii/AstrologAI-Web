@@ -10,7 +10,7 @@ const imageContext = require.context('../../../static/image', true);
 const Profile = () => {
 
     return (
-        <Container topOffset={55}>
+        <Container topOffset={35}>
             <ProfileForm/>
         </Container>
     );

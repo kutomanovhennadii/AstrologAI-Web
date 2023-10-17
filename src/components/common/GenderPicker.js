@@ -1,99 +1,122 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
-const GenderPicker = ({ onSelectGender, name, label }) => {
+import inputStyles from '../../styles/InputStyles';
+import colors from '../../styles/colors';
+import designConstants from '../../styles/designConstants';
+
+const GenderPicker = forwardRef(({ onSelectGender, removeFocusFromAll, name, label }, ref) => {
     const [selectedGender, setSelectedGender] = useState(''); // Стейт для выбранного пола
+    const [isFocused, setFocused] = useState(false);
 
     console.log("Render GenderPicker");
+
+    useEffect(() => {
+        //console.log("Ref ", ref.current);
+        if (ref.current && name) {
+            ref.current.myUniqueId = name;
+        }
+    }, [name]);
+
+    useImperativeHandle(ref, () => ({
+        removeFocus: () => {
+            setFocused(false);
+        },
+    }));
+
+    const handleFocus = () => {
+        console.log("Focus GenderPicker");
+        if (isFocused == false) {
+            removeFocusFromAll(ref);
+            setFocused(true);
+        }
+    };
+
     return (
-        <>
-            <Text style={styles.label}>{label}</Text>
-            <View style={styles.container}>
+        <View style={inputStyles.container}>
+            <Text style={inputStyles.text}>{label}</Text>
+            <View style={[inputStyles.border, styles.container, isFocused ? inputStyles.focused : null]}>
 
                 {/* Радиокнопки для выбора пола */}
                 <TouchableOpacity
-                    style={[styles.radioButton, selectedGender === 'male' && styles.selected]}
+                    style={[styles.radioButton, styles.borderRight, selectedGender === 'male' && styles.selectedButton]}
                     onPress={() => {
                         setSelectedGender('male');
                         onSelectGender('male');
+                        handleFocus();
                     }}
                 >
-                    <Text style={[styles.radioText, selectedGender === 'male' && styles.radioTextSelected]}>Male</Text>
+                    <Text style={[inputStyles.text, selectedGender === 'male' && styles.radioTextSelected]}>Male</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={[styles.radioButton, selectedGender === 'female' && styles.selected]}
+                    //activeOpacity={1}
+                    style={[styles.radioButton, selectedGender === 'female' && styles.selectedButton]}
                     onPress={() => {
                         setSelectedGender('female');
                         onSelectGender('female');
+                        handleFocus();
                     }}
                 >
-                    <Text style={[styles.radioText, selectedGender === 'female' && styles.radioTextSelected]}>Female</Text>
+                    <Text style={[inputStyles.text, selectedGender === 'female' && styles.radioTextSelected]}>Female</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={[styles.radioButton, selectedGender === 'other' && styles.selected]}
+                    style={[styles.radioButton, styles.borderLeft, selectedGender === 'other' && styles.selectedButton]}
                     onPress={() => {
                         setSelectedGender('other');
                         onSelectGender('other');
+                        handleFocus();
                     }}
                 >
-                    <Text style={[styles.radioText, selectedGender === 'other' && styles.radioTextSelected]}>Other</Text>
+                    <Text style={[inputStyles.text, selectedGender === 'other' && styles.radioTextSelected]}>Other</Text>
                 </TouchableOpacity>
 
                 {/* Поле ввода, которое появляется при выборе "Other" */}
                 {selectedGender === 'other' && (
                     <TextInput
                         placeholder="Enter your gender"
-                        style={styles.input}
+                        style={[inputStyles.text, styles.inputText]}
                         onChangeText={(text) => {
                             //setSelectedGender(text);
                             onSelectGender(text);
                         }}
-                        placeholderTextColor="white"
+                        onFocus={() => {
+                            handleFocus();
+                        }}
+                        placeholderTextColor={colors.placeholderTextColor}
                     />
                 )}
             </View>
-        </>
-
+        </View>
     );
-};
+});
 
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        borderWidth: 1,
-        borderColor: 'white',
-        borderRadius: 4,
-        paddingHorizontal: 10,
+        paddingHorizontal: -12,
     },
     radioButton: {
         flex: 1,
-        paddingVertical: 10,
         alignItems: 'center',
-        backgroundColor: 'transparent',
+        justifyContent: "center",
+        height: designConstants.inputHeight -2,
     },
-    selected: {
-        backgroundColor: 'white',
+    selectedButton: {
+        backgroundColor: colors.blueBell,
         color: 'black',
-    },
-    radioText: {
-        color: 'white',
+        borderColor: colors.blueBell,
+        borderWidth: 1,
+        borderRadius: designConstants.borderRadius-2,
     },
     radioTextSelected: {
-        color: 'black', // Черный цвет текста при выборе
+        color: 'black',
     },
-    input: {
-        //flex: 1,
-        color: 'white',
+    inputText: {
         paddingLeft: 10,
-        fontSize: 16,
         width: '50%', // Устанавливаем ширину в 50%
     },
-    label: {
-        color: 'white',
-        fontSize: 16,
-    }
 });
 
 export default GenderPicker;

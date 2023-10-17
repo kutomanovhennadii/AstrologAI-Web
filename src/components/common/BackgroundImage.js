@@ -2,6 +2,9 @@
 import React from 'react';
 import { ImageBackground, StyleSheet } from 'react-native';
 
+import { withFontsLoader } from '../../hoc/withFontsLoader'; 
+
+
 const BackgroundImage = ({ children }) => {
     const image = require('../../static/image/space1.png');
 
@@ -19,4 +22,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default BackgroundImage;
+export default withFontsLoader(BackgroundImage);
