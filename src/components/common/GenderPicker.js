@@ -5,18 +5,11 @@ import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
 import designConstants from '../../styles/designConstants';
 
-const GenderPicker = forwardRef(({ onSelectGender, removeFocusFromAll, name, label }, ref) => {
+const GenderPicker = forwardRef(({ onSelectGender, removeFocusFromAll, name, label, form, field }, ref) => {
     const [selectedGender, setSelectedGender] = useState(''); // Стейт для выбранного пола
     const [isFocused, setFocused] = useState(false);
 
-    console.log("Render GenderPicker");
-
-    useEffect(() => {
-        //console.log("Ref ", ref.current);
-        if (ref.current && name) {
-            ref.current.myUniqueId = name;
-        }
-    }, [name]);
+    //console.log("Render GenderPicker");
 
     useImperativeHandle(ref, () => ({
         removeFocus: () => {
@@ -25,7 +18,10 @@ const GenderPicker = forwardRef(({ onSelectGender, removeFocusFromAll, name, lab
     }));
 
     const handleFocus = () => {
-        console.log("Focus GenderPicker");
+        // console.log("Focus GenderPicker");
+        if (ref.current && name) {
+            ref.current.myUniqueId = name;
+        }
         if (isFocused == false) {
             removeFocusFromAll(ref);
             setFocused(true);
@@ -86,6 +82,9 @@ const GenderPicker = forwardRef(({ onSelectGender, removeFocusFromAll, name, lab
                     />
                 )}
             </View>
+            {form.touched[field.name] && form.errors[field.name] ? (
+                <Text style={inputStyles.errorText}>{form.errors[field.name]}</Text>
+            ) : null}
         </View>
     );
 });
@@ -101,14 +100,14 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: "center",
-        height: designConstants.inputHeight -2,
+        height: designConstants.inputHeight - 2,
     },
     selectedButton: {
         backgroundColor: colors.blueBell,
         color: 'black',
         borderColor: colors.blueBell,
         borderWidth: 1,
-        borderRadius: designConstants.borderRadius-2,
+        borderRadius: designConstants.borderRadius - 2,
     },
     radioTextSelected: {
         color: 'black',

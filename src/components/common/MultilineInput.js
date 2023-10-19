@@ -11,49 +11,51 @@ const MultilineInput = React.forwardRef((props, ref) => {
     const [isFocused, setFocused] = useState(false);
 
     useEffect(() => {
-        console.log("CustomTextarea ref", name);
+        //console.log("CustomTextarea ref", name);
         if (ref.current && name) {
             ref.current.myUniqueId = name;
         }
     }, [name]);
 
     return (
-        <Field name={props.name} validate={validate}>
-            {({ field, form }) => {
-                return (
-                    <View style={inputStyles.container}>
-                        <Text style={inputStyles.text}>{label}</Text>
-                        <TextInput
-                            ref={ref}
-                            style={[
-                                inputStyles.text,
-                                inputStyles.border,
-                                isFocused ? inputStyles.focused : null, styles.TextInput  // Предполагая, что высота одной строки составляет 20px
-                            ]}
-                            placeholder={props.placeholder}
-                            placeholderTextColor={colors.placeholderTextColor}
-                            name={field.name}
-                            value={field.value}
-                            onChangeText={form.handleChange(field.name)}
-                            onBlur={() => {
-                                console.log("CustomTextarea on blur")
-                                setFocused(false);
-                            }}
-                            onFocus={() => {
-                                removeFocusFromAll(ref);
-                                setFocused(true);
-                            }}
-                            secureTextEntry={props.type === 'password'}
-                            multiline={true}
-                            numberOfLines={4} // Например, для 4 строк. Вы можете изменить это значение по своему усмотрению.
-                        />
-                        {form.touched[field.name] && form.errors[field.name] && (
-                            <Text style={inputStyles.errorText}>{form.errors[field.name]}</Text>
-                        )}
-                    </View>
-                )
-            }}
-        </Field>
+
+            <Field name={props.name} validate={validate}>
+                {({ field, form }) => {
+                    return (
+                        <View style={inputStyles.container}>
+                            <Text style={inputStyles.text}>{label}</Text>
+                            <TextInput
+                                ref={ref}
+                                style={[
+                                    inputStyles.text,
+                                    inputStyles.border,
+                                    isFocused ? inputStyles.focused : null, styles.TextInput  // Предполагая, что высота одной строки составляет 20px
+                                ]}
+                                placeholder={props.placeholder}
+                                placeholderTextColor={colors.placeholderTextColor}
+                                name={field.name}
+                                value={field.value}
+                                onChangeText={form.handleChange(field.name)}
+                                onBlur={() => {
+                                    //console.log("CustomTextarea on blur")
+                                    setFocused(false);
+                                }}
+                                onFocus={() => {
+                                    removeFocusFromAll(ref);
+                                    setFocused(true);
+                                }}
+                                secureTextEntry={props.type === 'password'}
+                                multiline={true}
+                                numberOfLines={4} // Например, для 4 строк. Вы можете изменить это значение по своему усмотрению.
+                            />
+                            {form.touched[field.name] && form.errors[field.name] && (
+                                <Text style={inputStyles.errorText}>{form.errors[field.name]}</Text>
+                            )}
+                        </View>
+                    )
+                }}
+            </Field>
+
     );
 });
 

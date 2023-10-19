@@ -1,21 +1,19 @@
 import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, Keyboard } from 'react-native';
 import { Field } from 'formik';
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
 
 const FilteredPicker = forwardRef((props, ref) => {
-    const { label, options, removeFocusFromAll, name, validate, onSelectOption, form } = props;
+    const { label, options, removeFocusFromAll, name, validate, onSelectOption } = props;
     const [isFocused, setFocused] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState(options);
     const [inputValue, setInputValue] = useState('');
 
-    useEffect(() => {
-        if (ref.current && name) {
-            ref.current.myUniqueId = name;
-        }
-    }, [name]);
+
 
     useImperativeHandle(ref, () => ({
         removeFocus: () => {
@@ -28,7 +26,7 @@ const FilteredPicker = forwardRef((props, ref) => {
             setInputValue("");
             form.setFieldValue(name, '');
 
-         }
+        }
     }));
 
     useEffect(() => {
@@ -45,7 +43,7 @@ const FilteredPicker = forwardRef((props, ref) => {
     return (
         <Field name={name} validate={validate}>
             {({ field, form }) => (
-
+                
                 <View style={inputStyles.container}>
                     <Text style={inputStyles.text}>{label}</Text>
                     <View style={[inputStyles.border, isFocused ? inputStyles.focused : null]}>
@@ -55,6 +53,10 @@ const FilteredPicker = forwardRef((props, ref) => {
                                 value={inputValue}
                                 onChangeText={filterOptions}
                                 onFocus={() => {
+                                    if (ref.current && name) {
+                                        ref.current.myUniqueId = name;
+                                    }
+                                    console.log("onFocus ", ref.current.myUniqueId);
                                     removeFocusFromAll(ref);
                                     setFocused(true);
                                 }}
@@ -66,6 +68,7 @@ const FilteredPicker = forwardRef((props, ref) => {
                     </View>
                     {isFocused && (
                         <FlatList
+                            nestedScrollEnabled={true}
                             keyboardShouldPersistTaps="always"
                             style={[inputStyles.border, styles.listContainer]}
                             data={filteredOptions}
@@ -88,11 +91,23 @@ const FilteredPicker = forwardRef((props, ref) => {
                             )}
                         />
                     )}
-                    {form.touched[field.name] && form.errors[field.name] && (
-                        <Text style={inputStyles.errorText}>{form.errors[field.name]}</Text>
-                    )}
+                    
+                    {
+                        (() => {
+                            // console.log('Field name:', field.name);
+                            // console.log('Form touched:', form.touched);
+                            // console.log('Form errors:', form.errors);
+                            if (form.touched[field.name] && form.errors[field.name]) {
+                                console.log('Error found:', form.errors[field.name]);
+                                return <Text style={inputStyles.errorText}>{form.errors[field.name]}</Text>;
+                            }
+                            return null;
+                        })()
+                    }
                 </View>
+                
             )}
+
         </Field>
     );
 });

@@ -10,7 +10,7 @@ const TimeInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
     const [selectedTime, setSelectedTime] = useState(field.value || '');
     const [isFocused, setFocused] = useState(false);
 
-    console.log("Render TimeInput");
+    //console.log("Render TimeInput", field.name, form.errors);
 
     const handleChange = (event, selectedTime) => {
         setShowTimePicker(Platform.OS === 'ios');

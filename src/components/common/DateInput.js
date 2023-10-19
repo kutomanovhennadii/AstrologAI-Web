@@ -5,12 +5,12 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
 
-const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, name}, ref) => {
+const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, name }, ref) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(field.value || '');
     const [isFocused, setFocused] = useState(false);  // Добавлено новое состояние
 
-    console.log("Render DateInput")
+    //console.log("Render DateInput", field.name, form.errors)
 
     const handleChange = (event, selectedDate) => {
         setShowDatePicker(Platform.OS === 'ios');
@@ -30,14 +30,11 @@ const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
         }
     }));
 
-    useEffect(() => {
+    const toggleDatePicker = () => {
         if (ref.current && name) {
             ref.current.myUniqueId = name;
-            console.log(`myUniqueId for ${name} set successfully`);
         }
-    }, [name]);
-
-    const toggleDatePicker = () => {
+        console.log("Set name ", ref.current.myUniqueId);
         removeFocusFromAll(ref);
         setFocused(true);
         setShowDatePicker(!showDatePicker);
@@ -86,10 +83,11 @@ const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
                     </View>
                 </TouchableWithoutFeedback>
             )}
-            
+
             {form.touched[field.name] && form.errors[field.name] ? (
                 <Text style={inputStyles.errorText}>{form.errors[field.name]}</Text>
             ) : null}
+
         </View>
     );
 });

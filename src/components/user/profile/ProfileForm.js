@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView, TextInput } from 'react-native';
 import { Formik, Field } from 'formik';
 import * as Yup from 'yup';
+import { Keyboard } from 'react-native';
 
 import DateInput from '../../common/DateInput'
 import TimeInput from '../../common/TimeInput'
@@ -16,6 +17,7 @@ import { getCountries, getCitiesByCountry } from '../../../util/countryCityUtils
 
 const ProfileForm = ({ onSubmit }) => {
     const [date, setDate] = React.useState(new Date());
+    const [screenOffset, setScreenOffset] = useState(0);
 
     const biographyRef = React.useRef(null);
     const passwordRef = React.useRef(null);
@@ -23,20 +25,20 @@ const ProfileForm = ({ onSubmit }) => {
     const timeInputRef = React.useRef(null);
     const countryInputRef = React.useRef(null);
     const cityInputRef = React.useRef(null);
-    const genderInputRef = React.useRef(null);    
+    const genderInputRef = React.useRef(null);
 
     const removeFocusFromAll = (exceptRef) => {
-        console.log("exceptRef = ", exceptRef.current.blur);
+        //console.log("exceptRef = ", exceptRef.current.myUniqueId);
 
         if ("Biography" !== exceptRef.current.myUniqueId) {
-            console.log("Removing focus Biography input");
+            //console.log("Removing focus Biography input");
             biographyRef.current.blur();
         }
-        if ("birthDate" !== exceptRef.current.myUniqueId) {
+        if ("birthDatePicker" !== exceptRef.current.myUniqueId) {
             //console.log("Removing focus from date input");
             dateInputRef.current.removeFocus();
         }
-        if ("birthTime" !== exceptRef.current.myUniqueId) {
+        if ("birthTimePicker" !== exceptRef.current.myUniqueId) {
             //console.log("Removing focus from time input");
             timeInputRef.current.removeFocus();
         }
@@ -53,7 +55,23 @@ const ProfileForm = ({ onSubmit }) => {
             genderInputRef.current.removeFocus();
         }
 
-        console.log('removeFocusFromAll called');
+        if (exceptRef.current.myUniqueId === 'Biography') {
+            //console.log("setScreenOffset Biography");
+            setScreenOffset(-170);
+        } else if (exceptRef.current.myUniqueId === 'cityPicker') {
+            //console.log("setScreenOffset cityPicker");
+            setScreenOffset(-190);
+        }
+        else if (exceptRef.current.myUniqueId === 'countryPicker') {
+            //console.log("setScreenOffset countryPicker");
+            setScreenOffset(-65);
+        }
+        else {
+            // Сбрасываем смещение
+            setScreenOffset(0);
+        }
+
+        //console.log('removeFocusFromAll called');
     };
 
     const countries = getCountries();
@@ -62,65 +80,96 @@ const ProfileForm = ({ onSubmit }) => {
     });
     const [cityList, setCityList] = React.useState([]);
     const onSelectCountry = (country) => {
-        console.log("Selected ", country);
+        //console.log("Selected ", country);
         const newCityList = getCitiesByCountry(country).map((city) => {
             return { label: city, value: city };
-            
+
         });
         setCityList(newCityList);
         if (cityInputRef.current) {
             cityInputRef.current.removeValue();
         }
-        //setFieldValue("cityPicker", '');
+        setScreenOffset(0);
     }
 
     const onSelectCity = (city) => {
         console.log("Selected ", city);
+        setScreenOffset(0);
     }
 
+    useEffect(() => {
+        const keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => {
+                setScreenOffset(0);
+                //console.log('Клавиатура закрыта');
+            }
+        );
+
+        return () => {
+            keyboardDidHideListener.remove();
+        };
+    }, []);
+
     const validationSchema = Yup.object({
-        email: Yup.string()
-            .email('Invalid email')
+        gender: Yup.string()
+            .required('Required field gender'),
+        birthDate: Yup.date()
+            .notOneOf([date], 'Date should be different from the default')
             .required('Required field'),
-        password: Yup.string()
-            .min(8, 'Password must contain at least 8 characters')
-            .required('Required field'),
+        birthTime: Yup.string()
+            .required('Required field birtTime'),
+        country: Yup.string()
+            .required('Required field country'),
+        city: Yup.string()
+            .required('Required field city'),
+        biography: Yup.string()
     });
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { marginTop: screenOffset }]}>
             <Formik
                 initialValues={{
+                    gender: '',
                     birthDate: date,
-                    birtTime: "",
+                    birthTime: "",
                     country: "",
                     city: "",
-                    email: '',
-                    password: '',
-                    gender: '', 
                     biography: '',
                 }}
                 validationSchema={validationSchema}
-                onSubmit={(values, { isValid }) => {
-                    console.log("onSubmit");
+                validate={async (values) => {
+                    //console.log("Value =", values);
+                    try {
+                        await validationSchema.validate(values, { abortEarly: false });
+                    } catch (err) {
+                        //console.log("Validation errors:", err.errors); // err.errors будет содержать массив ошибок
+                    }
+                }}
+                onSubmit={(values, { isValid, errors }) => {
+                    if (!isValid) {
+                        //console.log("Errors:", errors);
+                    }
+                    //console.log("onSubmit");
                     console.log(values);
-
                 }}
             >
                 {({ handleSubmit }) => (
                     <View>
                         <View>
                             {/* <label>Gender:</label> */}
-                            <Field name="genderPicker">
+                            <Field name="gender">
                                 {({ field, form }) => (
                                     <GenderPicker
                                         name="genderPicker"
                                         label="Select your gender"
                                         ref={genderInputRef}
+                                        field={field}
+                                        form={form}
                                         removeFocusFromAll={removeFocusFromAll}
                                         onSelectGender={(gender) => {
-                                            console.log("Selected gender:", gender); // Вывод значения гендера в консоль
-                                            //onSelectGender(gender);
+                                            //console.log("Selected gender:", gender); // Вывод значения гендера в консоль
+                                            form.setFieldValue("gender", gender);
                                         }}
                                     />
                                 )}
@@ -131,7 +180,7 @@ const ProfileForm = ({ onSubmit }) => {
                             <Field name="birthDate">
                                 {({ field, form }) => (
                                     <DateInput
-                                        name="birthDate"
+                                        name="birthDatePicker"
                                         label="Date of Birth"
                                         field={field}
                                         form={form}
@@ -144,7 +193,7 @@ const ProfileForm = ({ onSubmit }) => {
                             <Field name="birthTime">
                                 {({ field, form }) => (
                                     <TimeInput
-                                        name="birthTime"
+                                        name="birthTimePicker"
                                         label="Time of Birth"
                                         field={field}
                                         form={form}
@@ -155,32 +204,31 @@ const ProfileForm = ({ onSubmit }) => {
                             </Field>
                         </View>
 
-                        <Field name="countryPicker">
+                        <Field name="country">
                             {({ field, form }) => (
                                 <FilteredPicker
-                                    name="countryPicker"
+                                    name="country"
                                     label="Select a country"
                                     ref={countryInputRef}
                                     options={countryList}
-                                    //placeholder="Select country"
                                     onSelectOption={onSelectCountry}
                                     removeFocusFromAll={removeFocusFromAll}
-                                    form={form} // Переименованный параметр
+                                    form={form}
                                 />
                             )}
                         </Field>
 
-                        <Field name="cityPicker">
+                        <Field name="city">
                             {({ field, form }) => (
                                 <FilteredPicker
-                                    name="cityPicker"
+                                    name="city"
                                     label="Select a city"
                                     ref={cityInputRef}
                                     options={cityList}
                                     //placeholder="Select country"
                                     onSelectOption={onSelectCity}
                                     removeFocusFromAll={removeFocusFromAll}
-                                    form={form}
+                                    //form={form}
                                 />
                             )}
                         </Field>
@@ -192,21 +240,18 @@ const ProfileForm = ({ onSubmit }) => {
                             ref={biographyRef}
                             removeFocusFromAll={removeFocusFromAll}
                         />
-                        {/* <CustomInput
-                            name="password"
-                            label="Password"
-                            placeholder="Enter your password"
-                            type="password"
-                            ref={passwordRef}
-                            removeFocusFromAll={removeFocusFromAll}
-                        /> */}
+
                         <SubmitButton
                             text="Continue"
-                            onSubmit={handleSubmit} />
+                            onSubmit={() => {
+                                //console.log('Button clicked');
+                                handleSubmit();
+                            }}
+                        />
                     </View>
                 )}
             </Formik>
-        </View>
+        </View >
     );
 };
 
