@@ -5,9 +5,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
 
-const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, name }, ref) => {
+const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, name, placeholder }, ref) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(field.value || '');
+    const [selectedDate, setSelectedDate] = useState( '');
     const [isFocused, setFocused] = useState(false);  // Добавлено новое состояние
 
     //console.log("Render DateInput", field.name, form.errors)
@@ -41,7 +41,7 @@ const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
     };
 
     return (
-        <View style={[inputStyles.container, inputStyles.width50]}>
+        <View style={[inputStyles.container, inputStyles.width100]}>
             <Text style={inputStyles.text}>{label}</Text>
             <TouchableOpacity
                 ref={ref}
@@ -59,7 +59,7 @@ const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
                                 !selectedDate ? { color: colors.placeholderTextColor } : {}
                             ]}
                         >
-                            {selectedDate ? selectedDate.toDateString() : 'Select Date'}
+                            {selectedDate ? selectedDate.toDateString() : `${placeholder}`}
                         </Text>
                     </View>
                 </View>

@@ -9,13 +9,15 @@ import designConstants from '../../styles/designConstants';
 const MultilineInput = React.forwardRef((props, ref) => {
     const { label, validate, removeFocusFromAll, name } = props;
     const [isFocused, setFocused] = useState(false);
+    //console.log("CustomTextarea ref", ref.current.myUniqueId);
 
-    useEffect(() => {
-        //console.log("CustomTextarea ref", name);
-        if (ref.current && name) {
-            ref.current.myUniqueId = name;
-        }
-    }, [name]);
+    // useEffect(() => {
+    //     // console.log("CustomTextarea ref", name);
+    //     if (ref.current && name) {
+    //         ref.current.myUniqueId = name;
+    //     }
+    //     // console.log("CustomTextarea ref", ref.current.myUniqueId);
+    // }, [name]);
 
     return (
 
@@ -41,6 +43,9 @@ const MultilineInput = React.forwardRef((props, ref) => {
                                     setFocused(false);
                                 }}
                                 onFocus={() => {
+                                    if (ref.current && name) {
+                                        ref.current.myUniqueId = name;
+                                    }
                                     removeFocusFromAll(ref);
                                     setFocused(true);
                                 }}

@@ -5,7 +5,7 @@ import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
 import designConstants from '../../styles/designConstants';
 
-const GenderPicker = forwardRef(({ onSelectGender, removeFocusFromAll, name, label, form, field }, ref) => {
+const GenderPicker = forwardRef(({ onSelect, removeFocusFromAll, name, label, form, field }, ref) => {
     const [selectedGender, setSelectedGender] = useState(''); // Стейт для выбранного пола
     const [isFocused, setFocused] = useState(false);
 
@@ -38,7 +38,7 @@ const GenderPicker = forwardRef(({ onSelectGender, removeFocusFromAll, name, lab
                     style={[styles.radioButton, styles.borderRight, selectedGender === 'male' && styles.selectedButton]}
                     onPress={() => {
                         setSelectedGender('male');
-                        onSelectGender('male');
+                        onSelect('male');
                         handleFocus();
                     }}
                 >
@@ -49,7 +49,7 @@ const GenderPicker = forwardRef(({ onSelectGender, removeFocusFromAll, name, lab
                     style={[styles.radioButton, selectedGender === 'female' && styles.selectedButton]}
                     onPress={() => {
                         setSelectedGender('female');
-                        onSelectGender('female');
+                        onSelect('female');
                         handleFocus();
                     }}
                 >
@@ -59,7 +59,7 @@ const GenderPicker = forwardRef(({ onSelectGender, removeFocusFromAll, name, lab
                     style={[styles.radioButton, styles.borderLeft, selectedGender === 'other' && styles.selectedButton]}
                     onPress={() => {
                         setSelectedGender('other');
-                        onSelectGender('other');
+                        onSelect('other');
                         handleFocus();
                     }}
                 >
@@ -73,7 +73,7 @@ const GenderPicker = forwardRef(({ onSelectGender, removeFocusFromAll, name, lab
                         style={[inputStyles.text, styles.inputText]}
                         onChangeText={(text) => {
                             //setSelectedGender(text);
-                            onSelectGender(text);
+                            onSelect(text);
                         }}
                         onFocus={() => {
                             handleFocus();

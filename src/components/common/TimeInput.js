@@ -5,7 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
 
-const TimeInput = React.forwardRef(({ label, field, form, removeFocusFromAll, name }, ref) => {
+const TimeInput = React.forwardRef(({ label, field, form, removeFocusFromAll, name, placeholder }, ref) => {
     const [showTimePicker, setShowTimePicker] = useState(false);
     const [selectedTime, setSelectedTime] = useState(field.value || '');
     const [isFocused, setFocused] = useState(false);
@@ -43,7 +43,7 @@ const TimeInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
     };
 
     return (
-        <View style={[inputStyles.container, inputStyles.width50]}>
+        <View style={[inputStyles.container, inputStyles.width100]}>
             <Text style={inputStyles.text}>{label}</Text>
             <TouchableOpacity
                 ref={ref}
@@ -61,7 +61,7 @@ const TimeInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
                                 !selectedTime ? { color: colors.placeholderTextColor } : {}
                             ]}
                         >
-                            {selectedTime ? selectedTime.toTimeString().split(' ')[0] : 'Select Time'}
+                            {selectedTime ? selectedTime.toTimeString().split(' ')[0] : `${placeholder}`}
                         </Text>
                     </View>
                 </View>

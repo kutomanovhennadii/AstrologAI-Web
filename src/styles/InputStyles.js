@@ -39,7 +39,7 @@ const inputStyles = StyleSheet.create({
         paddingVertical: 0,
         height: designConstants.inputHeight,
         backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-
+        marginTop: 2,
     },
     focused: {
         borderColor: colors.darkSeaGreen,

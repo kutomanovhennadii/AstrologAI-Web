@@ -7,7 +7,7 @@ import * as Font from 'expo-font';
 import colors from '../../styles/colors';
 
 const AstrologAIText = () => {
-    console.log("Render AstrologAIText")
+    //console.log("Render AstrologAIText")
 
     return (
         <View style={styles.container}>
