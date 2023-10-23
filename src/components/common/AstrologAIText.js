@@ -16,7 +16,7 @@ const AstrologAIText = () => {
                 <Text style={styles.text}>I</Text>
                 <Svg style={styles.star} height="60" width="100">
                     <Polygon
-                        points="55,0 58,13 67,10 63,17 75,20 63,24 68,30 58,28 55,45 52,28 43,30 48,23 0,20 48,18 43,11 52,13"
+                        points="55,0 58,13 67,10 63,17 80,20 63,24 68,30 58,28 55,45 52,28 43,30 48,23 0,20 48,18 43,11 52,13"
                         fill={colors.gold}
                     />
                 </Svg>

@@ -31,7 +31,7 @@ export const useScreenOffsetControl = () => {
             dynamicContentHeightRef.current = newHeight;
             if (standardContextHeightRef.current == 0) {
                 standardContextHeightRef.current = newHeight;
-                
+
             }
             recalculateScreenOffset();
         }
@@ -58,32 +58,32 @@ export const useScreenOffsetControl = () => {
 
     // Эффект для слушания событий клавиатуры
     useEffect(() => {
+        // Событие отрывания клавиатуры
         const keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
             (e) => {
-                console.log("keyboardDidShow");
+                //console.log("keyboardDidShow");
                 keyboardVisibleRef.current = true;
                 if (keyboardHeightRef.current == 0) {
                     keyboardHeightRef.current = e.endCoordinates.height - 50;
-                    console.log("keyboardHeightRef = ", keyboardHeightRef.current);
+                    //console.log("keyboardHeightRef = ", keyboardHeightRef.current);
                 }
-                
+
                 recalculateScreenOffset();
             }
         );
 
+        // Событие закрывания клавиатуры
         const keyboardDidHideListener = Keyboard.addListener(
             'keyboardDidHide',
             () => {
-                // console.log("keyboardDidHide");
                 keyboardVisibleRef.current = false;
-                //updateScreenOffset(0);
                 currentScreenOffsetRef.current = 0;
-                
                 recalculateScreenOffset();
             }
         );
 
+        // Деструктор
         return () => {
             keyboardDidShowListener.remove();
             keyboardDidHideListener.remove();
@@ -92,7 +92,7 @@ export const useScreenOffsetControl = () => {
 
     // Установка смещения поля ввода
     const setFieldOffset = (value) => {
-        // console.log("setFieldOffset");
+        //console.log("setFieldOffset ", value);
         inputFieldOffset.current = value;
         recalculateScreenOffset();
     };
@@ -105,6 +105,8 @@ export const useScreenOffsetControl = () => {
 
     // Пересчет смещения экрана
     const recalculateScreenOffset = () => {
+        //console.log("recalculateScreenOffset ");
+
         // Применяем анимацию для плавного смещения
         LayoutAnimation.easeInEaseOut();
 
@@ -126,16 +128,16 @@ export const useScreenOffsetControl = () => {
         updateScreenOffset(correctedValue);
 
         // Выводим отладочную информацию
-        console.log(
-            "setVerticalOffset: keyboardVisible =", keyboardVisibleRef.current,
-            "\n                         dynamicContentHeightRef =", dynamicContentHeightRef.current,
-            "\n                         standartContextHightRef =", standardContextHeightRef.current,
-            "\n                         baseValue =", baseValue,
-            "\n                         Delta =", delta,
-            "\n                         CorrectedValue =", correctedValue,
-            "\n                         MaximalScreenOffset =", maxScreenOffsetRef.current,
-            "\n                         ScreenOffset =", currentScreenOffsetRef.current
-        );
+        // console.log(
+        //     "recalculateScreenOffset: keyboardVisible =", keyboardVisibleRef.current,
+        //     "\n                         dynamicContentHeightRef =", dynamicContentHeightRef.current,
+        //     "\n                         standartContextHightRef =", standardContextHeightRef.current,
+        //     "\n                         baseValue =", baseValue,
+        //     "\n                         Delta =", delta,
+        //     "\n                         CorrectedValue =", correctedValue,
+        //     "\n                         MaximalScreenOffset =", maxScreenOffsetRef.current,
+        //     "\n                         ScreenOffset =", currentScreenOffsetRef.current
+        // );
     };
 
     // Возвращаем все необходимые параметры и методы

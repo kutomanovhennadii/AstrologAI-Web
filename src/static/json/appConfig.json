@@ -89,37 +89,60 @@
         {
             "name": "gender",
             "label": "Select your gender",
+            "component": "GenderPicker",
             "screenOffset": 0
         },
         {
             "name": "birthDate",
             "label": "Date of Birth",
             "screenOffset": 0,
+            "component": "DateInput",
             "placeholder": "Select date of birth"
         },
         {
             "name": "birthTime",
             "label": "Time of Birth",
             "screenOffset": 0,
+            "component": "TimeInput",
             "placeholder": "Select time of birth"
         },
         {
             "name": "birthCountry",
             "label": "Select a country of birth",
             "screenOffset": -110,
+            "component": "FilteredPicker",
             "placeholder": "Enter text to search"
         },
         {
             "name": "birthCity",
             "label": "Select a city of birth",
             "screenOffset": -210,
+            "component": "FilteredPicker",
             "placeholder": "Enter text to search"
         },
         {
             "name": "biography",
             "label": "Biography",
             "screenOffset": -230,
+            "component": "MultilineInput",
             "placeholder": "Tell about yourself, this will make the predictions more personal"
+        }
+    ],
+    "signInMetadataArray": [
+        {
+            "name": "email",
+            "label": "Email",
+            "component": "CustomInput",
+            "screenOffset": 0,
+            "placeholder": "Enter your email"
+        },
+        {
+            "name": "password",
+            "label": "Password",
+            "screenOffset": 0,
+            "component": "CustomInput",
+            "type": "password",
+            "placeholder": "Enter your password"
         }
     ]
 }

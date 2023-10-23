@@ -6,7 +6,9 @@ import Container from '../../common/Container';
 import AstrologAIText from '../../common/AstrologAIText';
 import SocialLogin from '../socialLogin/SocialLogin';
 import PromptWithActionLink from '../../common/PromptWithActionLink';
+import SignInFormOld from './SignInFormOld';
 import SignInForm from './SignInForm';
+import inputStyles from '../../../styles/InputStyles';
 
 const SignIn = ({ navigation }) => {
     console.log("Render Log in")
@@ -18,11 +20,13 @@ const SignIn = ({ navigation }) => {
     return (
         <View style={[styles.size100]}>
 
-            {/* <Container topOffset={122}>
-                <AstrologAIText />
-            </Container> */}
-            <Container topOffset={81}>
-                <Text style={[styles.inputTitle]}>Sign in to your account</Text>
+            <Container topOffset={80}>
+                <View style={styles.scaled}>
+                    <AstrologAIText />
+                </View>
+            </Container>
+            <Container topOffset={80}>
+                <Text style={[inputStyles.titleText]}>Sign in to your account</Text>
             </Container>
 
             <SignInForm onSubmit={(values) => { console.log(values); }} />
@@ -40,13 +44,11 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
     },
-    inputTitle: {
-        fontSize: 23,
-        lineHeight: 32,
-        color: "#fff",
-        textAlign: "left",
-        fontFamily: "Roboto"
+
+    scaled: {
+        transform: [{ scale: 0.75 }],
     },
+
 });
 
 export default SignIn;

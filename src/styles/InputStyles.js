@@ -24,7 +24,13 @@ const inputStyles = StyleSheet.create({
         fontFamily: "Raleway-Regular",
         color: colors.textColor,
         textAlign: "left",
-        
+    },
+    titleText: {
+        fontSize: 23,
+        lineHeight: 32,
+        color: colors.textColor,
+        textAlign: "left",
+        fontFamily: "Raleway-Regular",
     },
     dateTextBox: {
         flex: 1,

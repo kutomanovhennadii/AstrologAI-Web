@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useImperativeHandle } from 'react';
 import { Text, TextInput, StyleSheet, View } from "react-native";
 import { Field } from 'formik';
 
@@ -9,12 +9,23 @@ const CustomInput = React.forwardRef((props, ref) => {
     const { label, validate, removeFocusFromAll, name } = props;
     const [isFocused, setFocused] = useState(false);
 
-    useEffect(() => {
-        //console.log("CustomInput ref", ref.current);
-        if (ref.current && name) {
-            ref.current.myUniqueId = name;
+    //console.log("Render CustomInput, props.type =", props.type);
+
+    // useEffect(() => {
+    //     //console.log("CustomInput ref", ref.current);
+    //     if (ref.current && name) {
+    //         ref.current.myUniqueId = name;
+    //     }
+    // }, [name]);
+
+    useImperativeHandle(ref, () => ({
+        removeFocus: () => {
+            setFocused(false);
+        },
+        isFocused: () => {
+            return isFocused;
         }
-    }, [name]);
+    }));
 
     return (
         <Field name={props.name} validate={validate}>
@@ -31,10 +42,13 @@ const CustomInput = React.forwardRef((props, ref) => {
                             value={field.value}
                             onChangeText={form.handleChange(field.name)}
                             onBlur={() => {
-                                console.log("CustomInput on blur")
+                                //console.log("CustomInput on blur")
                                 setFocused(false);
                             }}
                             onFocus={() => {
+                                if (ref.current && name) {
+                                    ref.current.myUniqueId = name;
+                                }
                                 removeFocusFromAll(ref); 
                                 setFocused(true);
                             }}

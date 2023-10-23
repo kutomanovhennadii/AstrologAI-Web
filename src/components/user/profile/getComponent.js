@@ -18,6 +18,19 @@ export function getComponentByName(name) {
     }
 }
 
+export function componentInstaller(component) {
+    switch (component) {
+        case 'GenderPicker': return GenderPicker;
+        case 'DateInput': return DateInput;
+        case 'TimeInput': return TimeInput;
+        case 'FilteredPicker': return FilteredPicker;
+        case 'FilteredPicker': return FilteredPicker;
+        case "MultilineInput": return MultilineInput;
+        case "CustomInput": return CustomInput;
+        default: return [];
+    }
+}
+
 export function getAdditionalPropsByName(name, countryList, cityList, onSelectCountry, onSelectCity) {
     switch (name) {
         case 'gender':

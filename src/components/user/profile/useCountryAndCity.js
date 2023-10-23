@@ -1,6 +1,6 @@
 // useCountryAndCity.js
 import { useState } from 'react';
-import { getCountries, getCitiesByCountry } from '../../../util/countryCityUtils';
+import { getCountries, getCitiesByCountry } from '../../../utils/countryCityUtils';
 
 export const useCountryAndCity = (refs) => {
     //console.log("useCountryAndCity refs", refs);

@@ -5,6 +5,8 @@ import facebookLogo from './FacebookLogo.png'; // Убедитесь, что п�
 import appleLogo from './AppleLogo.png';
 import googleLogo from './GoogleLogo.png';
 
+import inputStyles from '../../../styles/InputStyles';
+
 const SocialLogin = () => {
     const handlePress = (platform) => {
         // Ваш код для авторизации
@@ -13,7 +15,7 @@ const SocialLogin = () => {
 
     return (
         <View style={styles.orSignInWithParent}>
-            <Text style={styles.orSignIn1}>Or sign in with...</Text>
+            <Text style={inputStyles.text}>Or sign in with...</Text>
             <View style={styles.continueWithSocialsParent}>
                 <SocialLoginButton imageSource={facebookLogo} onPress={() => handlePress('Facebook')} />
                 <SocialLoginButton imageSource={appleLogo} onPress={() => handlePress('Apple')} style={styles.continueWithAppleLeftAli1} />
@@ -24,14 +26,6 @@ const SocialLogin = () => {
 };
 
 const styles = StyleSheet.create({
-    orSignIn1: {
-        fontSize: 16,
-        letterSpacing: 1,
-        lineHeight: 24,
-        fontFamily: "Roboto",
-        color: "#fff",
-        textAlign: "left",
-    },
     continueWithSocialsParent: {
         marginTop: 30,
         flexDirection: "row",
@@ -41,7 +35,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "100%",
         alignItems: "center",
-        top: 74,
+        marginTop: 74,
     },
     continueWithAppleLeftAli1: {
         marginLeft: 32,
