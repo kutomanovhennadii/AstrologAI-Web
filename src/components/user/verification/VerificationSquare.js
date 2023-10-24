@@ -1,6 +1,10 @@
 import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 
+import inputStyles from '../../../styles/InputStyles';
+import designConstants from '../../../styles/designConstants';
+import colors from '../../../styles/colors';
+
 const VerificationSquare = ({ field, form, nextInput, innerRef }) => {
     const handleChange = (text) => {
         if (text.length === 1) {
@@ -30,13 +34,13 @@ const VerificationSquare = ({ field, form, nextInput, innerRef }) => {
 
 const styles = StyleSheet.create({
     rectangleView: {
-        backgroundColor: '#d9d9d9',
-        height: 50,
-        width: 50,
+        backgroundColor: colors.textColor,
+        height: designConstants.inputHeight,
+        width: designConstants.inputHeight,
         justifyContent: 'center',
         alignItems: 'center',
         margin: 10,
-        borderRadius: 4,
+        borderRadius: designConstants.borderRadius,
     },
     textInput: {
         fontSize: 30,

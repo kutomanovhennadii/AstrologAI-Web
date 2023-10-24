@@ -4,6 +4,7 @@ import FilteredPicker from '../components/common/FilteredPicker';
 import GenderPicker from '../components/common/GenderPicker';
 import MultilineInput from '../components/common/MultilineInput';
 import CustomInput from '../components/common/CustomInput';
+import CheckboxLabelLink from '../components/common/CheckboxLabelLink';
 
 export function componentInstaller(component) {
     
@@ -14,6 +15,8 @@ export function componentInstaller(component) {
         case 'FilteredPicker': return FilteredPicker;
         case "MultilineInput": return MultilineInput;
         case "CustomInput": return CustomInput;
+        case "CheckboxLabelLink": return CheckboxLabelLink;
+
         default: return null;
     }
 }

@@ -2,6 +2,10 @@ import React from 'react';
 import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useField } from 'formik';
 
+import inputStyles from '../../styles/InputStyles';
+import designConstants from '../../styles/designConstants';
+import colors from '../../styles/colors';
+
 const CheckboxLabel = ({ name, label }) => {
     const [field, , helpers] = useField(name);
 
@@ -11,10 +15,10 @@ const CheckboxLabel = ({ name, label }) => {
 
     return (
         <TouchableOpacity onPress={toggleCheckbox} style={styles.container}>
-            <View style={styles.checkbox}>
+            <View style={[inputStyles.border, styles.checkbox]}>
                 <Text style={styles.icon}>{field.value ? '✔️' : ''}</Text>
             </View>
-            <Text style={styles.label}>{label}</Text>
+            <Text style={[inputStyles.text, inputStyles.left20]}>{label}</Text>
         </TouchableOpacity>
     );
 };
@@ -26,21 +30,12 @@ const styles = StyleSheet.create({
         paddingTop: 20
     },
     checkbox: {
-        width: 32,
-        height: 32,
+        width: designConstants.inputHeight,
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 1,
-        borderColor: '#ccc',
     },
     icon: {
-        fontSize: 24,
-    },
-    label: {
-        marginLeft: 8,
-        fontSize: 20,
-        fontFamily: "Roboto",
-        color: "#fff",
+        fontSize: 26,
     },
 });
 

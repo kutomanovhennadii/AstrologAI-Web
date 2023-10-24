@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 const useFocusManagement = (refIdentifiers, screenOffsets, setFieldOffset) => {
 
     const refs = Object.fromEntries(refIdentifiers.map(id => [id, useRef(null)]));
+    //console.log("useFocusManagement Created refs:", refs);
 
     const refMethods = Object.fromEntries(refIdentifiers.map(id => [
         id,

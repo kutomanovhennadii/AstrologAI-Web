@@ -12,6 +12,8 @@ import GreetingForm from './greeting/GreetingForm'
 import Container from '../common/Container';
 import AstrologAIText from '../common/AstrologAIText';
 
+import inputStyles from '../../styles/InputStyles';
+
 const Stack = createStackNavigator();
 
 const MyTheme = {
@@ -26,8 +28,10 @@ const MyTheme = {
 export default function UserGate() {
     return (
         <NavigationContainer theme={MyTheme}>
-            <Container topOffset={122}>
-                <AstrologAIText />
+            <Container topOffset={0}>
+                <View style={inputStyles.scaledLogo}>
+                    <AstrologAIText />
+                </View>
             </Container>
             <Stack.Navigator initialRouteName="SignIn">
                 <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />

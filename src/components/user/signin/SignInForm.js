@@ -7,8 +7,7 @@ import appConfig from '../../../static/json/appConfig.json';
 import { profileValidationSchema } from './validationSchema';
 import useFocusManagement from '../../../hooks/useFocusManagement';
 import { useScreenOffsetControl } from '../../../hooks/useScreenOffsetControl';
-//import { useCountryAndCity } from './useCountryAndCity';
-//import { getComponentByName, getAdditionalPropsByName } from './getComponent'
+
 
 import CustomForm from '../../common/CustomForm';
 import { componentInstaller } from '../../../utils/componentInstaller';

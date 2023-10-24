@@ -13,6 +13,7 @@ const colors = {
     bronze: "#B87333",
     paleBlue: "#7FDBFF",
     darkPurple: "#4B0082",
+    
     blueBell: '#9593FB',
     greenMist: '#BDBF93',
     akaroa: '#BFAB93',

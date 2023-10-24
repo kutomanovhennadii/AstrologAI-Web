@@ -14,6 +14,10 @@ const inputStyles = StyleSheet.create({
     width100: {
         width: "100%",
     },
+    size100: {
+        width: "100%",
+        height: "100%",
+    },
     width50: {
         width: '49%',
     },
@@ -24,6 +28,9 @@ const inputStyles = StyleSheet.create({
         fontFamily: "Raleway-Regular",
         color: colors.textColor,
         textAlign: "left",
+    },
+    textAlignCenter: {
+        textAlign: "center"
     },
     titleText: {
         fontSize: 23,
@@ -44,7 +51,7 @@ const inputStyles = StyleSheet.create({
         paddingHorizontal: designConstants.paddingHorizontal,
         paddingVertical: 0,
         height: designConstants.inputHeight,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         marginTop: 2,
     },
     focused: {
@@ -52,12 +59,24 @@ const inputStyles = StyleSheet.create({
         //border: 3,
     },
     errorText: {
-        fontSize: 14,
-        color: "red",
+        fontSize: 16,
+        fontFamily: "Raleway-Medium",
+        letterSpacing: 1,
+        color: "#FF1111",
         textAlign: "left",
         marginTop: 5,
     },
-
+    scaledLogo: {
+        paddingTop: 25,
+        marginBottom: -20,
+        transform: [{ scale: 0.5 }],
+    },
+    bottom10: {
+        paddingBottom: 10,
+    },
+    left20: {
+        marginLeft: 20,
+    },
 });
 
 export default inputStyles;

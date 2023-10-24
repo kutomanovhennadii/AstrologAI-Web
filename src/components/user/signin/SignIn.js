@@ -18,36 +18,42 @@ const SignIn = ({ navigation }) => {
     };
 
     return (
-        <View style={[styles.size100]}>
+        <View style={[inputStyles.size100]}>
 
-            <Container topOffset={80}>
-                <View style={styles.scaled}>
+            {/* <Container topOffset={0}>
+                <View style={inputStyles.scaledLogo}>
                     <AstrologAIText />
                 </View>
-            </Container>
+            </Container> */}
             <Container topOffset={80}>
                 <Text style={[inputStyles.titleText]}>Sign in to your account</Text>
             </Container>
 
             <SignInForm onSubmit={(values) => { console.log(values); }} />
-            <SocialLogin />
-            <PromptWithActionLink
-                promt="Have an account?"
-                buttonText="Sign Up"
-                onLinkPress={goToSignUp} />
+            <View style={styles.top50}>
+                <SocialLogin />
+            </View>
 
+            <View style={inputStyles.bottom10}>
+                <PromptWithActionLink
+                    promt="Have an account?"
+                    buttonText="Sign In"
+                    onLinkPress={goToSignUp} />
+            </View>
         </View>);
 };
 
 const styles = StyleSheet.create({
-    size100: {
-        width: "100%",
-        height: "100%",
+    top50: {
+        flex: 1,
+        marginTop: 100
     },
 
-    scaled: {
-        transform: [{ scale: 0.75 }],
-    },
+    // scaled: {
+    //     paddingTop: 25,
+    //     marginBottom: -20,
+    //     transform: [{ scale: 0.5 }],
+    // },
 
 });
 

@@ -23,12 +23,12 @@ const App = () => {
       {/* <Terms /> */}
       {/* <UserGate /> */}
       {/* <GreetingForm /> */}
-      <SignIn />
+      {/* <SignIn /> */}
       {/* <SignUp /> */}
       {/* <Verification /> */}
       {/* <Subscription /> */}
       {/* <AstroBots /> */}
-      {/* <UserBase/> */}
+      <UserBase/>
     </BackgroundImage>
   );
 };

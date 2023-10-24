@@ -1,14 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Dimensions } from 'react-native';
 
+import colors from '../../styles/colors';
+import inputStyles from '../../styles/InputStyles';
+import designConstants from '../../styles/designConstants';
+
 const ScrollingText = ({ text, maxHeight }) => {
-    const screenWidth = Dimensions.get('window').width;
-    const calculatedWidth = screenWidth - 2*36; // Учитывая отступы слева и справа
+    //const screenWidth = Dimensions.get('window').width;
+    //const calculatedWidth = screenWidth - 2*36; // Учитывая отступы слева и справа
 
     return (
         <View style={styles.textBackground}>
             <ScrollView style={{ maxHeight }}>
-                <Text style={{ ...styles.text, width: calculatedWidth }}>{text}</Text>
+                <Text style={[inputStyles.text, styles.text, inputStyles.width100]}>{text}</Text>
             </ScrollView>
         </View>
     );
@@ -16,17 +20,15 @@ const ScrollingText = ({ text, maxHeight }) => {
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 20,
-        fontFamily: "Roboto",
+        letterSpacing: 0,
         color: "#000",
-        textAlign: "left",
-        flex: 1
+        textAlign: 'justify'
     },
     textBackground: {
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        backgroundColor: 'rgba(255, 255, 255, 0.75)',
         alignSelf: 'center',
-        padding: 10,
-        borderRadius: 10,
+        padding: 20,
+        borderRadius: designConstants.borderRadius, 
     },
 });
 

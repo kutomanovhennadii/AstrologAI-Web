@@ -14,7 +14,7 @@ const SocialLogin = () => {
     };
 
     return (
-        <View style={styles.orSignInWithParent}>
+        <View style={styles.container}>
             <Text style={inputStyles.text}>Or sign in with...</Text>
             <View style={styles.continueWithSocialsParent}>
                 <SocialLoginButton imageSource={facebookLogo} onPress={() => handlePress('Facebook')} />
@@ -31,11 +31,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: 'space-between',
     },
-    orSignInWithParent: {
+    container: {
         flex: 1,
         width: "100%",
         alignItems: "center",
-        marginTop: 74,
+        paddingTop: 10,
     },
     continueWithAppleLeftAli1: {
         marginLeft: 32,

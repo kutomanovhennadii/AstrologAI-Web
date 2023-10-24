@@ -3,15 +3,18 @@
     "GreetingPage": [
         {
             "headerText": "Welcome to the world of astrology!",
-            "bodyText": "Our app will help you discover what the stars have to say about your future..."
-        },
-        {
-            "headerText": "Discover Your Horoscope!",
-            "bodyText": "Find out what your zodiac sign reveals about you..."
+            "bodyText": "Our app will help you discover what the stars have to say about your future...",
+            "name": "Welcome"
         },
         {
             "headerText": "Daily Predictions",
-            "bodyText": "Get personalized daily predictions based on your star sign..."
+            "bodyText": "Get personalized daily predictions based on your star sign...",
+            "name": "Daily"
+        },
+        {
+            "headerText": "Discover Your Horoscope!",
+            "bodyText": "Find out what your zodiac sign reveals about you...",
+            "name": "Horoscope"
         }
     ],
     "Subscribtion": [
@@ -143,6 +146,45 @@
             "component": "CustomInput",
             "type": "password",
             "placeholder": "Enter your password"
+        }
+    ],
+    "signUpMetadataArray": [
+        {
+            "name": "userName",
+            "label": "User name",
+            "component": "CustomInput",
+            "screenOffset": 136,
+            "placeholder": "Enter your name"
+        },
+        {
+            "name": "email",
+            "label": "Email",
+            "component": "CustomInput",
+            "screenOffset": 0,
+            "placeholder": "Enter your email"
+        },
+        {
+            "name": "password",
+            "label": "Password",
+            "screenOffset": 0,
+            "component": "CustomInput",
+            "type": "password",
+            "placeholder": "Enter your password"
+        },
+        {
+            "name": "cofirmPassword",
+            "label": "Confirm password",
+            "screenOffset": -100,
+            "component": "CustomInput",
+            "type": "password",
+            "placeholder": "Repeat your password"
+        },
+        {
+            "name": "agreeToTerms",
+            "label": "  I accept ",
+            "screenOffset": 0,
+            "component": "CheckboxLabelLink",
+            "placeholder": "the terms of using"
         }
     ]
 }

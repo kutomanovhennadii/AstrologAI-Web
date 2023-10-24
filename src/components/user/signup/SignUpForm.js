@@ -86,7 +86,7 @@ const SignUpForm = ({ onSubmit, goToTerms, termsAccepted = false }) => {
                         buttonText="the terms of using"
                         name="agreeToTerms"
                         isChecked={termsAccepted}
-                        onLinkPress={handleAgreeToTermsPress}
+                        onLinkPress={goToTerms}
                     />
                     <SubmitButton
                         text="Sign In"

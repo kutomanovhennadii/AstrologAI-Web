@@ -6,6 +6,8 @@ import ScrollingText from '../common/ScrollingText';
 import CheckboxLabel from '../common/CheckboxLabel'
 import SubmitButton from '../common/SubmitButton';
 import termsOfUseJson from '../../static/json/termsOfUse.json';
+import inputStyles from '../../styles/InputStyles';
+import colors from '../../styles/colors';
 
 const termsArray = termsOfUseJson.TermOfUse;
 const termsText = termsArray.join('\n\n');
@@ -15,7 +17,7 @@ const termsText = termsArray.join('\n\n');
 
 const Terms = ({ navigation }) => {
     const screenHeight = Dimensions.get('window').height;
-    const calculatedHeight = screenHeight - 232;
+    const calculatedHeight = screenHeight - 300;
 
     const onSubmitFormik = (values) => {
         console.log(values);
@@ -26,8 +28,8 @@ const Terms = ({ navigation }) => {
     console.log("Render Terms");
 
     return (
-        <View style={[styles.size100]}>
-            <Text style={styles.title}>Terms of use</Text>
+        <View style={[inputStyles.size100]}>
+            <Text style={[inputStyles.titleText, styles.title]}>Terms of use</Text>
             <ScrollingText text={termsText} maxHeight={calculatedHeight} />
             <Formik
                 initialValues={{ myCheckbox: false }}
@@ -47,19 +49,11 @@ const Terms = ({ navigation }) => {
 
 
 const styles = StyleSheet.create({
-    size100: {
-        width: "100%",
-        height: "100%",
-    },
     title: {
-        fontSize: 20,
-        fontWeight: "600",
-        fontFamily: "Roboto",
-        color: "#fff",
-        textAlign: "left",
-        marginTop: 60,
+        marginTop: 0,
         alignSelf: 'center',
-        marginBottom: 30
+        marginBottom: 10,
+        fontFamily: "Raleway-Medium",
     },
 })
 

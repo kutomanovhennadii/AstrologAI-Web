@@ -4,6 +4,9 @@ import AstrobotPage from "./AstrobotPage"
 import MainFrame from '../../common/MainFrame';
 
 import appConfig from '../../../static/json/appConfig.json';
+import inputStyles from '../../../styles/InputStyles';
+import designConstants from '../../../styles/designConstants';
+import colors from '../../../styles/colors';
 
 const imageContext = require.context('../../../static/image', true);
 
@@ -83,14 +86,11 @@ const Astrobots = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
     paginationDots: {
         flexDirection: 'row',
         justifyContent: 'center',
         position: 'absolute',
-        bottom: 30,
+        bottom: 0, 
         left: 0,
         right: 0,
     },
@@ -103,11 +103,6 @@ const styles = StyleSheet.create({
     },
     activeDot: { backgroundColor: 'white' },
     inactiveDot: { backgroundColor: '#888' },
-    scaled: {
-        paddingTop: 10,
-        marginBottom: -20,
-        transform: [{ scale: 0.5 }]
-    }
 });
 
 export default Astrobots;

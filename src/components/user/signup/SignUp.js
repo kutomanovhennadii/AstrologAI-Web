@@ -6,9 +6,11 @@ import AstrologAIText from '../../common/AstrologAIText';
 import SocialLogin from '../socialLogin/SocialLogin';
 import PromptWithActionLink from '../../common/PromptWithActionLink';
 import SignUpForm from './SignUpForm';
+import SignUpForm1 from './SignUpForm1';
+import inputStyles from '../../../styles/InputStyles';
 
 const SignUp = ({ navigation, route }) => {
-    const { termsAccepted = false } = route.params || {};
+    const { termsAccepted = false } = (route && route.params) || {};
     console.log("Render Sign Up. termsAccepted = " + route);
 
     const goToSignIn = () => {
@@ -24,41 +26,42 @@ const SignUp = ({ navigation, route }) => {
     };
 
     return (
-        <View style={[styles.size100]}>
+        <View style={[inputStyles.size100]}>
 
-            {/* <Container topOffset={122}>
-                <AstrologAIText />
+            {/* <Container topOffset={0}>
+                <View style={inputStyles.scaledLogo}>
+                    <AstrologAIText />
+                </View>
             </Container> */}
-            <Container topOffset={41}>
-                <Text style={[styles.inputTitle]}>Sign up</Text>
+            <Container topOffset={0}>
+                <Text style={[inputStyles.titleText]}>Sign up</Text>
             </Container>
 
-            <SignUpForm
+            <SignUpForm1
                 termsAccepted={termsAccepted}
                 goToTerms={goToTerms}
                 onSubmit={goToVerification}
             />
             <SocialLogin />
-            <PromptWithActionLink
-                promt="Have an account?"
-                buttonText="Sign In"
-                onLinkPress={goToSignIn} />
+            <View style={inputStyles.bottom10}>
+                <PromptWithActionLink
+                    promt="Have an account?"
+                    buttonText="Sign In"
+                    onLinkPress={goToSignIn} />
+            </View>
+
 
         </View>);
 };
 
 const styles = StyleSheet.create({
-    size100: {
-        width: "100%",
-        height: "100%",
-    },
-    inputTitle: {
-        fontSize: 23,
-        lineHeight: 32,
-        color: "#fff",
-        textAlign: "left",
-        fontFamily: "Roboto"
-    },
+    // size100: {
+    //     width: "100%",
+    //     height: "100%",
+    // },
+    // bottom10: {
+    //     paddingBottom: 10,
+    // },
 });
 
 

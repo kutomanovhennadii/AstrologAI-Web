@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import SubmitButton from './SubmitButton';
 import { Formik, Field } from 'formik';
@@ -11,7 +11,11 @@ const CustomForm = ({
     validationSchema,
     onSubmit
 }) => {
-    //console.log('Начало рендера DynamicForm.');
+    // console.log('Начало рендера DynamicForm.');
+
+    // useEffect(() => {
+    //     console.log("Parent component re-rendered");
+    // });
 
     return (
         <Formik
@@ -32,8 +36,10 @@ const CustomForm = ({
 
                             return (
                                 <Field key={index} name={fieldConfig.name}>
-                                    {({ field, form }) => (
-                                        React.createElement(
+                                    {({ field, form }) => {
+                                        
+                                        //console.log("fieldConfig.component:", typeof fieldConfig.component);
+                                        return React.createElement(
                                             fieldConfig.component,
                                             {
                                                 name: fieldConfig.name,
@@ -54,7 +60,7 @@ const CustomForm = ({
                                                 }
                                             }
                                         )
-                                    )}
+                                    }}
                                 </Field>
                             );
                         })}

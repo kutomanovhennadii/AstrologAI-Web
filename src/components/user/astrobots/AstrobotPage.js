@@ -4,6 +4,9 @@ import * as Font from 'expo-font';
 
 import SubmitButton from "../../common/SubmitButton"
 import { Dimensions } from 'react-native';
+import inputStyles from '../../../styles/InputStyles';
+import designConstants from '../../../styles/designConstants';
+import colors from '../../../styles/colors';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -41,7 +44,7 @@ const AstrobotPage = ({ name, image, description }) => {
             />
             <View style={styles.textContainer}>
                 <Text style={styles.name}>{name}</Text>
-                <Text style={styles.description}>{description}</Text>
+                <Text style={[inputStyles.text, styles.description]}>{description}</Text>
             </View>
             <View style={styles.submitFrame}>
                 <SubmitButton text="Select your astrobot" onSubmit={navigateToNextPage} />
@@ -80,26 +83,19 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 32,
-        //fontWeight: 'bold',
         marginBottom: 8,
-        color: '#9593FB',
+        color: colors.blueBell,
         fontFamily: 'Raleway-Bold', // моноширинный шриф
     },
     description: {
-        fontSize: 16,
+        lineHeight: 19,
         height: 210,
-        color: 'rgba(255, 255, 255, 0.8)',
-        fontFamily: 'Roboto',
         textAlign: 'justify',
         letterSpacing: 0.5
     },
     submitFrame: {
-        width: screenWidth - 30,
-        //position: 'absolute',
+        width: "100%",
 
-        //bottom: 50,
-        // left: 0,
-        // right: 0,
     },
 });
 

@@ -5,14 +5,26 @@ import GreetingPage from './GreetingPage';
 import appConfig from '../../../static/json/appConfig.json';
 import SubmitButton from '../../common/SubmitButton';
 
+import inputStyles from '../../../styles/InputStyles';
+import designConstants from '../../../styles/designConstants';
+import colors from '../../../styles/colors';
+
 const GreetingForm = () => {
     const [currentPage, setCurrentPage] = useState(0);
+
+    const images = {
+        "Welcome": require('../../../static/image/midjourneycat_by_Bess_Hamiti_Starry_sky_realistic_photo.png'), 
+        "Daily": require('../../../static/image/midjourneycat_by_Goya_Starry_sky_realistic_photo.png'),
+        "Horoscope": require('../../../static/image/midjourneycat_by_Sara_Andreasson_Starry_sky_realistic_photo.png'),
+        // ...
+    };
 
     const renderItem = ({ item }) => {
         //console.log("Rendering item with header text: " + item.headerText);
         return (
             <GreetingPage
-                imageSource={require('../../../static/image/midjourneycat_by_Bess_Hamiti_Starry_sky_realistic_photo.png')}
+                //imageSource={require('../../../static/image/midjourneycat_by_Bess_Hamiti_Starry_sky_realistic_photo.png')}
+                imageSource={images[item.name]} 
                 headerText={item.headerText}
                 bodyText={item.bodyText}
             />
@@ -88,7 +100,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         position: 'absolute',
-        bottom: 80,
+        bottom: 120,   
         left: 0,
         right: 0,
     },

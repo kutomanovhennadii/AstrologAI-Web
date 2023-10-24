@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import inputStyles from '../../styles/InputStyles';
+import colors from '../../styles/colors';
 
 const PromptWithActionLink = ({ promt, buttonText, onLinkPress }) => {
     return (
@@ -18,10 +19,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 20,
+        
     },
     link: {
-        color: "#2962ff",
+        color: colors.blueBell
+        // color: "#2962ff",
     },
 });
 

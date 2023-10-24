@@ -4,6 +4,8 @@ const designConstants = {
     inputHeight: 60,
     paddingHorizontal: 12,
 
+    topOffset40: 40,
+
     fontSizeSmall: 12,
     fontSizeMedium: 16,
     fontSizeLarge: 20,

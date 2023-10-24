@@ -7,6 +7,10 @@ import SubmitButton from '../../common/SubmitButton';
 import VerificationSquare from './VerificationSquare'
 import Container from '../../common/Container';
 
+import inputStyles from '../../../styles/InputStyles';
+import designConstants from '../../../styles/designConstants';
+import colors from '../../../styles/colors';
+
 const VerificationForm = ({ onSubmit }) => {
     const validationSchema = Yup.object().shape({
         square1: Yup.string().required().length(1),
@@ -37,16 +41,16 @@ const VerificationForm = ({ onSubmit }) => {
                         <Field name="square3" component={VerificationSquare} nextInput={square4Ref} innerRef={square3Ref} />
                         <Field name="square4" component={VerificationSquare} nextInput={square4Ref} innerRef={square4Ref} />
                     </View>
-                    <Container topOffset={32}>
-                        <View style={styles.title}>
-                            <Text style={styles.ifYouDont}>{`If you don’t receive a code?`}</Text>
-                            <Text style={styles.ressend}>RESEND</Text>
+                    <Container topOffset={designConstants.topOffset40}>
+                        <View >
+                            <Text style={[inputStyles.titleText, inputStyles.textAlignCenter]}>{`If you don’t receive a code?`}</Text>
+                            <Text style={[inputStyles.titleText, styles.ressend]}>RESEND</Text>
                         </View>
 
                     </Container>
-                    <View style={styles.frameItem}>
+                    <Container topOffset={designConstants.topOffset40}>
                         <SubmitButton text="Continue" onSubmit={handleSubmit} />
-                    </View>
+                    </Container>
                 </>
             )}
         </Formik>
@@ -54,22 +58,14 @@ const VerificationForm = ({ onSubmit }) => {
 };
 
 const styles = StyleSheet.create({
-
-    frameItem: {
-        paddingTop: 38,
-    },
     rectangleParent: {
         flexDirection: 'row',
         justifyContent: 'center',  // Выравнивает дочерние элементы по центру
         alignItems: 'center',
-        paddingTop: 30
-    },
-    ifYouDont: {
-        color: "#fff",
-        textAlign: "center"
+        paddingTop: designConstants.topOffset40
     },
     ressend: {
-        color: "#1877f2",
+        color: colors.blueBell,
         textAlign: "center"
     },
 });
