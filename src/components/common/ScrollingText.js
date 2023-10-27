@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         textAlign: 'justify'
     },
     textBackground: {
-        backgroundColor: 'rgba(255, 255, 255, 0.75)',
+        backgroundColor: colors.backdropColorLight,
         alignSelf: 'center',
         padding: 20,
         borderRadius: designConstants.borderRadius, 

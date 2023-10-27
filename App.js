@@ -12,6 +12,7 @@ import SubscriptionPage from './src/components/user/subsription/SubscriptionPage
 import Subscription from './src/components/user/subsription/Subscription'
 import AstroBots from './src/components/user/astrobots/Astrobots'
 import StartPage from './src/components/user/StartPage'
+import Prediction from './src/components/user/prediction/Prediction';
 
 
 const App = () => {
@@ -28,7 +29,8 @@ const App = () => {
       {/* <Verification /> */}
       {/* <Subscription /> */}
       {/* <AstroBots /> */}
-      <UserBase/>
+      {/* <UserBase /> */}
+      <Prediction />
     </BackgroundImage>
   );
 };

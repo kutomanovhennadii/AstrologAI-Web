@@ -11,7 +11,7 @@ import colors from '../../../styles/colors';
 const imageContext = require.context('../../../static/image', true);
 
 const Astrobots = () => {
-    const [images, setImages] = useState([]);
+    const [astrobotImages, setAstrobotImages] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
 
     // Загрузка изображений 
@@ -21,14 +21,14 @@ const Astrobots = () => {
             acc[astrobot.name] = imageContext('./' + astrobot.image);
             return acc;
         }, {});
-        setImages(loadedImages);
+        setAstrobotImages(loadedImages);
     }, []);
 
     // Верстка страницы
     const renderItem = ({ item }) => {
         return (
             <AstrobotPage
-                image={images[item.name]}
+                image={astrobotImages[item.name]}
                 name={item.name}
                 description={item.description}
             />

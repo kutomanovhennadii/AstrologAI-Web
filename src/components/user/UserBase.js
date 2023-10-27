@@ -12,6 +12,7 @@ import GreetingForm from './greeting/GreetingForm'
 import Container from '../common/Container';
 import AstrologAIText from '../common/AstrologAIText';
 import MainFrame from '../common/MainFrame';
+import Prediction from './prediction/Prediction';
 
 const Stack = createStackNavigator();
 
@@ -33,14 +34,14 @@ export default function UserGate() {
                         name="Astrobots"
                         component={Astrobots}
                         options={{ headerShown: false }} /> */}
-                    <Stack.Screen
+                    {/* <Stack.Screen
                         name="Profile"
                         component={Profile}
-                        options={{ headerShown: false }} />
-                    {/* <Stack.Screen 
-                        name="Terms" 
-                        component={Terms} 
                         options={{ headerShown: false }} /> */}
+                    <Stack.Screen 
+                        name="Prediction" 
+                        component={Prediction} 
+                        options={{ headerShown: false }} />
                     {/* <Stack.Screen 
                         name="Verification" 
                         component={Verification} 
