@@ -88,6 +88,56 @@
             "description": "Я Микита Кажiбот, ваш керманич на кораблі зоряному, що летить на крилах долі. Знання мої, нашептані карпатськими мольфарами, відкриють перед вами, як зорі розставлять на небі шахи й шашки. Зо мною, ой, не лише зіркові пророцтва ви вичитаєте, а й ваші земні клопоти у кармані засунете!  Хіба що не зрозумієте, що кожна зірка — це жарт з підковою, а доля — так, карта в руці лукавого Пана!"
         }
     ],
+    "Zodiacs": [
+        {
+            "name": "Aries",
+            "image": "aries1.png"
+        },
+        {
+            "name": "Taurus",
+            "image": "taurus1.png"
+        },
+        {
+            "name": "Gemini",
+            "image": "gemini1.png"
+        },
+        {
+            "name": "Cancer",
+            "image": "cancer1.png"
+        },
+        {
+            "name": "Leo",
+            "image": "leo1.png"
+        },
+        {
+            "name": "Virgo",
+            "image": "virgo1.png"
+        },
+        {
+            "name": "Libra",
+            "image": "libra1.png"
+        },
+        {
+            "name": "Scorpio",
+            "image": "scorpio1.png"
+        },
+        {
+            "name": "Sagittarius",
+            "image": "sagittarius1.png"
+        },
+        {
+            "name": "Capricorn",
+            "image": "capricorn1.png"
+        },
+        {
+            "name": "Aquarius",
+            "image": "aquarius1.png"
+        },
+        {
+            "name": "Pisces",
+            "image": "pisces1.png"
+        }
+    ],
     "profileMetadataArray": [
         {
             "name": "gender",

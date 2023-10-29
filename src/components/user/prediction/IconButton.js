@@ -1,59 +1,51 @@
 import * as React from 'react';
-import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Image, StyleSheet, Text } from 'react-native';
 
 import inputStyles from '../../../styles/InputStyles';
 import colors from '../../../styles/colors';
 import designConstants from '../../../styles/designConstants';
 
-const IconButton = ({ icon, onSubmit }) => {
+const IconButton = ({ name, icon, onSubmit }) => {
+    console.log("IconButton name ", name, icon)
     return (
-        <View style={styles.buttonContainer}>
+
+        <View style={[styles.buttonContainer, styles.padding]}>
             <TouchableOpacity
-                style={styles.button}
-                onPress={onSubmit}
-            >
-                {icon}
+                style={[styles.buttonContainer]}
+                onPress={() => onSubmit(name)}> 
+
+                <Image
+                    source={icon}
+                    style={styles.imageStyle}
+                />
+                <Text style={inputStyles.text}>{name}</Text>
             </TouchableOpacity>
         </View>
+
+
     );
 };
-
-// const IconButton = ({ icon, onSubmit, style }) => {
-//     return (
-//         <View style={[{ flex: 1, alignItems: 'center', justifyContent: 'center' }, style]}>
-//             <TouchableOpacity onPress={onSubmit}>
-//                 <Image
-//                     source={icon}
-//                     style={{ width: 40, height: 40 }}
-//                 />
-//             </TouchableOpacity>
-//         </View>
-//     );
-// };
 
 const styles = StyleSheet.create({
     buttonContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1
+        aspectRatio: 1,
+        // borderWidth: 1,
+        // borderColor: "red"
     },
-    button: {
-        borderRadius: designConstants.borderRadius,
-        backgroundColor: colors.backdropColorLight,
+    padding: {
+        padding: 20,
+        
+    },
+    imageStyle: {
+        // aspectRatio: 1,
+        // resizeMode: 'contain'
         width: '100%',
-        height: designConstants.inputHeight,
-        justifyContent: 'center',
-        alignItems: 'center',
-        top: 15,
-    },
-    text: {
-        letterSpacing: 1,
-        textTransform: 'uppercase',
-        color: '#000',
-        textAlign: 'center',
-        fontSize: 16,
-        fontFamily: "Raleway-SemiBold",
-    },
+        height: '100%',
+        resizeMode: 'contain'
+    }
+
 });
 
 export default IconButton;

@@ -1,16 +1,24 @@
-import React from 'react';
-import { View, Text, FlatList, Image, ScrollView, StyleSheet } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
 
 import termsOfUseJson from '../../../static/json/termsOfUse.json';
 import inputStyles from '../../../styles/InputStyles';
 import colors from '../../../styles/colors';
 
 const PredictionList = ({ articles, onLoadMore, astrobotImages }) => {
-    console.log("PredictionList");
+    console.log("PredictionList ");
 
+    const scrollRef = useRef(null);
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTo({ x: 0, y: 0, animated: true });
+        }
+    }, [articles]);
+    
     return (
         <View style={styles.container}>
             <ScrollView
+                ref={scrollRef}
                 onScroll={({ nativeEvent }) => {
                     if (nativeEvent.contentOffset.y >= (nativeEvent.contentSize.height - nativeEvent.layoutMeasurement.height) * 0.9) {
                         onLoadMore();
@@ -46,6 +54,8 @@ const styles = StyleSheet.create({
         //backgroundColor: "grey",
         // borderWidth: 1,
         // borderColor: "red"
+        //borderRadius: 25,
+        
     },
     itemContainer: {
         marginHorizontal: 20,
@@ -53,13 +63,16 @@ const styles = StyleSheet.create({
         // borderColor: "red"
     },
     titleText: {
-        paddingRight: 20
+        paddingRight: 20,
+        
     },
     descriptionText: {
         textAlign: 'justify',
         paddingTop: 5,
         paddingBottom: 15,
-        textIndent: 20,
+        //backgroundColor: 'rgba(191, 171, 147, 0.25)',
+        // borderBottomLeftRadius: 25,
+        // borderBottomRightRadius: 25,
     },
     astrobotImage: {
         width: 50,
@@ -71,8 +84,10 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: 'rgba(191, 171, 147, 0.5)',
+        backgroundColor: 'rgba(191, 171, 147, 0.25)',
         borderRadius: 25,
+        // borderTopLeftRadius: 25,
+        // borderTopRightRadius: 25,
     },
     titleContainer: {
         flex: 1,
