@@ -6,10 +6,11 @@ import AstrologAIText from '../../common/AstrologAIText';
 import PredictionContent from './PredictionContent';
 import CalendarButtons from './CalendarButtons';
 import Zodiak from './Zodiak';
+import Menu from './Menu'
 
 import inputStyles from '../../../styles/InputStyles';
 import colors from '../../../styles/colors';
-import useAstrobotImages from '../../../hooks/loadAstrobotImages';
+
 import useButtonSelection from '../../../hooks/useButtonSelection';
 
 const buttonsBottom = [
@@ -33,7 +34,9 @@ const Prediction = ({ navigation }) => {
 
             {/* <PredictionContent /> */}
 
-            <Zodiak />
+            {/* <Zodiak /> */}
+
+            <Menu />
 
             <CalendarButtons
                 buttons={buttonsBottom}

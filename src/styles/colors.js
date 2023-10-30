@@ -19,11 +19,12 @@ const colors = {
     darkPurple: "#4B0082",
 
     blueBell: '#9593FB',
+    goldBell: '#FAFB93',
     greenMist: '#BDBF93',
     akaroa: '#BFAB93',
     norway: "#A7BF93",
-    rosyBrown: "#BF9593",
-    darkSeaGreen: "#93BF95",
+    rosyBrown: "#FB9393",
+    darkSeaGreen: "#93FB94",
 
     transparent: 'rgba(0, 0, 0, 0.5)',
 

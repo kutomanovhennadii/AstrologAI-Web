@@ -6,7 +6,7 @@ import colors from '../../../styles/colors';
 import designConstants from '../../../styles/designConstants';
 
 const IconButton = ({ name, icon, onSubmit }) => {
-    console.log("IconButton name ", name, icon)
+    //console.log("IconButton name ", name, icon)
     return (
 
         <View style={[styles.buttonContainer, styles.padding]}>
