@@ -13,8 +13,25 @@ import { getComponentByName, getAdditionalPropsByName } from './getComponent'
 import CustomForm from '../../common/CustomForm';
 import { componentInstaller } from '../../../utils/componentInstaller';
 
+import { useUser } from '../../../context/UserContext';
+
 // Основной компонент формы профиля
 const ProfileForm = ({ onSubmit }) => {
+    const { user, setUser } = useUser();
+
+    const onSubmitForm = (value) => {
+        setUser(prevUser => ({
+            ...prevUser,
+            gender: value.gender,
+            birthDate: value.birthDate,
+            birthTime: value.birthTime,
+            birthCountry: value.birthCountry,
+            birthCity: value.birthCity,
+            biography: value.biography,
+        }));
+        onSubmit();
+    }
+    const submitText = user.registrated ? "Select" : "Continue";
 
     // Загрузка метаданных полей из JSON
     const fieldMetadataArray = appConfig["profileMetadataArray"];
@@ -58,15 +75,16 @@ const ProfileForm = ({ onSubmit }) => {
                 refs={refs}
                 removeFocusFromAll={removeFocusFromAll}
                 initialValues={{
-                    gender: '',
-                    birthDate: '',
-                    birthTime: "",
-                    birthCountry: "",
-                    birthCity: "",
-                    biography: '',
+                    gender: user.gender,
+                    birthDate: user.birthDate,
+                    birthTime: user.birthTime,
+                    birthCountry: user.birthCountry,
+                    birthCity: user.birthCity,
+                    biography: user.biography,
                 }}
                 validationSchema={profileValidationSchema}
                 onSubmit={onSubmit}
+                submitText={submitText}
             />
         </View>
     );

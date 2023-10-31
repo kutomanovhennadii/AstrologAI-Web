@@ -14,24 +14,29 @@ import AstroBots from './src/components/user/astrobots/Astrobots'
 import StartPage from './src/components/user/StartPage'
 import Prediction from './src/components/user/prediction/Prediction';
 
+import { UserProvider } from './src/context/UserContext';
+
 
 const App = () => {
   const topOffset = 0;
 
   return (
-    <BackgroundImage>
-      {/* <StartPage /> */}
-      {/* <Terms /> */}
-      {/* <UserGate /> */}
-      {/* <GreetingForm /> */}
-      {/* <SignIn /> */}
-      {/* <SignUp /> */}
-      {/* <Verification /> */}
-      {/* <Subscription /> */}
-      {/* <AstroBots /> */}
-      {/* <UserBase /> */}
-      <Prediction />
-    </BackgroundImage>
+    <UserProvider>
+      <BackgroundImage>
+        {/* <StartPage /> */}
+        {/* <Terms /> */}
+        {/* <UserGate /> */}
+        {/* <GreetingForm /> */}
+        {/* <SignIn /> */}
+        {/* <SignUp /> */}
+        {/* <Verification /> */}
+        {/* <Subscription /> */}
+        {/* <AstroBots /> */}
+        {/* <UserBase /> */}
+        <Prediction />
+      </BackgroundImage>
+    </UserProvider>
+
   );
 };
 

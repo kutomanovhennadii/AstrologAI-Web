@@ -9,10 +9,12 @@ import designConstants from '../../../styles/designConstants';
 import colors from '../../../styles/colors';
 
 const imageContext = require.context('../../../static/image', true);
+import { useUser } from '../../../context/UserContext';
 
-const Astrobots = () => {
+const Astrobots = ({ onSubmit }) => {
     const [astrobotImages, setAstrobotImages] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
+    const { user, setUser } = useUser();
 
     // Загрузка изображений 
     const astrobots = appConfig.Astrobots;
@@ -31,9 +33,20 @@ const Astrobots = () => {
                 image={astrobotImages[item.name]}
                 name={item.name}
                 description={item.description}
+                onSubmit={onSelectAstrobot}
             />
         );
     };
+
+    const onSelectAstrobot = ( name ) => 
+    {
+        console.log("Astrobot ", name, " selected");
+        setUser(prevUser => ({
+            ...prevUser,
+            astrobot: name
+        }));
+        onSubmit();
+    }
 
     // Обновление номера страницы
     const onViewableItemsChanged = useCallback(({ viewableItems }) => {

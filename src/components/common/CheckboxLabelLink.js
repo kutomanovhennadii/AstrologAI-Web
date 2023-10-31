@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { Text, StyleSheet, TouchableOpacity, Keyboard, View } from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import inputStyles from '../../styles/InputStyles';
 import designConstants from '../../styles/designConstants';
-
+import colors from '../../styles/colors';
 
 import PromptWithActionLink from './PromptWithActionLink';
 
@@ -11,7 +12,7 @@ const CheckboxLabelLink = React.forwardRef((props, ref) => {
     //console.log("Props and ref in CheckboxLabelLink:", props, ref);
     const { name, label, placeholder, field, form, removeFocusFromAll, validate, onLinkPress } = props;
     const [isFocused, setFocused] = useState(false);
-    console.log("Render CheckboxLabelLink:");
+    //console.log("Render CheckboxLabelLink:");
 
 
     useImperativeHandle(ref, () => ({
@@ -36,7 +37,7 @@ const CheckboxLabelLink = React.forwardRef((props, ref) => {
             setFocused(true);
         }
 
-        console.log("toggleCheckbox, isFocused", isFocused);
+        //console.log("toggleCheckbox, isFocused", isFocused);
     };
 
     return (
@@ -62,7 +63,11 @@ const CheckboxLabelLink = React.forwardRef((props, ref) => {
                 ref={ref}
             >
                 <View style={[inputStyles.border, styles.checkbox, styles.center, isFocused ? inputStyles.focused : null]}>
-                    <Text style={[styles.icon]}>{field.value ? '✔️' : ''}</Text>
+                    {/* <Text style={[styles.icon]}>{field.value ? '✔️' : ''}</Text> */}
+                    <MaterialCommunityIcons
+                        name="check-bold"
+                        color={field.value ? colors.blueBell : "transparent"}
+                        style={styles.icon} />
                 </View>
                 <View style={styles.center}>
                     <PromptWithActionLink
@@ -90,26 +95,17 @@ const styles = StyleSheet.create({
     },
     checkbox: {
         width: designConstants.inputHeight,
+        overflow: 'visible'
     },
 
     icon: {
-        fontSize: 26,
+        fontSize: 60,
+        margin: -20
     },
     center: {
         justifyContent: 'center',
         alignItems: 'center',
     },
-    // text: {
-    //     marginLeft: 8,
-    //     color: '#1976d2',
-    // },
-    // errorText: {
-    //     fontSize: 12,
-    //     color: "red",
-    //     textAlign: "left",
-    //     marginTop: 5,
-    // },
-
 });
 
 export default CheckboxLabelLink;

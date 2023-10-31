@@ -10,10 +10,11 @@ import colors from '../../../styles/colors';
 
 const screenWidth = Dimensions.get('window').width;
 
-const AstrobotPage = ({ name, image, description }) => {
+const AstrobotPage = ({ name, image, description, onSubmit }) => {
 
-    const navigateToNextPage = () => {
-        console.log("Навигация на страницу " + name);
+    const selectAstrobot = () => {
+        //console.log("Selected astrobot ", name)
+        onSubmit(name);
     };
 
     const [fontLoaded, setFontLoaded] = useState(false); // Новое состояние
@@ -47,7 +48,7 @@ const AstrobotPage = ({ name, image, description }) => {
                 <Text style={[inputStyles.text, styles.description]}>{description}</Text>
             </View>
             <View style={styles.submitFrame}>
-                <SubmitButton text="Select your astrobot" onSubmit={navigateToNextPage} />
+                <SubmitButton text="Select your astrobot" onSubmit={selectAstrobot} />
             </View>
         </View>
     );

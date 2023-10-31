@@ -6,10 +6,10 @@ import colors from '../../styles/colors';
 import designConstants from '../../styles/designConstants';
 
 const GenderPicker = forwardRef(({ onSelect, removeFocusFromAll, name, label, form, field }, ref) => {
-    const [selectedGender, setSelectedGender] = useState(''); // Стейт для выбранного пола
+    const [selectedGender, setSelectedGender] = useState(field.value || ''); // Стейт для выбранного пола
     const [isFocused, setFocused] = useState(false);
 
-    //console.log("Render GenderPicker");
+    //console.log("Render GenderPicker, field = ", field);
 
     useImperativeHandle(ref, () => ({
         removeFocus: () => {

@@ -32,7 +32,7 @@ const prediction = {
 }
 
 
-const PredictionContent = ({ }) => {
+const PredictionContent = ({ selectedZodiac }) => {
     const [selectedTop, handleSelectionChangeTop] = useButtonSelection(buttonsTop);
 
     const astrobotImages = useAstrobotImages();
@@ -45,7 +45,7 @@ const PredictionContent = ({ }) => {
         console.log("PredictionContent onLoadMore");
     };
 
-    console.log("Render PredictionContent");
+    //console.log("Render PredictionContent, selectedZodiac", selectedZodiac);
 
     return (
         <View style={[inputStyles.size100, { flex: 1 }]}>
@@ -59,7 +59,9 @@ const PredictionContent = ({ }) => {
                 <PredictionList
                     articles={getArticlesByKey([prediction, prediction], selectedTop)}
                     onLoadMore={onLoadMore}
-                    astrobotImages={astrobotImages} />
+                    astrobotImages={astrobotImages}
+                    selectedZodiac={selectedZodiac}
+                />
             </View >
         </View>
     );

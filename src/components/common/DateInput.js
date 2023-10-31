@@ -7,7 +7,7 @@ import colors from '../../styles/colors';
 
 const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, name, placeholder }, ref) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [selectedDate, setSelectedDate] = useState( '');
+    const [selectedDate, setSelectedDate] = useState(new Date(field.value || new Date()));
     const [isFocused, setFocused] = useState(false);  // Добавлено новое состояние
 
     //console.log("Render DateInput", field.name, form.errors)
@@ -16,7 +16,7 @@ const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
         setShowDatePicker(Platform.OS === 'ios');
         if (selectedDate) {
             setSelectedDate(selectedDate);
-            form.setFieldValue(field.name, selectedDate);
+            form.setFieldValue(field.name, selectedDate.toISOString().split('T')[0]);
             form.setFieldTouched(field.name, true);
         }
     };
@@ -59,7 +59,7 @@ const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
                                 !selectedDate ? { color: colors.placeholderTextColor } : {}
                             ]}
                         >
-                            {selectedDate ? selectedDate.toDateString() : `${placeholder}`}
+                            {selectedDate instanceof Date ? selectedDate.toISOString().split('T')[0] : `${placeholder}`}
                         </Text>
                     </View>
                 </View>

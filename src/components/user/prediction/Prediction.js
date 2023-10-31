@@ -7,9 +7,14 @@ import PredictionContent from './PredictionContent';
 import CalendarButtons from './CalendarButtons';
 import Zodiak from './Zodiak';
 import Menu from './Menu'
+import Profile from '../profile/Profile'
 
 import inputStyles from '../../../styles/InputStyles';
 import colors from '../../../styles/colors';
+
+import LanguageForm from '../language/LanguageForm';
+import ContentSelector from '../content/ContentSelector'
+import { useUser } from '../../../context/UserContext';
 
 import useButtonSelection from '../../../hooks/useButtonSelection';
 
@@ -20,7 +25,18 @@ const buttonsBottom = [
 ];
 
 const Prediction = ({ navigation }) => {
+    const { user, setUser } = useUser();
     const [selectedBottom, handleSelectionChangeBottom] = useButtonSelection(buttonsBottom);
+    const [selectedZodiac, setSelectedZodiac] = useState(null);
+
+    const handleZodiacSelection = (zodiacName) => {
+        setSelectedZodiac(zodiacName);
+        handleSelectionChangeBottom("");
+        setUser(prevUser => ({
+            ...prevUser,
+            zodiacSign: zodiacName
+        }));
+    };
 
     console.log("Render Prediction");
 
@@ -32,11 +48,23 @@ const Prediction = ({ navigation }) => {
                 </View>
             </Container>
 
+            {selectedBottom === 'Person' && <PredictionContent />}
+            {selectedBottom === '' && <PredictionContent selectedZodiac={selectedZodiac} />}
+            {selectedBottom === 'Zodiac' && <Zodiak onZodiacSelected={handleZodiacSelection} />}
+
+            {selectedBottom === 'Menu' && <Menu />}
             {/* <PredictionContent /> */}
 
             {/* <Zodiak /> */}
 
-            <Menu />
+            {/* <Menu /> */}
+
+            {/* <LanguageForm /> */}
+            {/* <ContentSelector /> */}
+
+
+            {/* <Profile /> */}
+            
 
             <CalendarButtons
                 buttons={buttonsBottom}

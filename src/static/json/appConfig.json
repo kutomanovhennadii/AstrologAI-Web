@@ -236,5 +236,59 @@
             "component": "CheckboxLabelLink",
             "placeholder": "the terms of using"
         }
+    ],
+    "languageMetadataArray": [
+        {
+            "name": "language",
+            "label": "Select your language",
+            "screenOffset": 1,
+            "component": "FilteredPicker"
+        }
+    ],
+    "contentMetadataArray": [
+        {
+            "name": "generalContent",
+            "label": "  General Overview ",
+            "screenOffset": 0,
+            "component": "CheckboxLabelLink"
+        },
+        {
+            "name": "businessContent",
+            "label": "  Business and Career ",
+            "screenOffset": 0,
+            "component": "CheckboxLabelLink"
+        },
+        {
+            "name": "relationContent",
+            "label": "  Family and Relationships ",
+            "screenOffset": 0,
+            "component": "CheckboxLabelLink"
+        },
+        {
+            "name": "healthContent",
+            "label": "  Health and Well-being ",
+            "screenOffset": 0,
+            "component": "CheckboxLabelLink"
+        },
+        {
+            "name": "aspectsContent",
+            "label": "  Full Aspect Descriptions ",
+            "screenOffset": 0,
+            "component": "CheckboxLabelLink"
+        }
+    ],
+    "languageList": [
+        {
+            "name": "English",
+            "symbol": "en"
+        },
+        {
+            "name": "Русский",
+            "symbol": "ru"
+        },
+        {
+            "name": "Український",
+            "symbol": "uk"
+        }
     ]
 }

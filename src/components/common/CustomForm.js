@@ -9,13 +9,12 @@ const CustomForm = ({
     removeFocusFromAll,
     initialValues,
     validationSchema,
-    onSubmit
+    onSubmit,
+    submitText
 }) => {
-    // console.log('Начало рендера DynamicForm.');
 
-    // useEffect(() => {
-    //     console.log("Parent component re-rendered");
-    // });
+    if (!submitText)
+        submitText = "CONTINUE";
 
     return (
         <Formik
@@ -46,6 +45,7 @@ const CustomForm = ({
                                                 label: fieldConfig.label,
                                                 field: field,
                                                 type: fieldConfig.type,
+                                                initialValue: field.value,
                                                 form: form,
                                                 ref: refs[fieldConfig.name],
                                                 removeFocusFromAll: removeFocusFromAll,
@@ -65,7 +65,7 @@ const CustomForm = ({
                             );
                         })}
                         <SubmitButton
-                            text="Continue"
+                            text={submitText}
                             onSubmit={handleSubmit}
                         />
                     </View>

@@ -7,8 +7,13 @@ import colors from '../../../styles/colors';
 import useZodiacImages from '../../../hooks/useZodiacImages';
 
 
-const Zodiak = () => {
+const Zodiak = ({ onZodiacSelected }) => {
     const zodiacImages = useZodiacImages();
+
+    const handleIconButtonClick = (name) => {
+        console.log(name);
+        onZodiacSelected(name);
+    };
 
     console.log("Render Zodiak");
 
@@ -20,7 +25,7 @@ const Zodiak = () => {
                         <IconButton
                             name={zodiacName}
                             icon={zodiacImages[zodiacName]}
-                            onSubmit={(name) => { console.log(name) }}
+                            onSubmit={handleIconButtonClick}
                         />
                     </View>
                 ))}

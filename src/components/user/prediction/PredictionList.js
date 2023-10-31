@@ -5,8 +5,8 @@ import termsOfUseJson from '../../../static/json/termsOfUse.json';
 import inputStyles from '../../../styles/InputStyles';
 import colors from '../../../styles/colors';
 
-const PredictionList = ({ articles, onLoadMore, astrobotImages }) => {
-    console.log("PredictionList ");
+const PredictionList = ({ articles, onLoadMore, astrobotImages, selectedZodiac }) => {
+    //console.log("PredictionList ", selectedZodiac);
 
     const scrollRef = useRef(null);
     useEffect(() => {
@@ -34,7 +34,7 @@ const PredictionList = ({ articles, onLoadMore, astrobotImages }) => {
                                 style={styles.astrobotImage}
                             />
                             <View style={styles.titleContainer}>
-                                <Text style={[inputStyles.titleText, styles.titleText]}>{item.title}</Text>
+                                <Text style={[inputStyles.titleText, styles.titleText]}>{selectedZodiac } {item.title}</Text>
                             </View>
                         </View>
                         <Text style={[inputStyles.text, styles.descriptionText]}>{item.description}</Text>

@@ -92,7 +92,7 @@ export const useScreenOffsetControl = () => {
 
     // Установка смещения поля ввода
     const setFieldOffset = (value) => {
-        console.log("setFieldOffset ", value);
+        //console.log("setFieldOffset ", value);
         inputFieldOffset.current = value;
         recalculateScreenOffset();
     };
@@ -122,7 +122,7 @@ export const useScreenOffsetControl = () => {
 
         // Вычисляем исправленное значение смещения
         // Если клавиатура видима, добавляем к базовому значению смещение поля ввода
-        //const correctedValue = baseValue + (keyboardVisibleRef.current ? inputFieldOffset.current : 0);
+        let correctedValue = 0;
         if (inputFieldOffset.current <= 0) {
             correctedValue = baseValue + (keyboardVisibleRef.current ? inputFieldOffset.current : 0);
         } else if (baseValue < 0) {
@@ -133,16 +133,16 @@ export const useScreenOffsetControl = () => {
         updateScreenOffset(correctedValue);
 
         //Выводим отладочную информацию
-        console.log(
-            "recalculateScreenOffset: keyboardVisible =", keyboardVisibleRef.current,
-            "\n                         dynamicContentHeightRef =", dynamicContentHeightRef.current,
-            "\n                         standartContextHightRef =", standardContextHeightRef.current,
-            "\n                         baseValue =", baseValue,
-            "\n                         Delta =", delta,
-            "\n                         CorrectedValue =", correctedValue,
-            "\n                         MaximalScreenOffset =", maxScreenOffsetRef.current,
-            "\n                         ScreenOffset =", currentScreenOffsetRef.current
-        );
+        // console.log(
+        //     "recalculateScreenOffset: keyboardVisible =", keyboardVisibleRef.current,
+        //     "\n                         dynamicContentHeightRef =", dynamicContentHeightRef.current,
+        //     "\n                         standartContextHightRef =", standardContextHeightRef.current,
+        //     "\n                         baseValue =", baseValue,
+        //     "\n                         Delta =", delta,
+        //     "\n                         CorrectedValue =", correctedValue,
+        //     "\n                         MaximalScreenOffset =", maxScreenOffsetRef.current,
+        //     "\n                         ScreenOffset =", currentScreenOffsetRef.current
+        // );
     };
 
     // Возвращаем все необходимые параметры и методы

@@ -8,14 +8,14 @@ import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
 
 const FilteredPicker = forwardRef((props, ref) => {
-    // console.log("Render FilteredPicker, field = ", field);
+    //console.log("Render FilteredPicker, field = ", field);
 
-    const { label, options, removeFocusFromAll, name, validate, onSelect, form, placeholder } = props;
+    const { label, options, removeFocusFromAll, name, validate, onSelect, form, placeholder, initialValue } = props;
     const [isFocused, setFocused] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState(options);
-    const [inputValue, setInputValue] = useState('');
+    const [inputValue, setInputValue] = useState(initialValue);
 
-    //console.log("Render FilteredPicker, form = ", form.errors);
+    //console.log("Render FilteredPicker, filteredOptions = ", filteredOptions);
 
     useImperativeHandle(ref, () => ({
         removeFocus: () => {
@@ -76,23 +76,25 @@ const FilteredPicker = forwardRef((props, ref) => {
                             style={[inputStyles.border, styles.listContainer]}
                             data={filteredOptions}
                             keyExtractor={(item, index) => index.toString()}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    style={[styles.listItem]}
-                                    onPress={() => {
-                                        Keyboard.dismiss();
-                                        console.log("Selected ", item.value);
-                                        form.setFieldValue(field.name, item.value);
-                                        removeFocusFromAll(ref);
-                                        //setFocused(false);
-                                        setInputValue(item.label);
-                                        onSelect(item.label);
-                                    }}
-
-                                >
-                                    <Text style={inputStyles.text}>{item.label}</Text>
-                                </TouchableOpacity>
-                            )}
+                            renderItem={({ item }) => {
+                                //console.log(item);  // Вывод значения item в консоль
+                                return (
+                                    <TouchableOpacity
+                                        style={[styles.listItem]}
+                                        onPress={() => {
+                                            Keyboard.dismiss();
+                                            console.log("Selected ", item.value);
+                                            form.setFieldValue(field.name, item.value);
+                                            removeFocusFromAll(ref);
+                                            //setFocused(false);
+                                            setInputValue(item.label);
+                                            onSelect(item.label);
+                                        }}
+                                    >
+                                        <Text style={inputStyles.text}>{item.label}</Text>
+                                    </TouchableOpacity>
+                                );
+                            }}
                         />
                     )}
 
@@ -117,6 +119,7 @@ const styles = StyleSheet.create({
     },
     listItem: {
         paddingVertical: 3,
+        //color: "white"
     },
 });
 
