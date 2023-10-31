@@ -6,151 +6,148 @@ import FeatureBox from '../../common/FeatureBox';
 import Container from '../../common/Container';
 import SubmitButton from '../../common/SubmitButton';
 
+import inputStyles from '../../../styles/InputStyles';
+import colors from '../../../styles/colors';
+import designConstants from '../../../styles/designConstants';
+
+import { useUser } from '../../../context/UserContext';
+
 const { width, height } = Dimensions.get('window');
 
-const SubscriptionPage = ({ data }) => {
-    console.log("Render SubscriptionPage " + data);
+const SubscriptionPage = ({ data, onSubmit }) => {
+    //console.log("Render SubscriptionPage " + data);
+
+    const { user, setUser } = useUser();
 
     // Извлечение данных из data
     const { Title, PerMonth, PerYear, Items, Description } = data;
 
-    const navigateToNextPage = () => {
-        console.log("Навигация на следующую страницу");
+    const onSubmitSubscription = (buttonType) => {
+        //console.log(`Button ${buttonType} was clicked`);
+        setUser(prevUser => ({
+            ...prevUser,
+            subsciptionType: Title,
+            subsciptionPerMonth: buttonType === "monthly" ? PerMonth : 0,
+            subscriptionPerYear: buttonType === "monthly" ? 0 : PerYear
+        }));
+
+        onSubmit();
     };
 
     return (
-        <>
-            <View style={styles.container}>
-                <Container topOffset={4}>
-                    <Text style={styles.premium}>{Title}</Text>
-                </Container>
+        <View style={{ flex: 1 }} >
+            <View style={[styles.container]}>
+                <Text style={[inputStyles.titleText, styles.title]}>{Title}</Text>
 
-                <Container topOffset={18}>
-
+                <Container topOffset={16}>
                     {PerMonth == 0 ? (
-                        <Text style={styles.pricing1}>{`${PerMonth}$ / month`}</Text>
+                        <Text style={[inputStyles.text, styles.font20, styles.pricing1]}>{`${PerMonth}$ / month`}</Text>
                     ) : (
-
                         <View style={styles.rowContainer}>
-                            <Text style={styles.pricing}>{`${PerMonth}$ / month`}</Text>
-                            <Text style={styles.or}>or</Text>
-                            <Text style={styles.pricing}>{`${PerYear}$ / year`}</Text>
+                            <Text style={[inputStyles.text, styles.font20, styles.pricing]}>{`${PerMonth}$ / month`}</Text>
+                            <Text style={[inputStyles.text, styles.font20]}>or</Text>
+                            <Text style={[inputStyles.text, styles.font20, styles.pricing]}>{`${PerYear}$ / year`}</Text>
                         </View>
-
                     )}
-
                 </Container >
 
-                <Text style={styles.forecastType}>Forecast type</Text>
+                <Text style={[inputStyles.text, styles.forecastType]}>Forecast type</Text>
                 <View style={styles.featuresContainer}>
                     {Object.entries(Items).map(([key, value], index) => (
                         <FeatureBox key={index} label={key} isChecked={value === 'true'} />
                     ))}
                 </View>
-                <Text style={styles.description}>{Description}</Text>
+                <Text style={[inputStyles.text, styles.description]}>{Description}</Text>
             </View >
 
             <View style={styles.submitFrame}>
                 {PerMonth == 0 ? (
                     <View style={styles.submitButton} >
-                        <SubmitButton text="Select" onSubmit={navigateToNextPage} />
+                        <SubmitButton
+                            text="Select"
+                            onSubmit={() => onSubmitSubscription("monthly")} />
                     </View>
                 ) : (
                     <>
                         <View style={styles.submitButton} >
-                            <SubmitButton text="Select monthly" onSubmit={navigateToNextPage} />
+                            <SubmitButton
+                                text="Select monthly"
+                                onSubmit={() => onSubmitSubscription("monthly")} />
                         </View>
                         <View style={styles.submitButton} >
-                            <SubmitButton text="Select yearly" onSubmit={navigateToNextPage} />
+                            <SubmitButton
+                                text="Select yearly"
+                                onSubmit={() => onSubmitSubscription("yearly")} />
                         </View>
                     </>
-
-
                 )}
-
-
-
-
-
             </View>
-        </>
+        </View >
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         padding: 16,
-        borderRadius: 16,
-        borderStyle: "solid",
-        borderColor: "#1877f2",
-        borderWidth: 2,
-        flex: 1,
         width: width - 40,
-        height: height - 250,
-        overflow: "hidden",
+        height: height - 280,
         marginHorizontal: 20,
-        marginTop: 100,
-        marginBottom: 120,
+        marginTop: 30,
+        borderRadius: designConstants.borderRadius,
+        borderColor: colors.blueBell,
+        borderWidth: designConstants.borderWidth,
+        paddingHorizontal: designConstants.paddingHorizontal,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     rowContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between', // если нужно разделить пространство между элементами
-
+        justifyContent: 'space-between',
     },
-    premium: {
+    title: {
         fontSize: 28,
-        color: "#fff",
-        fontWeight: "600",
-        textAlign: "center"
+        textAlign: "center",
+        paddingTop: 16,
+        fontFamily: "Raleway-SemiBold",
+        color: colors.darkSeaGreen,
     },
     pricing: {
-        fontSize: 20,
-        color: "#1877f2",
-        fontWeight: "600",
+        color: colors.blueBell,
         marginHorizontal: 10,
     },
     pricing1: {
-        fontSize: 20,
-        color: "#1877f2",
-        fontWeight: "600",
-        //marginHorizontal: 10,
+        color: colors.blueBell,
         textAlign: "center"
     },
-
-    or: {
+    font20: {
         fontSize: 20,
-        color: "#fff",
-        fontWeight: "600",
-        //width: 150, // установить фиксированную ширину
-        //marginHorizontal: 30,
+        fontFamily: "Raleway-SemiBold",
     },
     forecastType: {
         fontSize: 18,
-        marginTop: 16,
-        color: "#fff",
-        fontWeight: "bold",
-        letterSpacing: 1,
+        marginTop: 14,
+        //fontWeight: "bold",
+        //letterSpacing: 1,
     },
     featuresContainer: {
         marginTop: 16,
     },
     description: {
         marginTop: 16,
-        fontSize: 16,
-        color: "#fff",
         flexWrap: 'wrap',
+        textAlign: 'justify',
     },
     submitFrame: {
-        position: 'absolute',
-        bottom: 50,
-        left: 20,
+        left: 16,
         right: 20,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        // borderColor: "red",
+        // borderWidth: 1,
+        width: width - 30
     },
     submitButton: {
         flex: 1, // Для равной широны
-        marginHorizontal: 2.5, // Половина просвета между кнопками
+        marginHorizontal: 5, // Половина просвета между кнопками
     },
 });
 

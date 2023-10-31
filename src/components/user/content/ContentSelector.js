@@ -52,7 +52,7 @@ const ContentSelector = ({ onSubmit }) => {
         // }
     }));
 
-    onSubmit = (value) => {
+    const onSubmitForm = (value) => {
         console.log("value = ", value)
         setUser(prevUser => ({
             ...prevUser,
@@ -62,6 +62,7 @@ const ContentSelector = ({ onSubmit }) => {
             healthContent: value.healthContent,
             aspectsContent: value.aspectsContent
         }));
+        onSubmit();
     }
 
     return (
@@ -71,21 +72,21 @@ const ContentSelector = ({ onSubmit }) => {
             </Text>
             {/* <View {...panResponder.panHandlers}
             > */}
-                <CustomForm
-                    fieldsConfig={fieldsConfig}
-                    refs={refs}
-                    removeFocusFromAll={removeFocusFromAll}
-                    initialValues={{
-                        generalContent: user.generalContent,
-                        businessContent: user.businessContent,
-                        relationContent: user.relationContent,
-                        healthContent: user.healthContent,
-                        aspectsContent: user.aspectsContent
-                    }}
-                    //validationSchema={languageValidationSchema}
-                    onSubmit={onSubmit}
-                    submitText="Select"
-                />
+            <CustomForm
+                fieldsConfig={fieldsConfig}
+                refs={refs}
+                removeFocusFromAll={removeFocusFromAll}
+                initialValues={{
+                    generalContent: user.generalContent,
+                    businessContent: user.businessContent,
+                    relationContent: user.relationContent,
+                    healthContent: user.healthContent,
+                    aspectsContent: user.aspectsContent
+                }}
+                //validationSchema={languageValidationSchema}
+                onSubmit={onSubmitForm}
+                submitText="Select"
+            />
             {/* </View> */}
         </View>
 

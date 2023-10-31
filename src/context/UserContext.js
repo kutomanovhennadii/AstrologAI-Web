@@ -21,6 +21,9 @@ export const UserProvider = ({ children }) => {
         birthCountry: "Ukraine",
         birthCity: "Kharkov",
         biography: '',
+        subsciptionType: 'Premium',
+        subsciptionPerMonth: 0,
+        subscriptionPerYear: 0
     });
 
     // Следим за изменениями состояния `user` и выводим его в консоль

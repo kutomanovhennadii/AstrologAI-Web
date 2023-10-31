@@ -30,7 +30,7 @@
                 "AstroBot Selection": "true",
                 "Date Selection": "false"
             },
-            "Description": "Experience astrology at no cost with our FREE plan. Enjoy monthly forecasts for the next three months and immediate AstroBot switching for your zodiac sign. Note: Individual daily and weekly forecasts not included."
+            "Description": "Experience astrology at no cost with our FREE plan. Enjoy monthly forecasts for the next three months and immediate AstroBot switching for your zodiac sign. Note: Individual daily and weekly forecasts not included.\n\n "
         },
         {
             "Title": "Standart",
@@ -44,7 +44,7 @@
                 "AstroBot Selection": "true",
                 "Date Selection": "false"
             },
-            "Description": "Upgrade to the STANDART plan for tailored astrological insights. Get daily to monthly forecasts for you or your zodiac sign. Switch AstroBots on-the-go for fresh, next-day perspectives. Past dates are just a scroll away in your feed. Note: Date selection not included."
+            "Description": "Upgrade to the STANDART plan for tailored astrological insights. Get daily to monthly forecasts for you or your zodiac sign. Switch AstroBots on-the-go for fresh, next-day perspectives. Past dates are just a scroll away in your feed. Note: Date selection not included.\n"
         },
         {
             "Title": "Premium",

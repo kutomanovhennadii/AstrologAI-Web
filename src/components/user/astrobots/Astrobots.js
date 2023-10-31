@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         bottom: 20
     },
-    activeDot: { backgroundColor: 'white' },
+    activeDot: { backgroundColor: colors.textColor },
     inactiveDot: { backgroundColor: '#888' },
 });
 

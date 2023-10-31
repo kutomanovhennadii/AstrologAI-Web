@@ -13,7 +13,7 @@ const GreetingForm = () => {
     const [currentPage, setCurrentPage] = useState(0);
 
     const images = {
-        "Welcome": require('../../../static/image/midjourneycat_by_Bess_Hamiti_Starry_sky_realistic_photo.png'), 
+        "Welcome": require('../../../static/image/midjourneycat_by_Bess_Hamiti_Starry_sky_realistic_photo.png'),
         "Daily": require('../../../static/image/midjourneycat_by_Goya_Starry_sky_realistic_photo.png'),
         "Horoscope": require('../../../static/image/midjourneycat_by_Sara_Andreasson_Starry_sky_realistic_photo.png'),
         // ...
@@ -24,7 +24,7 @@ const GreetingForm = () => {
         return (
             <GreetingPage
                 //imageSource={require('../../../static/image/midjourneycat_by_Bess_Hamiti_Starry_sky_realistic_photo.png')}
-                imageSource={images[item.name]} 
+                imageSource={images[item.name]}
                 headerText={item.headerText}
                 bodyText={item.bodyText}
             />
@@ -62,7 +62,7 @@ const GreetingForm = () => {
                     }}
                 />
             </View>
- 
+
             <View style={styles.paginationDots}>
                 {appConfig.GreetingPage.map((_, i) => {
                     //console.log(`Rendering dot with index: ${i}, current page: ${currentPage}`);
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         position: 'absolute',
-        bottom: 120,   
+        bottom: 120,
         left: 0,
         right: 0,
     },
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         bottom: 20
     },
-    activeDot: { backgroundColor: 'white' },
+    activeDot: { backgroundColor: colors.textColor },
     inactiveDot: { backgroundColor: '#888' },
 });
 

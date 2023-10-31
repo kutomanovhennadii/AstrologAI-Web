@@ -51,20 +51,7 @@ const Prediction = ({ navigation }) => {
             {selectedBottom === 'Person' && <PredictionContent />}
             {selectedBottom === '' && <PredictionContent selectedZodiac={selectedZodiac} />}
             {selectedBottom === 'Zodiac' && <Zodiak onZodiacSelected={handleZodiacSelection} />}
-
             {selectedBottom === 'Menu' && <Menu />}
-            {/* <PredictionContent /> */}
-
-            {/* <Zodiak /> */}
-
-            {/* <Menu /> */}
-
-            {/* <LanguageForm /> */}
-            {/* <ContentSelector /> */}
-
-
-            {/* <Profile /> */}
-            
 
             <CalendarButtons
                 buttons={buttonsBottom}

@@ -4,15 +4,20 @@ import { View, FlatList, StyleSheet } from 'react-native';
 import appConfig from '../../../static/json/appConfig.json';
 import SubscriptionPage from './SubscriptionPage'
 
-const Subscription = () => {
+import inputStyles from '../../../styles/InputStyles';
+import colors from '../../../styles/colors';
+
+const Subscription = ({ onSubmit }) => {
     const [currentPage, setCurrentPage] = useState(0);
 
     //console.log(appConfig.Subscribtion);  
 
     const renderItem = ({ item }) => {
-        console.log("Rendering item with header text: " + item);
+        //console.log("Rendering item with header text: " + item); 
         return (
-            <SubscriptionPage data={item}
+            <SubscriptionPage
+                data={item}
+                onSubmit={onSubmitForm}
             />
         );
     };
@@ -24,13 +29,14 @@ const Subscription = () => {
         }
     }, []);
 
-    const navigateToNextPage = () => {
-        console.log("Навигация на следующую страницу");
+    const onSubmitForm = () => {
+        console.log("Subscription onSubmitForm");
+        onSubmit()
     };
 
     //console.log("Render GreetingForm, currentPage = " + currentPage);
     return (
-        <View style={styles.container}>
+        <View style={[styles.container]}>
             <View>
                 <FlatList
                     horizontal
@@ -86,7 +92,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         position: 'absolute',
-        bottom: 20,
+        bottom: 0, 
         left: 0,
         right: 0,
     },
@@ -97,7 +103,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         bottom: 20
     },
-    activeDot: { backgroundColor: 'white' },
+    activeDot: { backgroundColor: colors.textColor }, 
     inactiveDot: { backgroundColor: '#888' },
 });
 

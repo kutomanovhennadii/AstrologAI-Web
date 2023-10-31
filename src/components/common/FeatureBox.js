@@ -1,13 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import inputStyles from '../../styles/InputStyles';
+import colors from '../../styles/colors';
+import designConstants from '../../styles/designConstants';
+
 const FeatureBox = ({ label, isChecked }) => {
     return (
         <View style={styles.container}>
             <View style={[styles.box, isChecked ? styles.checked : null]}>
                 {isChecked && <Text style={styles.tick}>✔</Text>}
             </View>
-            <Text style={styles.label}>{label}</Text>
+            <Text style={[inputStyles.text, styles.label]}>{label}</Text>
         </View>
     );
 };
@@ -32,16 +36,10 @@ const styles = StyleSheet.create({
         //backgroundColor: 'opasity',
     },
     tick: {
-        color: 'green',
+        color: colors.darkSeaGreen,
         fontWeight: 'bold',
     },
     label: {
-        fontSize: 16,
-        letterSpacing: 1,
-        fontWeight: '500',
-        fontFamily: 'Roboto',
-        color: '#fff',
-        textAlign: 'left',
         marginLeft: 16,
     },
 });

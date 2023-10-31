@@ -5,9 +5,11 @@ import inputStyles from '../../../styles/InputStyles';
 import colors from '../../../styles/colors';
 import designConstants from '../../../styles/designConstants';
 
-import Astrobots from '../astrobots/Astrobots'
-import Profile from '../profile/Profile'
-import LanguageForm from '../language/LanguageForm'
+import Astrobots from '../astrobots/Astrobots';
+import Profile from '../profile/Profile';
+import LanguageForm from '../language/LanguageForm';
+import ContentSelector from '../content/ContentSelector';
+import Subscription from '../subsription/Subscription'
 
 const Menu = () => {
     const [selectedMenu, setSelectedMenu] = useState(null);
@@ -74,6 +76,8 @@ const Menu = () => {
             {selectedMenu === 'Astrobot' && <Astrobots onSubmit={resetMenu} />}
             {selectedMenu === 'Profile' && <Profile onSubmit={resetMenu} />}
             {selectedMenu === 'Language' && <LanguageForm onSubmit={resetMenu} />}
+            {selectedMenu === 'Content' && <ContentSelector onSubmit={resetMenu} />}
+            {selectedMenu === 'Subscription' && <Subscription onSubmit={resetMenu} />}
         </View>
     );
 };
