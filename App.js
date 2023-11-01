@@ -13,16 +13,18 @@ import Subscription from './src/components/user/subsription/Subscription'
 import AstroBots from './src/components/user/astrobots/Astrobots'
 import StartPage from './src/components/user/StartPage'
 import Prediction from './src/components/user/prediction/Prediction';
+import EntryPoint from './src/components/user/EntryPoint'
 
 import { UserProvider } from './src/context/UserContext';
 
 
 const App = () => {
-  const topOffset = 0;
+
 
   return (
     <UserProvider>
       <BackgroundImage>
+        <EntryPoint />
         {/* <StartPage /> */}
         {/* <Terms /> */}
         {/* <UserGate /> */}
@@ -33,7 +35,7 @@ const App = () => {
         {/* <Subscription /> */}
         {/* <AstroBots /> */}
         {/* <UserBase /> */}
-        <Prediction />
+        {/* <Prediction /> */}
       </BackgroundImage>
     </UserProvider>
 

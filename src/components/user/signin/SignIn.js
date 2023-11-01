@@ -1,5 +1,5 @@
 // LogIn.js
-import * as React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 import Container from '../../common/Container';
@@ -10,26 +10,37 @@ import SignInFormOld from './SignInFormOld';
 import SignInForm from './SignInForm';
 import inputStyles from '../../../styles/InputStyles';
 
+import { useAuthentication } from '../../../hooks/useAuthentication';
+import { useUser } from '../../../context/UserContext';
+
 const SignIn = ({ navigation }) => {
+
+    const { authenticateUser } = useAuthentication();
+    const [authError, setAuthError] = useState(null);
+
     console.log("Render Log in")
 
     const goToSignUp = () => {
         navigation.navigate('SignUp');
     };
+    
+    const onSubmit = (values) => {
+        const isAuthenticated = authenticateUser(values);
+        if (!isAuthenticated) {
+            setAuthError("Yikes! Something went sideways. Care to try again?"); // устанавливаем сообщение об ошибке
+        }
+    };
 
     return (
         <View style={[inputStyles.size100]}>
 
-            {/* <Container topOffset={0}>
-                <View style={inputStyles.scaledLogo}>
-                    <AstrologAIText />
-                </View>
-            </Container> */}
             <Container topOffset={80}>
                 <Text style={[inputStyles.titleText]}>Sign in to your account</Text>
             </Container>
 
-            <SignInForm onSubmit={(values) => { console.log(values); }} />
+            {authError && <Text style={inputStyles.errorText}>{authError}</Text>} 
+
+            <SignInForm onSubmit={onSubmit} />
             <View style={styles.top50}>
                 <SocialLogin />
             </View>

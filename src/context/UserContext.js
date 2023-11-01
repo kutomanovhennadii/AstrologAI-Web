@@ -4,9 +4,11 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
     const [user, setUserState] = useState({
-        name: '',
+        name: 'hkutomanov',
+        email: 'hhh@com',
+        password: 'XShe$1234',
         zodiacSign: null,
-        login: true,
+        login: false,
         registrated: true,
         astrobot: "Bruce",
         language: 'English',

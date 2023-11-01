@@ -10,9 +10,11 @@ import Profile from '../profile/Profile';
 import LanguageForm from '../language/LanguageForm';
 import ContentSelector from '../content/ContentSelector';
 import Subscription from '../subsription/Subscription'
+import { useUser } from '../../../context/UserContext';
 
 const Menu = () => {
     const [selectedMenu, setSelectedMenu] = useState(null);
+    const { user, setUser } = useUser();
 
     const onSubmitProfile = () => {
         console.log('Profile button clicked');
@@ -42,6 +44,10 @@ const Menu = () => {
     const onSubmitLogout = () => {
         console.log('Log out button clicked');
         setSelectedMenu('Logout');
+        setUser(prevUser => ({
+            ...prevUser,
+            login: false
+        }));
     };
 
     const resetMenu = () => {
@@ -95,7 +101,7 @@ const styles = StyleSheet.create({
         height: designConstants.inputHeight,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 7,
+        marginVertical: 12,
     },
     text: {
         letterSpacing: 1,
