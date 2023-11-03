@@ -6,10 +6,10 @@ import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
 
 const CustomInput = React.forwardRef((props, ref) => {
-    const { label, validate, removeFocusFromAll, name } = props;
+    const { label, validate, removeFocusFromAll, name, initialValue } = props;
     const [isFocused, setFocused] = useState(false);
 
-    //console.log("Render CustomInput, props.type =", props.type);
+    //console.log("Render CustomInput, initialValue =", props);
 
     // useEffect(() => {
     //     //console.log("CustomInput ref", ref.current);

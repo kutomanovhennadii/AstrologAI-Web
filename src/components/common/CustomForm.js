@@ -13,6 +13,8 @@ const CustomForm = ({
     submitText
 }) => {
 
+    //console.log("CustomForm initialValues = ", initialValues)
+
     if (!submitText)
         submitText = "CONTINUE";
 
@@ -21,6 +23,7 @@ const CustomForm = ({
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={onSubmit}
+            enableReinitialize={true}
         >
             {({ handleSubmit }) => {
                 //console.log('Внутри блока Formik, перед View');

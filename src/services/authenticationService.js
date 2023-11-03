@@ -1,22 +1,39 @@
-import { useUser } from '../context/UserContext';
+import axios from 'axios';
+import { IS_TEST_MODE } from '../config/config'; // Убедитесь, что путь указан правильно
 
-const authenticateUser = ({ email, password }) => {
+const BASE_URL = 'https://your-api-url.com'; // Замените на URL вашего API
 
-    // Dummy 
-    const { user, setUser } = useUser();
+export const authenticateOnServer = async ({ email, password }) => {
+    if (IS_TEST_MODE) {
+        // Имитация ответа сервера в тестовом режиме
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                const mockResponse = {
+                    user: {
+                        email: email, // Предполагается, что email правильный
+                        // Дополнительные данные пользователя могут быть здесь
+                    },
+                    token: 'fake-jwt-token'
+                };
+                resolve(mockResponse);
+            }, 500); // Имитация задержки сети в полсекунды
+        });
+    } else {
+        // Реальная логика аутентификации
+        try {
+            const response = await axios.post(`${BASE_URL}/auth/login`, {
+                email,
+                password
+            });
 
-    // В будущем здесь будет реальная проверка в базе данных
-    // или отправка запроса на сервер.
+            if (response.data) {
+                return response.data;
+            }
 
-    // Пока что просто выводим данные в консоль
-    console.log(`Email: ${email}`);
-    console.log(`Password: ${password}`);
-
-    // Возвращаем true
-    if ((user.email === email) && (user.password === password))
-        return true;
-    else
-        return false;
+            throw new Error('No data received');
+        } catch (error) {
+            console.error('Authentication error:', error);
+            throw error;
+        }
+    }
 };
-
-export default authenticateUser;

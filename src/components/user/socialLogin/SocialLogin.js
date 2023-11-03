@@ -1,26 +1,54 @@
-import React from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
+import { Text, StyleSheet, View, ActivityIndicator } from 'react-native';
 import SocialLoginButton from './SocialLoginButton'; // Предположим, что вы импортировали новый компонент
 import facebookLogo from './FacebookLogo.png'; // Убедитесь, что путь верный
 import appleLogo from './AppleLogo.png';
 import googleLogo from './GoogleLogo.png';
 
 import inputStyles from '../../../styles/InputStyles';
+import { useSocialAuthentication } from '../../../hooks/useSocialAuthentication';
+import { googleService } from '../../../services/googleService';
+import { facebookService } from '../../../services/facebookService';
 
 const SocialLogin = () => {
+    const [authError, setAuthError] = useState(null);
+
     const handlePress = (platform) => {
         // Ваш код для авторизации
         console.log(`Signing in with ${platform}`);
     };
 
+    // Использование хука для аутентификации через Google
+    const { authenticateUser: authenticateGoogleUser, loading: loadingGoogle } = useSocialAuthentication(googleService);
+
+    // Использование хука для аутентификации через Facebook
+    const { authenticateUser: authenticateFacebookUser, loading: loadingFacebook } = useSocialAuthentication(facebookService);
+
+    const onGoogleSubmit = async () => {
+        const isAuthenticated = await authenticateGoogleUser();
+        if (!isAuthenticated) {
+            setAuthError("Oops! Something went wrong with Google sign in. Care to try again?");
+        }
+    };
+
+    const onFacebookSubmit = async () => {
+        const isAuthenticated = await authenticateFacebookUser();
+        if (!isAuthenticated) {
+            setAuthError("Oops! Something went wrong with Facebook sign in. Care to try again?");
+        }
+    };
+    const loading = loadingGoogle || loadingFacebook;
+
     return (
         <View style={styles.container}>
             <Text style={inputStyles.text}>Or sign in with...</Text>
             <View style={styles.continueWithSocialsParent}>
-                <SocialLoginButton imageSource={facebookLogo} onPress={() => handlePress('Facebook')} />
+                <SocialLoginButton imageSource={facebookLogo} onPress={onFacebookSubmit} />
                 <SocialLoginButton imageSource={appleLogo} onPress={() => handlePress('Apple')} style={styles.continueWithAppleLeftAli1} />
-                <SocialLoginButton imageSource={googleLogo} onPress={() => handlePress('Google')} />
+                <SocialLoginButton imageSource={googleLogo} onPress={onGoogleSubmit} />
             </View>
+            {loading && <ActivityIndicator size="large" color="#0000ff" />}
+            {authError && <Text>{authError}</Text>}
         </View>
     );
 };

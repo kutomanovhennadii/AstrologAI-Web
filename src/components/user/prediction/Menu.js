@@ -46,7 +46,7 @@ const Menu = () => {
         setSelectedMenu('Logout');
         setUser(prevUser => ({
             ...prevUser,
-            login: false
+            isAuthenticated: false
         }));
     };
 

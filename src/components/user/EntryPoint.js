@@ -8,8 +8,8 @@ const EntryPoint = () => {
 
     return (
         <>
-            {user.login === false && <UserGate />}
-            {user.login === true && <Prediction />}
+            {user.isAuthenticated === false && <UserGate />}
+            {user.isAuthenticated === true && <Prediction />}
         </>
     );
 };

@@ -13,7 +13,9 @@ import CustomForm from '../../common/CustomForm';
 import { componentInstaller } from '../../../utils/componentInstaller';
 
 // Основной компонент формы профиля
-const SignInForm = ({ onSubmit }) => {
+const SignInForm = ({ onSubmit, initialValues }) => {
+
+    //console.log("SignInForm initialValues = ", initialValues)
 
     // Загрузка метаданных полей из JSON
     const fieldMetadataArray = appConfig["signInMetadataArray"];
@@ -36,30 +38,18 @@ const SignInForm = ({ onSubmit }) => {
     const fieldsConfig = fieldMetadataArray.map(metadata => ({
         ...metadata,
         component: componentInstaller(metadata.component),
-     }));
+    }));
     //console.log("fieldsConfig = ", fieldsConfig);
 
     return (
-        // <View {...panResponder.panHandlers}
-        //     style={[{ marginTop: screenOffset }]}
-        //     onLayout={(event) => {
-        //         const height = event.nativeEvent.layout.height;
-        //         updateContentHeight(height);
-        //         //console.log("Height = ", height);
-        //     }}
-        // >
-            <CustomForm
-                fieldsConfig={fieldsConfig}
-                refs={refs}
-                removeFocusFromAll={removeFocusFromAll}
-                initialValues={{
-                    email: '',
-                    password: ''
-                }}
-                validationSchema={profileValidationSchema}
-                onSubmit={onSubmit}
-            />
-        //</View>
+        <CustomForm
+            fieldsConfig={fieldsConfig}
+            refs={refs}
+            removeFocusFromAll={removeFocusFromAll}
+            initialValues={initialValues}
+            validationSchema={profileValidationSchema}
+            onSubmit={onSubmit}
+        />
     );
 };
 
