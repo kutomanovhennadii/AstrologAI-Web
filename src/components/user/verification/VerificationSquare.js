@@ -6,9 +6,12 @@ import designConstants from '../../../styles/designConstants';
 import colors from '../../../styles/colors';
 
 const VerificationSquare = ({ field, form, nextInput, innerRef }) => {
+
+    console.log("Render VerificationSquare field.value = ", field.value);
+
     const handleChange = (text) => {
         if (text.length === 1) {
-            console.log("nextInput = ", nextInput)
+            //console.log("nextInput = ", nextInput)
             form.setFieldValue(field.name, text);
             nextInput && nextInput.current && nextInput.current.focus();
         } else if (text.length === 0) {

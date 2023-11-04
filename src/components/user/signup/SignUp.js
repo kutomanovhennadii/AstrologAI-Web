@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 
 import Container from '../../common/Container';
-import AstrologAIText from '../../common/AstrologAIText';
+
 import SocialLogin from '../socialLogin/SocialLogin';
 import PromptWithActionLink from '../../common/PromptWithActionLink';
+
 import SignUpForm from './SignUpForm';
-import SignUpForm1 from './SignUpForm1';
 import inputStyles from '../../../styles/InputStyles';
+import { useVerification } from '../../../hooks/useVerification';
+import { useUser } from '../../../context/UserContext';
 
 const SignUp = ({ navigation, route }) => {
     const { termsAccepted = false } = (route && route.params) || {};
-    console.log("Render Sign Up. termsAccepted = " + route);
+    const { user, setUser } = useUser();
+    const { verifyUser, loading } = useVerification();
 
     const goToSignIn = () => {
         navigation.navigate('SignIn');
@@ -21,23 +24,34 @@ const SignUp = ({ navigation, route }) => {
         navigation.navigate('Terms');
     };
 
-    const goToVerification = () => {
+    const goToVerification = async (value) => {
+        //console.log("SignUp goToVerification value = ", value)
+        setUser(prevUser => ({
+            ...prevUser,
+            name: value.userName,
+            email: value.email,
+            password: value.password
+        }));
+        const verificationCode = await verifyUser();
         navigation.navigate('Verification');
     };
+
+    if (loading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
 
     return (
         <View style={[inputStyles.size100]}>
 
-            {/* <Container topOffset={0}>
-                <View style={inputStyles.scaledLogo}>
-                    <AstrologAIText />
-                </View>
-            </Container> */}
             <Container topOffset={0}>
                 <Text style={[inputStyles.titleText]}>Sign up</Text>
             </Container>
 
-            <SignUpForm1
+            <SignUpForm
                 termsAccepted={termsAccepted}
                 goToTerms={goToTerms}
                 onSubmit={goToVerification}
@@ -49,8 +63,6 @@ const SignUp = ({ navigation, route }) => {
                     buttonText="Sign In"
                     onLinkPress={goToSignIn} />
             </View>
-
-
         </View>);
 };
 

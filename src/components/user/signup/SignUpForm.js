@@ -1,99 +1,73 @@
+// Импорт необходимых модулей
 import React from 'react';
 import { View } from 'react-native';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
 
-import CustomInput from '../../common/CustomInput';
-import SubmitButton from '../../common/SubmitButton';
-import CheckboxLabelLink from '../../common/CheckboxLabelLink'
+import appConfig from '../../../static/json/appConfig.json';
 
+import { profileValidationSchema } from './validationSchema';
+import useFocusManagement from '../../../hooks/useFocusManagement';
+import { useScreenOffsetControl } from '../../../hooks/useScreenOffsetControl';
+import { getAdditionalPropsByName } from './getAdditionalPropsByName';
+
+import CustomForm from '../../common/CustomForm';
+import { componentInstaller } from '../../../utils/componentInstaller';
+
+// Основной компонент формы профиля
 const SignUpForm = ({ onSubmit, goToTerms, termsAccepted = false }) => {
-    const validationSchema = Yup.object({
-        // userName: Yup.string()
-        //     .min(5, 'User name must contain at least 5 characters')
-        //     .required('Required field'),
-        // email: Yup.string()
-        //     .email('Invalid email')
-        //     .required('Required field'),
-        // password: Yup.string()
-        //     .min(8, 'Password must contain at least 8 characters')
-        //     .required('Required field'),
-        // cofirmPassword: Yup.string()
-        //     .min(8, 'Password must contain at least 8 characters')
-        //     .required('Required field')
-        //     .oneOf([Yup.ref('password')], 'Passwords must match'),
-        // agreeToTerms: Yup.bool()
-        //     .oneOf([true], 'You must accept the terms of using')
-    });
 
-    console.log("Render SignUpForm")
+    // Загрузка метаданных полей из JSON
+    const fieldMetadataArray = appConfig["signUpMetadataArray"];
 
-    const handleAgreeToTermsPress = () => {
+    // Создание массива идентификаторов ссылок
+    const refIdentifiers = fieldMetadataArray.map(item => item.name);
 
-        //console.log('AgreeToTerms');
-        goToTerms();
-    };
+    // Создание объекта смещений для каждого поля
+    const screenOffsets = Object.fromEntries(
+        fieldMetadataArray.map(item => [item.name, item.screenOffset])
+    );
+
+    // Хук для управления смещением экрана
+    const [screenOffset, setFieldOffset, panResponder, updateContentHeight] = useScreenOffsetControl();
+
+    // Хуки для управления фокусом
+    const [removeFocusFromAll, refs] = useFocusManagement(refIdentifiers, screenOffsets, setFieldOffset);
+
+    // Создание конфигурации полей
+    const fieldsConfig = fieldMetadataArray.map(metadata => ({
+        ...metadata,
+        component: componentInstaller(metadata.component),
+        additionalProps: getAdditionalPropsByName(metadata.name, termsAccepted, goToTerms)
+    }));
+    //console.log("fieldsConfig = ", fieldsConfig);
 
     return (
-        <Formik
-            initialValues={{
-                userName: '',
-                email: '',
-                password: '',
-                cofirmPassword: '',
-                agreeToTerms: termsAccepted
-            }}
-            validationSchema={validationSchema}
-            onSubmit={(values, { isValid }) => {
-                console.log("onSubmit");
-                console.log(values);
-                validationSchema.isValid(values).then((isValid) => {
-                    console.log("isValid = ", isValid);
-                    if (isValid) {
-                        onSubmit();  // ваш метод для перенаправления
-                    }
-                    actions.setSubmitting(false);
-                });
-            }}
+        <View
+            style={{ overflow: 'hidden', height: 520 }} // Добавьте этот стиль
         >
-            {({ handleSubmit }) => (
-                <View>
-                    <CustomInput
-                        name="userName"
-                        label="User name"
-                        placeholder="Input your name"
-                    />
-
-                    <CustomInput
-                        name="email"
-                        label="Email"
-                        placeholder="Enter your email"
-                    />
-                    <CustomInput
-                        name="password"
-                        label="Password"
-                        placeholder="Enter your password"
-                        type="password"
-                    />
-                    <CustomInput
-                        name="cofirmPassword"
-                        label="Confirm password"
-                        placeholder="Repeat your password"
-                        type="password"
-                    />
-                    <CheckboxLabelLink
-                        promt="  I accept "
-                        buttonText="the terms of using"
-                        name="agreeToTerms"
-                        isChecked={termsAccepted}
-                        onLinkPress={goToTerms}
-                    />
-                    <SubmitButton
-                        text="Sign In"
-                        onSubmit={handleSubmit} />
-                </View>
-            )}
-        </Formik>
+            <View {...panResponder.panHandlers}
+                style={[{ top: screenOffset }]}
+                onLayout={(event) => {
+                    const height = event.nativeEvent.layout.height;
+                    updateContentHeight(height);
+                    console.log("screenOffset = ", screenOffset);
+                }}
+            >
+                <CustomForm
+                    fieldsConfig={fieldsConfig}
+                    refs={refs}
+                    removeFocusFromAll={removeFocusFromAll}
+                    initialValues={{
+                        userName: '',
+                        email: '',
+                        password: '',
+                        cofirmPassword: '',
+                        agreeToTerms: termsAccepted
+                    }}
+                    validationSchema={profileValidationSchema}
+                    onSubmit={onSubmit}
+                />
+            </View>
+        </View>
     );
 };
 

@@ -22,10 +22,13 @@ const CustomForm = ({
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={onSubmit}
+            onSubmit={(values, actions) => {
+                onSubmit(values); // Здесь values - это значения формы
+                // Вы можете также использовать actions для выполнения дополнительных действий после отправки
+            }}
             enableReinitialize={true}
         >
-            {({ handleSubmit }) => {
+            {({ handleSubmit, values }) => {
                 //console.log('Внутри блока Formik, перед View');
 
                 return (
