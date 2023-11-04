@@ -9,8 +9,11 @@ import inputStyles from '../../../styles/InputStyles';
 import designConstants from '../../../styles/designConstants';
 import colors from '../../../styles/colors';
 
+import { useUser } from '../../../context/UserContext';
+
 const GreetingForm = () => {
     const [currentPage, setCurrentPage] = useState(0);
+    const { user, setUser } = useUser();
 
     const images = {
         "Welcome": require('../../../static/image/midjourneycat_by_Bess_Hamiti_Starry_sky_realistic_photo.png'),
@@ -39,6 +42,10 @@ const GreetingForm = () => {
     }, []);
 
     const navigateToNextPage = () => {
+        setUser(prevUser => ({
+            ...prevUser,
+            isAuthenticated: true,
+        }));
         console.log("Навигация на следующую страницу");
     };
 

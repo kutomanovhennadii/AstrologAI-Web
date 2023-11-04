@@ -1,19 +1,20 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React from 'react';
 
 import ProfileForm from "./ProfileForm"
 import Container from '../../common/Container';
 
-const Profile = ({ onSubmit }) => {
-
-    const onSubmitForm = (value) => {
-        console.log(value);
-        onSubmit();
-        //navigation.navigate('SignUp');
+export const ProfileScreenWrapper = ({ navigation }) => {
+    const onSubmitProfile = () => {
+        navigation.navigate('Astrobots');
     }
 
+    return <Profile onSubmit={onSubmitProfile} />;
+};
+
+const Profile = ({ onSubmit }) => {
     return (
         <Container topOffset={0}>
-            <ProfileForm onSubmit={onSubmitForm } />
+            <ProfileForm onSubmit={onSubmit} />
         </Container>
     );
 };

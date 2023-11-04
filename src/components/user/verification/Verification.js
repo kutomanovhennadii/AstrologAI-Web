@@ -34,7 +34,7 @@ const Verification = ({ navigation }) => {
             user.verificationCode[2] == values.square2 &&
             user.verificationCode[3] == values.square3) {
             setAuthError(null);
-            navigation.navigate('GreetingForm');
+            navigation.navigate('Profile');
         }
         else {
             setAuthError("Something went sideways. Care to try again?");
@@ -49,7 +49,7 @@ const Verification = ({ navigation }) => {
 
     const onResend = async () => {
         const verificationCode = await verifyUser();
-        console.log("Verification onResend");
+        //console.log("Verification onResend");
     }
 
     return (
@@ -58,11 +58,11 @@ const Verification = ({ navigation }) => {
             <Container topOffset={designConstants.topOffset40}>
                 <Text style={[inputStyles.titleText, styles.title]}>Verification</Text>
             </Container>
-            
+
             <Container topOffset={designConstants.topOffset40}>
                 <Text style={[inputStyles.text, styles.enterCode]}>Enter the code we just send you on your email address</Text>
             </Container>
-            
+
             {authError && <Text
                 style={[inputStyles.errorText, inputStyles.textAlignCenter]}
             >

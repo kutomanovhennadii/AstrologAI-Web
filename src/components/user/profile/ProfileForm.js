@@ -12,6 +12,7 @@ import { getComponentByName, getAdditionalPropsByName } from './getComponent'
 
 import CustomForm from '../../common/CustomForm';
 import { componentInstaller } from '../../../utils/componentInstaller';
+import { sendProfileToServer } from '../../../services/sendProfileToServer'
 
 import { useUser } from '../../../context/UserContext';
 
@@ -29,6 +30,7 @@ const ProfileForm = ({ onSubmit }) => {
             birthCity: value.birthCity,
             biography: value.biography,
         }));
+        const responce = sendProfileToServer(value);
         onSubmit();
     }
     const submitText = user.registrated ? "Select" : "Continue";
@@ -83,7 +85,7 @@ const ProfileForm = ({ onSubmit }) => {
                     biography: user.biography,
                 }}
                 validationSchema={profileValidationSchema}
-                onSubmit={onSubmit}
+                onSubmit={onSubmitForm}
                 submitText={submitText}
             />
         </View>

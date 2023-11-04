@@ -7,7 +7,7 @@ import colors from '../../../styles/colors';
 
 const VerificationSquare = ({ field, form, nextInput, innerRef }) => {
 
-    console.log("Render VerificationSquare field.value = ", field.value);
+    //console.log("Render VerificationSquare field.value = ", field.value);
 
     const handleChange = (text) => {
         if (text.length === 1) {

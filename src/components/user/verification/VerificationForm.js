@@ -19,7 +19,7 @@ const VerificationForm = ({ onSubmit, initialValues, onResend }) => {
         square3: Yup.string().required().length(1),
     });
 
-    console.log("VerificationForm initialValues = ", initialValues);
+    //console.log("VerificationForm initialValues = ", initialValues);
 
     const square2Ref = useRef();
     const square3Ref = useRef();
@@ -27,7 +27,7 @@ const VerificationForm = ({ onSubmit, initialValues, onResend }) => {
 
     return (
         <Formik
-            key={Date.now()} 
+            key={Date.now()}
             initialValues={initialValues}
             validationSchema={validationSchema}
             enableReinitialize={true}
@@ -39,7 +39,7 @@ const VerificationForm = ({ onSubmit, initialValues, onResend }) => {
         >
             {({ handleSubmit }) => {
                 // Добавлено логгирование перед рендерингом компонента
-                console.log("Rendering VerificationForm with initialValues = ", initialValues);
+                //console.log("Rendering VerificationForm with initialValues = ", initialValues);
                 return (
                     <>
                         <View style={styles.rectangleParent}>

@@ -10,6 +10,17 @@ import colors from '../../../styles/colors';
 
 const imageContext = require.context('../../../static/image', true);
 import { useUser } from '../../../context/UserContext';
+import { sendAstrobotToServer } from '../../../services/sendAstrobotToServer'
+
+export const AstrobotScreenWrapper = ({ navigation }) => {
+    const onSubmitAstrobot = () => {
+        console.log("AstrobotScreenWrapper onSubmitAstrobot")
+        navigation.navigate('GreetingForm');
+    }
+
+    return <Astrobots onSubmit={onSubmitAstrobot} />;
+};
+
 
 const Astrobots = ({ onSubmit }) => {
     const [astrobotImages, setAstrobotImages] = useState([]);
@@ -28,6 +39,7 @@ const Astrobots = ({ onSubmit }) => {
 
     // Верстка страницы
     const renderItem = ({ item }) => {
+        console.log('onSubmit in renderItem:', onSubmit);
         return (
             <AstrobotPage
                 image={astrobotImages[item.name]}
@@ -38,14 +50,25 @@ const Astrobots = ({ onSubmit }) => {
         );
     };
 
-    const onSelectAstrobot = ( name ) => 
-    {
+    const onSelectAstrobot = async (name) => {
         console.log("Astrobot ", name, " selected");
         setUser(prevUser => ({
             ...prevUser,
             astrobot: name
         }));
-        onSubmit();
+        try {
+            const response = await sendAstrobotToServer(name);
+            console.log("Response from server", response);
+        } catch (error) {
+            console.error("Error sending astrobot to server: ", error);
+        }
+
+        console.log("Astrobot ", name, " selected 2");
+        if (typeof onSubmit === 'function') {
+            onSubmit(); // Теперь мы проверяем, что onSubmit действительно функция перед вызовом
+        } else {
+            console.error("onSubmit is not a function");
+        }
     }
 
     // Обновление номера страницы
@@ -103,7 +126,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         position: 'absolute',
-        bottom: 0, 
+        bottom: 0,
         left: 0,
         right: 0,
     },
