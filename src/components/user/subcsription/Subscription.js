@@ -7,6 +7,17 @@ import SubscriptionPage from './SubscriptionPage'
 import inputStyles from '../../../styles/InputStyles';
 import colors from '../../../styles/colors';
 
+import { sendToServer } from '../../../services/sendToServer'
+
+export const SubscriptionScreenWrapper = ({ navigation }) => {
+    const onSubmitSubscription = () => {
+        console.log("SubscriptionScreenWrapper onSubmitSubscription")
+        navigation.navigate('GreetingForm');
+    }
+
+    return <Subscription onSubmit={onSubmitSubscription} />;
+};
+
 const Subscription = ({ onSubmit }) => {
     const [currentPage, setCurrentPage] = useState(0);
 
@@ -29,8 +40,17 @@ const Subscription = ({ onSubmit }) => {
         }
     }, []);
 
-    const onSubmitForm = () => {
+    const onSubmitForm = async (subscriptionData) => {
         console.log("Subscription onSubmitForm");
+
+        sendToServer('subscription', subscriptionData)
+            .then(response => {
+                console.log("Response from server", response);
+            })
+            .catch(error => {
+                console.error("Error sending astrobot to server: ", error)
+            });
+
         onSubmit()
     };
 
@@ -73,7 +93,7 @@ const Subscription = ({ onSubmit }) => {
     );
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({ 
     size100: {
         width: "100%",
         height: "100%",
@@ -87,6 +107,8 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+
+
     },
     paginationDots: {
         flexDirection: 'row',
@@ -95,6 +117,7 @@ const styles = StyleSheet.create({
         bottom: 0, 
         left: 0,
         right: 0,
+
     },
     dot: {
         width: 10,

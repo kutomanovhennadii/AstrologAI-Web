@@ -13,6 +13,7 @@ import Container from '../common/Container';
 import AstrologAIText from '../common/AstrologAIText';
 import { ProfileScreenWrapper } from './profile/Profile';
 import { AstrobotScreenWrapper } from './astrobots/Astrobots'
+import { SubscriptionScreenWrapper } from './subcsription/Subscription'
 
 import inputStyles from '../../styles/InputStyles';
 
@@ -51,6 +52,12 @@ export default function UserGate() {
                     component={AstrobotScreenWrapper}
                     options={{ headerShown: false }}
                 />
+                <Stack.Screen
+                    name="Subscription"
+                    component={SubscriptionScreenWrapper}
+                    options={{ headerShown: false }}
+                />
+
                 <Stack.Screen name="GreetingForm" component={GreetingForm} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>

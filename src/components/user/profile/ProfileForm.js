@@ -12,7 +12,7 @@ import { getComponentByName, getAdditionalPropsByName } from './getComponent'
 
 import CustomForm from '../../common/CustomForm';
 import { componentInstaller } from '../../../utils/componentInstaller';
-import { sendProfileToServer } from '../../../services/sendProfileToServer'
+import { sendToServer } from '../../../services/sendToServer'
 
 import { useUser } from '../../../context/UserContext';
 
@@ -20,17 +20,25 @@ import { useUser } from '../../../context/UserContext';
 const ProfileForm = ({ onSubmit }) => {
     const { user, setUser } = useUser();
 
-    const onSubmitForm = (value) => {
+    const onSubmitForm = (profileData) => {
         setUser(prevUser => ({
             ...prevUser,
-            gender: value.gender,
-            birthDate: value.birthDate,
-            birthTime: value.birthTime,
-            birthCountry: value.birthCountry,
-            birthCity: value.birthCity,
-            biography: value.biography,
+            gender: profileData.gender,
+            birthDate: profileData.birthDate,
+            birthTime: profileData.birthTime,
+            birthCountry: profileData.birthCountry,
+            birthCity: profileData.birthCity,
+            biography: profileData.biography,
         }));
-        const responce = sendProfileToServer(value);
+
+        sendToServer('profile', profileData)
+            .then(response => {
+                console.log("Response from server", response);
+            })
+            .catch(error => {
+                console.error("Error sending astrobot to server: ", error)
+            });
+
         onSubmit();
     }
     const submitText = user.registrated ? "Select" : "Continue";

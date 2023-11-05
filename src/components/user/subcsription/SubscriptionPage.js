@@ -26,16 +26,25 @@ const SubscriptionPage = ({ data, onSubmit }) => {
         //console.log(`Button ${buttonType} was clicked`);
         setUser(prevUser => ({
             ...prevUser,
-            subsciptionType: Title,
-            subsciptionPerMonth: buttonType === "monthly" ? PerMonth : 0,
-            subscriptionPerYear: buttonType === "monthly" ? 0 : PerYear
+            subscriptionType: Title,
+            subscriptionPerMonth: buttonType === "monthly" ? PerMonth : 0,
+            subscriptionPerYear: buttonType === "monthly" ? 0 : PerYear,
+            registrated: true,
         }));
 
-        onSubmit();
+        onSubmit({
+            subscriptionType: Title,
+            subscriptionPerMonth: buttonType === "monthly" ? PerMonth : 0,
+            subscriptionPerYear: buttonType === "monthly" ? 0 : PerYear
+        });
     };
 
     return (
-        <View style={{ flex: 1 }} >
+        <View style={{
+            flex: 1,
+            // borderWidth: 1,
+            // borderColor: "red"
+        }} >
             <View style={[styles.container]}>
                 <Text style={[inputStyles.titleText, styles.title]}>{Title}</Text>
 
@@ -143,7 +152,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         // borderColor: "red",
         // borderWidth: 1,
-        width: width - 30
+        width: width - 30,
+        height: 100
     },
     submitButton: {
         flex: 1, // Для равной широны

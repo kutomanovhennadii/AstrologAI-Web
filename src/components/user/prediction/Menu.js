@@ -9,7 +9,7 @@ import Astrobots from '../astrobots/Astrobots';
 import Profile from '../profile/Profile';
 import LanguageForm from '../language/LanguageForm';
 import ContentSelector from '../content/ContentSelector';
-import Subscription from '../subsription/Subscription'
+import Subscription from '../subcsription/Subscription'
 import { useUser } from '../../../context/UserContext';
 
 const Menu = () => {

@@ -10,12 +10,12 @@ import colors from '../../../styles/colors';
 
 const imageContext = require.context('../../../static/image', true);
 import { useUser } from '../../../context/UserContext';
-import { sendAstrobotToServer } from '../../../services/sendAstrobotToServer'
+import { sendToServer } from '../../../services/sendToServer'
 
 export const AstrobotScreenWrapper = ({ navigation }) => {
     const onSubmitAstrobot = () => {
         console.log("AstrobotScreenWrapper onSubmitAstrobot")
-        navigation.navigate('GreetingForm');
+        navigation.navigate('Subscription');
     }
 
     return <Astrobots onSubmit={onSubmitAstrobot} />;
@@ -39,7 +39,7 @@ const Astrobots = ({ onSubmit }) => {
 
     // Верстка страницы
     const renderItem = ({ item }) => {
-        console.log('onSubmit in renderItem:', onSubmit);
+        //console.log('onSubmit in renderItem:', onSubmit);
         return (
             <AstrobotPage
                 image={astrobotImages[item.name]}
@@ -48,27 +48,25 @@ const Astrobots = ({ onSubmit }) => {
                 onSubmit={onSelectAstrobot}
             />
         );
-    };
+    }; 
 
-    const onSelectAstrobot = async (name) => {
-        console.log("Astrobot ", name, " selected");
+    const onSelectAstrobot = async (astrobotData) => {
+        console.log("Astrobot ", astrobotData, " selected");
         setUser(prevUser => ({
             ...prevUser,
-            astrobot: name
+            astrobot: astrobotData
         }));
-        try {
-            const response = await sendAstrobotToServer(name);
-            console.log("Response from server", response);
-        } catch (error) {
-            console.error("Error sending astrobot to server: ", error);
-        }
 
-        console.log("Astrobot ", name, " selected 2");
-        if (typeof onSubmit === 'function') {
-            onSubmit(); // Теперь мы проверяем, что onSubmit действительно функция перед вызовом
-        } else {
-            console.error("onSubmit is not a function");
-        }
+        sendToServer('astrobot', astrobotData)
+            .then(response => {
+                console.log("Response from server", response);
+            })
+            .catch(error => {
+                console.error("Error sending astrobot to server: ", error)
+            });
+
+        onSubmit();
+
     }
 
     // Обновление номера страницы

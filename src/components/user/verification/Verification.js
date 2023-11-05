@@ -34,6 +34,10 @@ const Verification = ({ navigation }) => {
             user.verificationCode[2] == values.square2 &&
             user.verificationCode[3] == values.square3) {
             setAuthError(null);
+            setUser(prevUser => ({
+                ...prevUser,
+                registrated: false,
+            }));
             navigation.navigate('Profile');
         }
         else {
