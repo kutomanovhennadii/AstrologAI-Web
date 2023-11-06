@@ -11,10 +11,13 @@ import LanguageForm from '../language/LanguageForm';
 import ContentSelector from '../content/ContentSelector';
 import Subscription from '../subcsription/Subscription'
 import { useUser } from '../../../context/UserContext';
+import DatePredictionForm from './DatePrediction'
+import appConfig from '../../../static/json/appConfig.json';
 
 const Menu = () => {
     const [selectedMenu, setSelectedMenu] = useState(null);
     const { user, setUser } = useUser();
+    const menuNames = appConfig[user.language]["menuNames"];
 
     const onSubmitProfile = () => {
         console.log('Profile button clicked');
@@ -25,6 +28,12 @@ const Menu = () => {
         console.log('Astrobot button clicked');
         setSelectedMenu('Astrobot');
     };
+
+    const onSetDate = () => {
+        console.log('Set date button clicked');
+        setSelectedMenu('DatePrediction');
+    };
+
 
     const onSubmitLanguage = () => {
         console.log('Language button clicked');
@@ -58,6 +67,9 @@ const Menu = () => {
         <View style={styles.container}>
             {selectedMenu === null && (
                 <>
+                    <TouchableOpacity style={styles.button} onPress={onSetDate}>
+                        <Text style={styles.text}>Set date</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={onSubmitAstrobot}>
                         <Text style={styles.text}>Astrobot</Text>
                     </TouchableOpacity>
@@ -78,7 +90,7 @@ const Menu = () => {
                     </TouchableOpacity>
                 </>
             )}
-
+            {selectedMenu === 'DatePrediction' && <DatePredictionForm onSubmit={resetMenu} />}
             {selectedMenu === 'Astrobot' && <Astrobots onSubmit={resetMenu} />}
             {selectedMenu === 'Profile' && <Profile onSubmit={resetMenu} />}
             {selectedMenu === 'Language' && <LanguageForm onSubmit={resetMenu} />}

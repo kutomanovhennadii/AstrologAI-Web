@@ -11,12 +11,15 @@ import { getAdditionalPropsByName } from './getAdditionalPropsByName';
 
 import CustomForm from '../../common/CustomForm';
 import { componentInstaller } from '../../../utils/componentInstaller';
+import { useUser } from '../../../context/UserContext';
 
 // Основной компонент формы профиля
 const SignUpForm = ({ onSubmit, goToTerms, termsAccepted = false }) => {
 
+    const { user, setUser } = useUser();
+
     // Загрузка метаданных полей из JSON
-    const fieldMetadataArray = appConfig["signUpMetadataArray"];
+    const fieldMetadataArray = appConfig[user.language]["signUpMetadataArray"];
 
     // Создание массива идентификаторов ссылок
     const refIdentifiers = fieldMetadataArray.map(item => item.name);

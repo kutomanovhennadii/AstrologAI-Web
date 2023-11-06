@@ -8,7 +8,7 @@ import { profileValidationSchema } from './validationSchema';
 import useFocusManagement from '../../../hooks/useFocusManagement';
 import { useScreenOffsetControl } from '../../../hooks/useScreenOffsetControl';
 
-
+import { useUser } from '../../../context/UserContext';
 import CustomForm from '../../common/CustomForm';
 import { componentInstaller } from '../../../utils/componentInstaller';
 
@@ -16,9 +16,10 @@ import { componentInstaller } from '../../../utils/componentInstaller';
 const SignInForm = ({ onSubmit, initialValues }) => {
 
     //console.log("SignInForm initialValues = ", initialValues)
-
+    const { user, setUser } = useUser();
+    
     // Загрузка метаданных полей из JSON
-    const fieldMetadataArray = appConfig["signInMetadataArray"];
+    const fieldMetadataArray = appConfig[user.language]["signInMetadataArray"];
 
     // Создание массива идентификаторов ссылок
     const refIdentifiers = fieldMetadataArray.map(item => item.name);

@@ -1,14 +1,11 @@
 // Импорт необходимых модулей
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import appConfig from '../../../static/json/appConfig.json';
 
-import { profileValidationSchema } from './validationSchema';
 import useFocusManagement from '../../../hooks/useFocusManagement';
 import { useScreenOffsetControl } from '../../../hooks/useScreenOffsetControl';
-import { useCountryAndCity } from './useCountryAndCity';
-import { getComponentByName, getAdditionalPropsByName } from './getComponent'
 
 import CustomForm from '../../common/CustomForm';
 import { componentInstaller } from '../../../utils/componentInstaller';
@@ -17,21 +14,16 @@ import { sendToServer } from '../../../services/sendToServer'
 import { useUser } from '../../../context/UserContext';
 
 // Основной компонент формы профиля
-const ProfileForm = ({ onSubmit }) => {
+const DatePredictionForm = ({ onSubmit }) => {
     const { user, setUser } = useUser();
 
-    const onSubmitForm = (profileData) => {
+    const onSubmitForm = (data) => {
         setUser(prevUser => ({
             ...prevUser,
-            gender: profileData.gender,
-            birthDate: profileData.birthDate,
-            birthTime: profileData.birthTime,
-            birthCountry: profileData.birthCountry,
-            birthCity: profileData.birthCity,
-            biography: profileData.biography,
+            datePrediction: data.datePrediction,
         }));
 
-        sendToServer('profile', profileData)
+        sendToServer('datePrediction', data)
             .then(response => {
                 console.log("Response from server", response);
             })
@@ -44,7 +36,7 @@ const ProfileForm = ({ onSubmit }) => {
     const submitText = user.registrated ? "Select" : "Continue";
 
     // Загрузка метаданных полей из JSON
-    const fieldMetadataArray = appConfig[user.language]["profileMetadataArray"];
+    const fieldMetadataArray = appConfig[user.language]["datePredictionMetadataArray"];
 
     // Создание массива идентификаторов ссылок
     const refIdentifiers = fieldMetadataArray.map(item => item.name);
@@ -60,44 +52,47 @@ const ProfileForm = ({ onSubmit }) => {
     // Хуки для управления фокусом
     const [removeFocusFromAll, refs] = useFocusManagement(refIdentifiers, screenOffsets, setFieldOffset);
 
-    // Хуки для выбора страны и города
-    const [countryList, cityList, onSelectCountry, onSelectCity] = useCountryAndCity(refs);
-
     // Создание конфигурации полей
     const fieldsConfig = fieldMetadataArray.map(metadata => ({
         ...metadata,
         //component: getComponentByName(metadata.name),
         component: componentInstaller(metadata.component),
-        additionalProps: getAdditionalPropsByName(metadata.name, countryList, cityList, onSelectCountry, onSelectCity)
     }));
 
     return (
         <View {...panResponder.panHandlers}
-            style={[{ marginTop: screenOffset }]}
+            style={styles.container}
             onLayout={(event) => {
                 const height = event.nativeEvent.layout.height;
                 updateContentHeight(height);
                 //console.log("Height = ", height);
             }}
         >
-            <CustomForm
-                fieldsConfig={fieldsConfig}
-                refs={refs}
-                removeFocusFromAll={removeFocusFromAll}
-                initialValues={{
-                    gender: user.gender,
-                    birthDate: user.birthDate,
-                    birthTime: user.birthTime,
-                    birthCountry: user.birthCountry,
-                    birthCity: user.birthCity,
-                    biography: user.biography,
-                }}
-                validationSchema={profileValidationSchema}
-                onSubmit={onSubmitForm}
-                submitText={submitText}
-            />
+            {/* <View style={styles.container}> */}
+                <CustomForm
+                    fieldsConfig={fieldsConfig}
+                    refs={refs}
+                    removeFocusFromAll={removeFocusFromAll}
+                    initialValues={{
+                        datePrediction: new Date(),
+                    }}
+                    onSubmit={onSubmitForm}
+                    submitText={submitText}
+                />
+            {/* </View> */}
+
         </View>
     );
 };
 
-export default ProfileForm;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1, 
+        marginTop: 100,
+        width: '100%',
+        // borderWidth: 1,
+        // borderColor: "red"
+    }
+})
+
+export default DatePredictionForm;

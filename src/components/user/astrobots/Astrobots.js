@@ -28,7 +28,8 @@ const Astrobots = ({ onSubmit }) => {
     const { user, setUser } = useUser();
 
     // Загрузка изображений 
-    const astrobots = appConfig.Astrobots;
+    const astrobots = appConfig[user.language].Astrobots;
+
     useEffect(() => {
         const loadedImages = astrobots.reduce((acc, astrobot) => {
             acc[astrobot.name] = imageContext('./' + astrobot.image);
@@ -48,7 +49,7 @@ const Astrobots = ({ onSubmit }) => {
                 onSubmit={onSelectAstrobot}
             />
         );
-    }; 
+    };
 
     const onSelectAstrobot = async (astrobotData) => {
         console.log("Astrobot ", astrobotData, " selected");

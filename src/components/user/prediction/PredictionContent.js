@@ -6,6 +6,7 @@ import useButtonSelection from '../../../hooks/useButtonSelection';
 import useAstrobotImages from '../../../hooks/loadAstrobotImages';
 import inputStyles from '../../../styles/InputStyles';
 import colors from '../../../styles/colors';
+import { sendToServer } from '../../../services/sendToServer'
 
 const buttonsTop = [
     { label: 'Day', iconName: 'calendar' },
@@ -43,6 +44,21 @@ const PredictionContent = ({ selectedZodiac }) => {
 
     const onLoadMore = () => {
         console.log("PredictionContent onLoadMore");
+
+        const predictionData =
+        {
+            predictionPeriod: selectedTop,
+            // todayDate
+            // number articles
+        }
+
+        sendToServer('prediction', predictionData)
+            .then(response => {
+                console.log("Response from server", response);
+            })
+            .catch(error => {
+                console.error("Error sending astrobot to server: ", error)
+            });
     };
 
     //console.log("Render PredictionContent, selectedZodiac", selectedZodiac);

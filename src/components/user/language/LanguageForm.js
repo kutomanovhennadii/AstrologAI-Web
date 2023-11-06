@@ -21,16 +21,15 @@ const LanguageForm = ({ onSubmit }) => {
 
     console.log("Render LanguageForm")
 
-    // Загрузка метаданных полей из JSON
-    const fieldMetadataArray = appConfig["languageMetadataArray"];
-    const languageList = appConfig["languageList"].map(item => ({
-        "label": item.name ,
-        "value": item.name 
-    }));
-
     const { user, setUser } = useUser();
-    console.log("user.language = ", user.language)
 
+    // Загрузка метаданных полей из JSON
+    const fieldMetadataArray = appConfig[user.language]["languageMetadataArray"];
+    
+    const languageList = appConfig[user.language]["languageList"].map(item => ({
+        "label": item.name,
+        "value": item.name
+    }));
 
     // Создание массива идентификаторов ссылок
     const refIdentifiers = fieldMetadataArray.map(item => item.name);
@@ -84,7 +83,7 @@ const LanguageForm = ({ onSubmit }) => {
                     }}
                     validationSchema={languageValidationSchema}
                     onSubmit={onSubmitForm}
-                    submitText = "Select"
+                    submitText="Select"
                 />
             </View>
         </View>

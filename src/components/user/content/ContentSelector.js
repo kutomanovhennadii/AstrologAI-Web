@@ -21,12 +21,10 @@ const ContentSelector = ({ onSubmit }) => {
 
     console.log("Render ContentSelector")
 
-    // Загрузка метаданных полей из JSON
-    const fieldMetadataArray = appConfig["contentMetadataArray"];
-
     const { user, setUser } = useUser();
-    //console.log("languageList = ", languageList)
 
+    // Загрузка метаданных полей из JSON
+    const fieldMetadataArray = appConfig[user.language]["contentMetadataArray"];
 
     // Создание массива идентификаторов ссылок
     const refIdentifiers = fieldMetadataArray.map(item => item.name);
