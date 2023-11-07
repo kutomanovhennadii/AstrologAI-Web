@@ -7,7 +7,7 @@ const colors = {
     focusedBorderColor: 'blue',
     placeholderTextColor: "#797A5E",
 
-    backdropColorLight: '#BFAB93',
+    backdropColorLight: '#c5c4fd',
     //backdropColorLight: 'rgb(240,240,197)',
     backdropColorDark: 'rgb(198, 198, 156)',
 

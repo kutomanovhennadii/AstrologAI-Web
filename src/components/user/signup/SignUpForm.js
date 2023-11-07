@@ -4,7 +4,7 @@ import { View } from 'react-native';
 
 import appConfig from '../../../static/json/appConfig.json';
 
-import { profileValidationSchema } from './validationSchema';
+import { makeValidationSchema } from './validationSchema';
 import useFocusManagement from '../../../hooks/useFocusManagement';
 import { useScreenOffsetControl } from '../../../hooks/useScreenOffsetControl';
 import { getAdditionalPropsByName } from './getAdditionalPropsByName';
@@ -17,6 +17,11 @@ import { useUser } from '../../../context/UserContext';
 const SignUpForm = ({ onSubmit, goToTerms, termsAccepted = false }) => {
 
     const { user, setUser } = useUser();
+
+    const commonText = appConfig[user.language]["common"];
+    const submitText = user.registrated ? commonText["Select"] : commonText["Continue"];
+
+    const validationSchema = makeValidationSchema(user.language);
 
     // Загрузка метаданных полей из JSON
     const fieldMetadataArray = appConfig[user.language]["signUpMetadataArray"];
@@ -66,8 +71,9 @@ const SignUpForm = ({ onSubmit, goToTerms, termsAccepted = false }) => {
                         cofirmPassword: '',
                         agreeToTerms: termsAccepted
                     }}
-                    validationSchema={profileValidationSchema}
+                    validationSchema={validationSchema}
                     onSubmit={onSubmit}
+                    submitText={submitText}
                 />
             </View>
         </View>

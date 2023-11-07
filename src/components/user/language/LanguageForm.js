@@ -7,6 +7,7 @@ import appConfig from '../../../static/json/appConfig.json';
 import { languageValidationSchema } from './validationSchema';
 import useFocusManagement from '../../../hooks/useFocusManagement';
 import { useScreenOffsetControl } from '../../../hooks/useScreenOffsetControl';
+import useBackHandler from '../../../hooks/useBackHandler';
 
 import CustomForm from '../../common/CustomForm';
 import { componentInstaller } from '../../../utils/componentInstaller';
@@ -17,16 +18,19 @@ import inputStyles from '../../../styles/InputStyles';
 import colors from '../../../styles/colors';
 
 // Основной компонент формы профиля
-const LanguageForm = ({ onSubmit }) => {
+const LanguageForm = ({ onSubmit, onBack }) => {
 
-    console.log("Render LanguageForm")
+    //console.log("Render LanguageForm")
 
     const { user, setUser } = useUser();
 
     // Загрузка метаданных полей из JSON
     const fieldMetadataArray = appConfig[user.language]["languageMetadataArray"];
+    const commonText = appConfig[user.language]["common"];
+
+    //console.log("LanguageForm fieldMetadataArray ", fieldMetadataArray);
     
-    const languageList = appConfig[user.language]["languageList"].map(item => ({
+    const languageList = appConfig["languageList"].map(item => ({
         "label": item.name,
         "value": item.name
     }));
@@ -64,6 +68,8 @@ const LanguageForm = ({ onSubmit }) => {
         onSubmit();
     }
 
+    useBackHandler(onBack);
+
     return (
         <View style={[inputStyles.size100, { flex: 1, top: 50 }]}>
             <View {...panResponder.panHandlers}
@@ -83,7 +89,7 @@ const LanguageForm = ({ onSubmit }) => {
                     }}
                     validationSchema={languageValidationSchema}
                     onSubmit={onSubmitForm}
-                    submitText="Select"
+                    submitText={commonText["Select"]}
                 />
             </View>
         </View>

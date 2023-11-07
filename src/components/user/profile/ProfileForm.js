@@ -20,6 +20,8 @@ import { useUser } from '../../../context/UserContext';
 const ProfileForm = ({ onSubmit }) => {
     const { user, setUser } = useUser();
 
+    const commonText = appConfig[user.language]["common"];
+
     const onSubmitForm = (profileData) => {
         setUser(prevUser => ({
             ...prevUser,
@@ -41,7 +43,7 @@ const ProfileForm = ({ onSubmit }) => {
 
         onSubmit();
     }
-    const submitText = user.registrated ? "Select" : "Continue";
+    const submitText = user.registrated ? commonText["Select"] : commonText["Continue"];
 
     // Загрузка метаданных полей из JSON
     const fieldMetadataArray = appConfig[user.language]["profileMetadataArray"];

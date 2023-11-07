@@ -11,6 +11,9 @@ import inputStyles from '../../../styles/InputStyles';
 import designConstants from '../../../styles/designConstants';
 import colors from '../../../styles/colors';
 
+import { useUser } from '../../../context/UserContext';
+import appConfig from '../../../static/json/appConfig.json';
+
 const VerificationForm = ({ onSubmit, initialValues, onResend }) => {
     const validationSchema = Yup.object().shape({
         square0: Yup.string().required().length(1),
@@ -19,11 +22,12 @@ const VerificationForm = ({ onSubmit, initialValues, onResend }) => {
         square3: Yup.string().required().length(1),
     });
 
-    //console.log("VerificationForm initialValues = ", initialValues);
-
     const square2Ref = useRef();
     const square3Ref = useRef();
     const square4Ref = useRef();
+
+    const { user, setUser } = useUser();
+    const commonText = appConfig[user.language]["common"];
 
     return (
         <Formik
@@ -38,7 +42,6 @@ const VerificationForm = ({ onSubmit, initialValues, onResend }) => {
             }}
         >
             {({ handleSubmit }) => {
-                // Добавлено логгирование перед рендерингом компонента
                 //console.log("Rendering VerificationForm with initialValues = ", initialValues);
                 return (
                     <>
@@ -51,15 +54,17 @@ const VerificationForm = ({ onSubmit, initialValues, onResend }) => {
                         <Container topOffset={designConstants.topOffset40}>
                             <View>
                                 <Text style={[inputStyles.titleText, inputStyles.textAlignCenter]}>
-                                    {`If you don’t receive a code?`}
+                                    {commonText["If you don’t receive a code?"]}
                                 </Text>
                                 <TouchableOpacity onPress={onResend}>
-                                    <Text style={[inputStyles.titleText, styles.ressend]}>RESEND</Text>
+                                    <Text style={[inputStyles.titleText, styles.ressend]}>
+                                        {commonText["RESEND"]}
+                                    </Text>
                                 </TouchableOpacity>
                             </View>
                         </Container>
                         <Container topOffset={designConstants.topOffset40}>
-                            <SubmitButton text="Continue" onSubmit={handleSubmit} />
+                            <SubmitButton text={commonText["Continue"]} onSubmit={handleSubmit} />
                         </Container>
                     </>
                 );
@@ -71,7 +76,7 @@ const VerificationForm = ({ onSubmit, initialValues, onResend }) => {
 const styles = StyleSheet.create({
     rectangleParent: {
         flexDirection: 'row',
-        justifyContent: 'center',  // Выравнивает дочерние элементы по центру
+        justifyContent: 'center', 
         alignItems: 'center',
         paddingTop: designConstants.topOffset40
     },

@@ -1,28 +1,36 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { View, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import AstrobotPage from "./AstrobotPage"
-import MainFrame from '../../common/MainFrame';
 
-import appConfig from '../../../static/json/appConfig.json';
+
 import inputStyles from '../../../styles/InputStyles';
 import designConstants from '../../../styles/designConstants';
 import colors from '../../../styles/colors';
 
 const imageContext = require.context('../../../static/image', true);
+import useBackHandler from '../../../hooks/useBackHandler';
+
 import { useUser } from '../../../context/UserContext';
+import appConfig from '../../../static/json/appConfig.json';
+
 import { sendToServer } from '../../../services/sendToServer'
 
 export const AstrobotScreenWrapper = ({ navigation }) => {
-    const onSubmitAstrobot = () => {
-        console.log("AstrobotScreenWrapper onSubmitAstrobot")
+    const onSubmit = () => {
+        console.log("AstrobotScreenWrapper onSubmit")
         navigation.navigate('Subscription');
     }
 
-    return <Astrobots onSubmit={onSubmitAstrobot} />;
+    const onBack = () => {
+        console.log("AstrobotScreenWrapper onBack")
+        navigation.navigate('Profile');
+    }
+
+    return <Astrobots onSubmit={onSubmit} onBack={onBack} />;
 };
 
 
-const Astrobots = ({ onSubmit }) => {
+const Astrobots = ({ onSubmit, onBack }) => {
     const [astrobotImages, setAstrobotImages] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const { user, setUser } = useUser();
@@ -30,17 +38,20 @@ const Astrobots = ({ onSubmit }) => {
     // Загрузка изображений 
     const astrobots = appConfig[user.language].Astrobots;
 
+    //console.log("Astrobots =", astrobots);
+
     useEffect(() => {
         const loadedImages = astrobots.reduce((acc, astrobot) => {
             acc[astrobot.name] = imageContext('./' + astrobot.image);
             return acc;
         }, {});
         setAstrobotImages(loadedImages);
+        console.log("loadedImages =", loadedImages);
     }, []);
 
     // Верстка страницы
     const renderItem = ({ item }) => {
-        //console.log('onSubmit in renderItem:', onSubmit);
+        console.log('onSubmit in renderItem:', onSubmit);
         return (
             <AstrobotPage
                 image={astrobotImages[item.name]}
@@ -70,6 +81,8 @@ const Astrobots = ({ onSubmit }) => {
 
     }
 
+    useBackHandler(onBack);
+
     // Обновление номера страницы
     const onViewableItemsChanged = useCallback(({ viewableItems }) => {
         if (viewableItems.length > 0) {
@@ -86,7 +99,7 @@ const Astrobots = ({ onSubmit }) => {
                 <FlatList
                     horizontal
                     pagingEnabled
-                    data={appConfig.Astrobots}
+                    data={astrobots}
                     renderItem={renderItem}
                     keyExtractor={(item, index) => 'page_' + index}
                     onViewableItemsChanged={onViewableItemsChanged}
@@ -102,7 +115,7 @@ const Astrobots = ({ onSubmit }) => {
 
             {/* Пагинация */}
             <View style={styles.paginationDots}>
-                {appConfig.Astrobots.map((_, i) => {
+                {astrobots.map((_, i) => {
                     //console.log(`Rendering dot with index: ${i}, current page: ${currentPage}`);
                     return (
                         <View

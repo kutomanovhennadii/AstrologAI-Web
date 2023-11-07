@@ -2,25 +2,36 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 
 import GreetingPage from './GreetingPage';
-import appConfig from '../../../static/json/appConfig.json';
 import SubmitButton from '../../common/SubmitButton';
 
 import inputStyles from '../../../styles/InputStyles';
 import designConstants from '../../../styles/designConstants';
 import colors from '../../../styles/colors';
 
-import { useUser } from '../../../context/UserContext';
+import useBackHandler from '../../../hooks/useBackHandler';
 
-const GreetingForm = () => {
+import { useUser } from '../../../context/UserContext';
+import appConfig from '../../../static/json/appConfig.json';
+
+const GreetingForm = ({ navigation }) => {
     const [currentPage, setCurrentPage] = useState(0);
     const { user, setUser } = useUser();
 
+    const commonText = appConfig[user.language]["common"];
+    const greetingPage = appConfig[user.language]["GreetingPage"];
+
     const images = {
         "Welcome": require('../../../static/image/midjourneycat_by_Bess_Hamiti_Starry_sky_realistic_photo.png'),
-        "Daily": require('../../../static/image/midjourneycat_by_Goya_Starry_sky_realistic_photo.png'),
-        "Horoscope": require('../../../static/image/midjourneycat_by_Sara_Andreasson_Starry_sky_realistic_photo.png'),
+        "Daily": require('../../../static/image/midjourneycat_by_Tami_Bone_Starry_sky_realistic_photo.png'),
+        "Profile": require('../../../static/image/midjourneycat_by_Banksy_Starry_sky_realistic_photo.png'),
+        "Astrobot": require('../../../static/image/midjourneycat_by_David_Carson_Starry_sky_realistic_photo.png'),
+        "Content": require('../../../static/image/midjourneycat_by_Neville_Brody_Starry_sky_realistic_photo.png'),
+        "Push": require('../../../static/image/midjourneycat_by_Scarlett_Hooft_Graafland_Starry_sky_realistic_photo.png'),
+        "Premium": require('../../../static/image/midjourneycat_by_Peter_Saville_Starry_sky_realistic_photo.png'),
         // ...
     };
+
+    console.log("images =", images);
 
     const renderItem = ({ item }) => {
         //console.log("Rendering item with header text: " + item.headerText);
@@ -41,13 +52,19 @@ const GreetingForm = () => {
         }
     }, []);
 
-    const navigateToNextPage = () => {
-        setUser(prevUser => ({
-            ...prevUser,
-            isAuthenticated: true,
-        }));
+    const onSubmit = () => {
+
         console.log("Навигация на следующую страницу");
+        navigation.navigate('Profile');
     };
+
+    const onBack = () => {
+
+        console.log("Навигация на следующую страницу");
+        navigation.navigate('Verification');
+    };   
+
+    useBackHandler(onBack);
 
     //console.log("Render GreetingForm, currentPage = " + currentPage);
     return (
@@ -56,7 +73,7 @@ const GreetingForm = () => {
                 <FlatList
                     horizontal
                     pagingEnabled
-                    data={appConfig.GreetingPage}
+                    data={greetingPage}
                     renderItem={renderItem}
                     keyExtractor={(item, index) => 'page_' + index}
                     onViewableItemsChanged={onViewableItemsChanged}
@@ -71,7 +88,7 @@ const GreetingForm = () => {
             </View>
 
             <View style={styles.paginationDots}>
-                {appConfig.GreetingPage.map((_, i) => {
+                {greetingPage.map((_, i) => {
                     //console.log(`Rendering dot with index: ${i}, current page: ${currentPage}`);
                     return (
                         <View
@@ -86,7 +103,7 @@ const GreetingForm = () => {
             </View>
 
             <View style={styles.submitFrame}>
-                <SubmitButton text="Continue" onSubmit={navigateToNextPage} />
+                <SubmitButton text={commonText["SKIP"]} onSubmit={onSubmit} /> 
             </View>
 
         </View>
@@ -107,7 +124,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         position: 'absolute',
-        bottom: 120,
+        bottom: 100,
         left: 0,
         right: 0,
     },

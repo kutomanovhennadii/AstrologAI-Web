@@ -2,22 +2,25 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import appConfig from '../../../static/json/appConfig.json';
-
-import { profileValidationSchema } from './validationSchema';
+import { makeValidationSchema } from './validationSchema';
 import useFocusManagement from '../../../hooks/useFocusManagement';
 import { useScreenOffsetControl } from '../../../hooks/useScreenOffsetControl';
-
-import { useUser } from '../../../context/UserContext';
 import CustomForm from '../../common/CustomForm';
 import { componentInstaller } from '../../../utils/componentInstaller';
+
+import { useUser } from '../../../context/UserContext';
+import appConfig from '../../../static/json/appConfig.json';
 
 // Основной компонент формы профиля
 const SignInForm = ({ onSubmit, initialValues }) => {
 
     //console.log("SignInForm initialValues = ", initialValues)
     const { user, setUser } = useUser();
-    
+    const commonText = appConfig[user.language]["common"];
+
+    const submitText = user.registrated ? commonText["Select"] : commonText["Continue"];
+    const validationSchema = makeValidationSchema(user.language);
+
     // Загрузка метаданных полей из JSON
     const fieldMetadataArray = appConfig[user.language]["signInMetadataArray"];
 
@@ -48,8 +51,9 @@ const SignInForm = ({ onSubmit, initialValues }) => {
             refs={refs}
             removeFocusFromAll={removeFocusFromAll}
             initialValues={initialValues}
-            validationSchema={profileValidationSchema}
+            validationSchema={validationSchema}
             onSubmit={onSubmit}
+            submitText={submitText}
         />
     );
 };

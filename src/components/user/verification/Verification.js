@@ -4,14 +4,16 @@ import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 
 import Container from '../../common/Container';
 import VerificationForm from './VerificationForm';
-import GreetingForm from '../greeting/GreetingForm'
 
 import inputStyles from '../../../styles/InputStyles';
 import designConstants from '../../../styles/designConstants';
 import colors from '../../../styles/colors';
 
+import useBackHandler from '../../../hooks/useBackHandler';
+
 import { useUser } from '../../../context/UserContext';
 import { useVerification } from '../../../hooks/useVerification';
+import appConfig from '../../../static/json/appConfig.json';
 
 const Verification = ({ navigation }) => {
     //console.log("Render Verification")
@@ -26,6 +28,8 @@ const Verification = ({ navigation }) => {
         square3: '',
     });
 
+    const commonText = appConfig[user.language]["common"];
+
     const onSubmit = (values) => {
         console.log("Verification values = ", values);
         console.log("Verification user.verificationCode = ", user.verificationCode);
@@ -38,7 +42,8 @@ const Verification = ({ navigation }) => {
                 ...prevUser,
                 registrated: false,
             }));
-            navigation.navigate('Profile');
+            console.log("Verification onSibmit ")
+            navigation.navigate('GreetingForm');
         }
         else {
             setAuthError("Something went sideways. Care to try again?");
@@ -51,6 +56,12 @@ const Verification = ({ navigation }) => {
         }
     };
 
+    const onBack = () => {
+        navigation.navigate('SignUp');
+    }
+
+    useBackHandler(onBack);
+
     const onResend = async () => {
         const verificationCode = await verifyUser();
         //console.log("Verification onResend");
@@ -60,11 +71,15 @@ const Verification = ({ navigation }) => {
         <View style={[inputStyles.size100]}>
 
             <Container topOffset={designConstants.topOffset40}>
-                <Text style={[inputStyles.titleText, styles.title]}>Verification</Text>
+                <Text style={[inputStyles.titleText, styles.title]}>
+                    {commonText["Verification"]}
+                </Text>
             </Container>
 
             <Container topOffset={designConstants.topOffset40}>
-                <Text style={[inputStyles.text, styles.enterCode]}>Enter the code we just send you on your email address</Text>
+                <Text style={[inputStyles.text, styles.enterCode]}>
+                    {commonText["Enter the code we just send you on your email address"]}
+                </Text>
             </Container>
 
             {authError && <Text

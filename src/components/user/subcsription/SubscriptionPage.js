@@ -11,6 +11,7 @@ import colors from '../../../styles/colors';
 import designConstants from '../../../styles/designConstants';
 
 import { useUser } from '../../../context/UserContext';
+import appConfig from '../../../static/json/appConfig.json';
 
 const { width, height } = Dimensions.get('window');
 
@@ -18,6 +19,7 @@ const SubscriptionPage = ({ data, onSubmit }) => {
     //console.log("Render SubscriptionPage " + data);
 
     const { user, setUser } = useUser();
+    const commonText = appConfig[user.language]["common"];
 
     // Извлечение данных из data
     const { Title, PerMonth, PerYear, Items, Description } = data;
@@ -48,7 +50,7 @@ const SubscriptionPage = ({ data, onSubmit }) => {
             <View style={[styles.container]}>
                 <Text style={[inputStyles.titleText, styles.title]}>{Title}</Text>
 
-                <Container topOffset={16}>
+                <Container topOffset={10}>
                     {PerMonth == 0 ? (
                         <Text style={[inputStyles.text, styles.font20, styles.pricing1]}>{`${PerMonth}$ / month`}</Text>
                     ) : (
@@ -60,7 +62,6 @@ const SubscriptionPage = ({ data, onSubmit }) => {
                     )}
                 </Container >
 
-                <Text style={[inputStyles.text, styles.forecastType]}>Forecast type</Text>
                 <View style={styles.featuresContainer}>
                     {Object.entries(Items).map(([key, value], index) => (
                         <FeatureBox key={index} label={key} isChecked={value === 'true'} />
@@ -73,19 +74,19 @@ const SubscriptionPage = ({ data, onSubmit }) => {
                 {PerMonth == 0 ? (
                     <View style={styles.submitButton} >
                         <SubmitButton
-                            text="Select"
+                            text={commonText["Select"]}
                             onSubmit={() => onSubmitSubscription("monthly")} />
                     </View>
                 ) : (
                     <>
                         <View style={styles.submitButton} >
                             <SubmitButton
-                                text="Select monthly"
+                                text={commonText["Select monthly"]}
                                 onSubmit={() => onSubmitSubscription("monthly")} />
                         </View>
                         <View style={styles.submitButton} >
                             <SubmitButton
-                                text="Select yearly"
+                                text={commonText["Select yearly"]}
                                 onSubmit={() => onSubmitSubscription("yearly")} />
                         </View>
                     </>
@@ -99,9 +100,9 @@ const styles = StyleSheet.create({
     container: {
         padding: 16,
         width: width - 40,
-        height: height - 280,
+        height: height - 260,
         marginHorizontal: 20,
-        marginTop: 30,
+        marginTop: 20,
         borderRadius: designConstants.borderRadius,
         borderColor: colors.blueBell,
         borderWidth: designConstants.borderWidth,
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 28,
         textAlign: "center",
-        paddingTop: 16,
+        paddingTop: 4,
         fontFamily: "Raleway-SemiBold",
         color: colors.darkSeaGreen,
     },
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
         //letterSpacing: 1,
     },
     featuresContainer: {
-        marginTop: 16,
+        marginTop: 10,
     },
     description: {
         marginTop: 16,

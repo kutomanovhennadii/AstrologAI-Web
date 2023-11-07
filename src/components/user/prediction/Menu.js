@@ -68,34 +68,48 @@ const Menu = () => {
             {selectedMenu === null && (
                 <>
                     <TouchableOpacity style={styles.button} onPress={onSetDate}>
-                        <Text style={styles.text}>Set date</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={onSubmitAstrobot}>
-                        <Text style={styles.text}>Astrobot</Text>
+                        <Text style={styles.text}>
+                            {menuNames["Set date"]}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={onSubmitProfile}>
-                        <Text style={styles.text}>Profile</Text>
+                        <Text style={styles.text}>
+                            {menuNames["Profile"]}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={onSubmitAstrobot}>
+                        <Text style={styles.text}>
+                            {menuNames["Astrobot"]}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={onSubmitLanguage}>
-                        <Text style={styles.text}>Language</Text>
+                        <Text style={styles.text}>
+                            {menuNames["Language"]}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={onSubmitContent}>
-                        <Text style={styles.text}>Content</Text>
+                        <Text style={styles.text}>
+                            {menuNames["Content"]}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={onSubmitSubscription}>
-                        <Text style={styles.text}>Subscription</Text>
+                        <Text style={styles.text}>
+                            {menuNames["Subscription"]}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={onSubmitLogout}>
-                        <Text style={styles.text}>Log out</Text>
+                        <Text style={styles.text}>
+                            {menuNames["Log out"]}
+                        </Text>
                     </TouchableOpacity>
                 </>
             )}
-            {selectedMenu === 'DatePrediction' && <DatePredictionForm onSubmit={resetMenu} />}
-            {selectedMenu === 'Astrobot' && <Astrobots onSubmit={resetMenu} />}
-            {selectedMenu === 'Profile' && <Profile onSubmit={resetMenu} />}
-            {selectedMenu === 'Language' && <LanguageForm onSubmit={resetMenu} />}
-            {selectedMenu === 'Content' && <ContentSelector onSubmit={resetMenu} />}
-            {selectedMenu === 'Subscription' && <Subscription onSubmit={resetMenu} />}
+            {selectedMenu === 'DatePrediction' && <DatePredictionForm onSubmit={resetMenu} onBack={resetMenu} />}
+            {selectedMenu === 'Astrobot' && <Astrobots onSubmit={resetMenu} onBack={resetMenu} />}
+            {selectedMenu === 'Profile' && <Profile onSubmit={resetMenu} onBack={resetMenu} />}
+            {selectedMenu === 'Language' && <LanguageForm onSubmit={resetMenu} onBack={resetMenu} />}
+            {selectedMenu === 'Content' && <ContentSelector onSubmit={resetMenu} onBack={resetMenu} />}
+            {selectedMenu === 'Subscription' && <Subscription onSubmit={resetMenu} onBack={resetMenu} />}
         </View>
     );
 };

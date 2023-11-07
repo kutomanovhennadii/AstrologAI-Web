@@ -12,18 +12,17 @@ import inputStyles from '../../../styles/InputStyles';
 
 import { useAuthentication } from '../../../hooks/useAuthentication';
 import { useUser } from '../../../context/UserContext';
+import appConfig from '../../../static/json/appConfig.json';
 
 const SignIn = ({ navigation }) => {
 
     const { authenticateUser, loading } = useAuthentication();
     const [authError, setAuthError] = useState(null);
     const [initialValues, setInitialValues] = useState({ email: '', password: '' });
+    const { user, setUser } = useUser();
 
-    // useEffect(() => {
-    //     console.log('SignInForm mounted or updated');
-    // }, []);
+    const commonText = appConfig[user.language]["common"];
 
-    //console.log("SignIn loading = ", loading)
 
     const goToSignUp = () => {
         navigation.navigate('SignUp');
@@ -32,7 +31,7 @@ const SignIn = ({ navigation }) => {
     const onSubmit = async (values) => {
         //console.log('onSubmit called', values);
         const isAuthenticated = await authenticateUser(values);
-        //console.log('SignIn onSubmit isAuthenticated=', isAuthenticated);
+
         if (!isAuthenticated) {
             setAuthError("Yikes! Something went sideways. Care to try again?");
             setInitialValues(values); // Сохраняем введенные данные
@@ -51,7 +50,9 @@ const SignIn = ({ navigation }) => {
         <View style={[inputStyles.size100]}>
 
             <Container topOffset={80}>
-                <Text style={[inputStyles.titleText]}>Sign in to your account</Text>
+                <Text style={[inputStyles.titleText]}>
+                    {commonText["Sign in to your account"]}
+                </Text>
             </Container>
 
             {authError && <Text style={inputStyles.errorText}>{authError}</Text>}
@@ -64,8 +65,8 @@ const SignIn = ({ navigation }) => {
 
             <View style={inputStyles.bottom10}>
                 <PromptWithActionLink
-                    promt="Have an account?"
-                    buttonText="Sign Up"
+                    promt={commonText["Don't have an account?"]}
+                    buttonText={commonText["Sign Up"]}
                     onLinkPress={goToSignUp} />
             </View>
         </View>);

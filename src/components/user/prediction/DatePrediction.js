@@ -6,6 +6,7 @@ import appConfig from '../../../static/json/appConfig.json';
 
 import useFocusManagement from '../../../hooks/useFocusManagement';
 import { useScreenOffsetControl } from '../../../hooks/useScreenOffsetControl';
+import useBackHandler from '../../../hooks/useBackHandler';
 
 import CustomForm from '../../common/CustomForm';
 import { componentInstaller } from '../../../utils/componentInstaller';
@@ -14,7 +15,7 @@ import { sendToServer } from '../../../services/sendToServer'
 import { useUser } from '../../../context/UserContext';
 
 // Основной компонент формы профиля
-const DatePredictionForm = ({ onSubmit }) => {
+const DatePredictionForm = ({ onSubmit, onBack }) => {
     const { user, setUser } = useUser();
 
     const onSubmitForm = (data) => {
@@ -33,7 +34,11 @@ const DatePredictionForm = ({ onSubmit }) => {
 
         onSubmit();
     }
-    const submitText = user.registrated ? "Select" : "Continue";
+
+    const commonText = appConfig[user.language]["common"];
+    const submitText = user.registrated ? commonText["Select"] : commonText["Continue"];
+
+    useBackHandler(onBack);
 
     // Загрузка метаданных полей из JSON
     const fieldMetadataArray = appConfig[user.language]["datePredictionMetadataArray"];
@@ -69,16 +74,16 @@ const DatePredictionForm = ({ onSubmit }) => {
             }}
         >
             {/* <View style={styles.container}> */}
-                <CustomForm
-                    fieldsConfig={fieldsConfig}
-                    refs={refs}
-                    removeFocusFromAll={removeFocusFromAll}
-                    initialValues={{
-                        datePrediction: new Date(),
-                    }}
-                    onSubmit={onSubmitForm}
-                    submitText={submitText}
-                />
+            <CustomForm
+                fieldsConfig={fieldsConfig}
+                refs={refs}
+                removeFocusFromAll={removeFocusFromAll}
+                initialValues={{
+                    datePrediction: new Date(),
+                }}
+                onSubmit={onSubmitForm}
+                submitText={submitText}
+            />
             {/* </View> */}
 
         </View>
@@ -87,7 +92,7 @@ const DatePredictionForm = ({ onSubmit }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, 
+        flex: 1,
         marginTop: 100,
         width: '100%',
         // borderWidth: 1,

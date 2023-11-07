@@ -7,10 +7,15 @@ import { Dimensions } from 'react-native';
 import inputStyles from '../../../styles/InputStyles';
 import designConstants from '../../../styles/designConstants';
 import colors from '../../../styles/colors';
+import appConfig from '../../../static/json/appConfig.json';
+import { useUser } from '../../../context/UserContext';
 
 const screenWidth = Dimensions.get('window').width;
 
 const AstrobotPage = ({ name, image, description, onSubmit }) => {
+
+    const { user, setUser } = useUser();
+    const commonText = appConfig[user.language]["common"];
 
     const selectAstrobot = () => {
         //console.log("Selected astrobot ", name)
@@ -48,7 +53,7 @@ const AstrobotPage = ({ name, image, description, onSubmit }) => {
                 <Text style={[inputStyles.text, styles.description]}>{description}</Text>
             </View>
             <View style={styles.submitFrame}>
-                <SubmitButton text="Select your astrobot" onSubmit={selectAstrobot} />
+                <SubmitButton text={commonText["Select your astrobot"]} onSubmit={selectAstrobot} />
             </View>
         </View>
     );
@@ -69,7 +74,7 @@ const styles = StyleSheet.create({
         alignItems: 'center', // Выравнивание текста по центруalignItems: 'center', // Выравнивание текста по центру
         width: screenWidth,
         // backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        padding: 15,
+        paddingHorizontal: 15,
         // borderWidth: 1,
         // borderColor: "red" 
 
@@ -90,7 +95,7 @@ const styles = StyleSheet.create({
     },
     description: {
         lineHeight: 19,
-        height: 210,
+        height: 250,
         textAlign: 'justify',
         letterSpacing: 0.5
     },

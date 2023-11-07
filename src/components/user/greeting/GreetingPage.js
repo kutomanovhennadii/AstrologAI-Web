@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
         alignItems: 'center',
-        marginTop: designConstants.topOffset40,
+        marginTop: 10,
         // borderWidth: 1,
         // borderColor: "red" 
     },
@@ -36,9 +36,9 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         //padding: 16,
-        marginTop: designConstants.topOffset40,
-        width: screenWidth,
-        
+        marginTop: 10,
+        width: screenWidth-30,
+
     },
     header: {
         fontSize: 34,
@@ -47,15 +47,15 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
     },
     body: {
-        fontSize: 23,
-        lineHeight: 32,
-        paddingTop: designConstants.topOffset40,
-        textAlign: 'center',
+        fontSize: 16,
+        //lineHeight: 32,
+        paddingTop: 10,
+        textAlign: 'justify',
         flexWrap: 'wrap',
         // borderWidth: 1,
         // borderColor: "red" 
     },
-    
+
 });
 
 export default GreetingPage;

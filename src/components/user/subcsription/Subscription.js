@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 
+import { useUser } from '../../../context/UserContext';
 import appConfig from '../../../static/json/appConfig.json';
 import SubscriptionPage from './SubscriptionPage'
 
@@ -8,18 +9,28 @@ import inputStyles from '../../../styles/InputStyles';
 import colors from '../../../styles/colors';
 
 import { sendToServer } from '../../../services/sendToServer'
+import useBackHandler from '../../../hooks/useBackHandler';
 
 export const SubscriptionScreenWrapper = ({ navigation }) => {
-    const onSubmitSubscription = () => {
+    const onSubmit = () => {
         console.log("SubscriptionScreenWrapper onSubmitSubscription")
-        navigation.navigate('GreetingForm');
+        // navigation.navigate('GreetingForm');
     }
 
-    return <Subscription onSubmit={onSubmitSubscription} />;
+    const onBack = () => {
+        console.log("SubscriptionScreenWrapper onSubmitSubscription")
+        navigation.navigate('Astrobots');
+    }
+
+    return <Subscription onSubmit={onSubmit} onBack={ onBack } />;
 };
 
-const Subscription = ({ onSubmit }) => {
+const Subscription = ({ onSubmit, onBack }) => {
     const [currentPage, setCurrentPage] = useState(0);
+    const { user, setUser } = useUser();
+
+    const subscribtionText = appConfig[user.language]["Subscribtion"]
+    const commonText = appConfig[user.language]["common"];
 
     //console.log(appConfig.Subscribtion);  
 
@@ -51,8 +62,15 @@ const Subscription = ({ onSubmit }) => {
                 console.error("Error sending astrobot to server: ", error)
             });
 
+        setUser(prevUser => ({
+            ...prevUser,
+            isAuthenticated: true,
+        }));
+
         onSubmit()
     };
+
+    useBackHandler(onBack);
 
     //console.log("Render GreetingForm, currentPage = " + currentPage);
     return (
@@ -61,7 +79,7 @@ const Subscription = ({ onSubmit }) => {
                 <FlatList
                     horizontal
                     pagingEnabled
-                    data={appConfig.Subscribtion}
+                    data={subscribtionText}
                     renderItem={renderItem}
                     keyExtractor={(item, index) => 'page_' + index}
                     onViewableItemsChanged={onViewableItemsChanged}
@@ -76,7 +94,7 @@ const Subscription = ({ onSubmit }) => {
             </View>
 
             <View style={styles.paginationDots}>
-                {appConfig.GreetingPage.map((_, i) => {
+                {subscribtionText.map((_, i) => {
                     //console.log(`Rendering dot with index: ${i}, current page: ${currentPage}`);
                     return (
                         <View
@@ -93,7 +111,7 @@ const Subscription = ({ onSubmit }) => {
     );
 };
 
-const styles = StyleSheet.create({ 
+const styles = StyleSheet.create({
     size100: {
         width: "100%",
         height: "100%",
@@ -114,8 +132,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         position: 'absolute',
-        bottom: 0, 
-        left: 0,
+        bottom: -10,
+        left: 0, 
         right: 0,
 
     },
@@ -126,7 +144,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         bottom: 20
     },
-    activeDot: { backgroundColor: colors.textColor }, 
+    activeDot: { backgroundColor: colors.textColor },
     inactiveDot: { backgroundColor: '#888' },
 });
 

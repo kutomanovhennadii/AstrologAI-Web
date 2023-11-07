@@ -11,7 +11,7 @@ export const UserProvider = ({ children }) => {
         isAuthenticated: true,
         registrated: true,
         astrobot: "Bruce",
-        language: 'English',
+        language: 'Русский',
         generalContent: true,
         businessContent: true,
         relationContent: true,
@@ -25,7 +25,8 @@ export const UserProvider = ({ children }) => {
         biography: '',
         subsciptionType: 'Premium',
         subsciptionPerMonth: 0,
-        subscriptionPerYear: 0
+        subscriptionPerYear: 0,
+        verificationCode: "1234"
     });
 
     // Следим за изменениями состояния `user` и выводим его в консоль

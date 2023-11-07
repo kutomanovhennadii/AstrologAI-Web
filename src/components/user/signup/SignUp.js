@@ -9,12 +9,16 @@ import PromptWithActionLink from '../../common/PromptWithActionLink';
 import SignUpForm from './SignUpForm';
 import inputStyles from '../../../styles/InputStyles';
 import { useVerification } from '../../../hooks/useVerification';
+
 import { useUser } from '../../../context/UserContext';
+import appConfig from '../../../static/json/appConfig.json';
 
 const SignUp = ({ navigation, route }) => {
     const { termsAccepted = false } = (route && route.params) || {};
     const { user, setUser } = useUser();
     const { verifyUser, loading } = useVerification();
+
+    const commonText = appConfig[user.language]["common"];
 
     const goToSignIn = () => {
         navigation.navigate('SignIn');
@@ -48,7 +52,9 @@ const SignUp = ({ navigation, route }) => {
         <View style={[inputStyles.size100]}>
 
             <Container topOffset={0}>
-                <Text style={[inputStyles.titleText]}>Sign up</Text>
+                <Text style={[inputStyles.titleText]}>
+                    {commonText["Sign Up"]}
+                </Text>
             </Container>
 
             <SignUpForm
@@ -59,22 +65,11 @@ const SignUp = ({ navigation, route }) => {
             <SocialLogin />
             <View style={inputStyles.bottom10}>
                 <PromptWithActionLink
-                    promt="Have an account?"
-                    buttonText="Sign In"
+                    promt={commonText["Have an account?"]}
+                    buttonText={commonText["Sign In"]}
                     onLinkPress={goToSignIn} />
             </View>
         </View>);
 };
-
-const styles = StyleSheet.create({
-    // size100: {
-    //     width: "100%",
-    //     height: "100%",
-    // },
-    // bottom10: {
-    //     paddingBottom: 10,
-    // },
-});
-
 
 export default SignUp;

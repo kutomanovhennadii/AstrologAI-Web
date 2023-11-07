@@ -10,8 +10,14 @@ import { useSocialAuthentication } from '../../../hooks/useSocialAuthentication'
 import { googleService } from '../../../services/googleService';
 import { facebookService } from '../../../services/facebookService';
 
+import { useUser } from '../../../context/UserContext';
+import appConfig from '../../../static/json/appConfig.json';
+
 const SocialLogin = () => {
     const [authError, setAuthError] = useState(null);
+    const { user, setUser } = useUser();
+
+    const commonText = appConfig[user.language]["common"];
 
     const handlePress = (platform) => {
         // Ваш код для авторизации
@@ -27,21 +33,23 @@ const SocialLogin = () => {
     const onGoogleSubmit = async () => {
         const isAuthenticated = await authenticateGoogleUser();
         if (!isAuthenticated) {
-            setAuthError("Oops! Something went wrong with Google sign in. Care to try again?");
+            setAuthError(commonText["Oops! Something went wrong with Google sign in. Care to try again?"]);
         }
     };
 
     const onFacebookSubmit = async () => {
         const isAuthenticated = await authenticateFacebookUser();
         if (!isAuthenticated) {
-            setAuthError("Oops! Something went wrong with Facebook sign in. Care to try again?");
+            setAuthError(commonText["Oops! Something went wrong with Facebook sign in. Care to try again?"]);
         }
     };
     const loading = loadingGoogle || loadingFacebook;
 
     return (
         <View style={styles.container}>
-            <Text style={inputStyles.text}>Or sign in with...</Text>
+            <Text style={inputStyles.text}>
+                {commonText["Or sign in with..."]}
+            </Text>
             <View style={styles.continueWithSocialsParent}>
                 <SocialLoginButton imageSource={facebookLogo} onPress={onFacebookSubmit} />
                 <SocialLoginButton imageSource={appleLogo} onPress={() => handlePress('Apple')} style={styles.continueWithAppleLeftAli1} />

@@ -5,9 +5,16 @@ import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
 import designConstants from '../../styles/designConstants';
 
+import appConfig from '../../static/json/appConfig.json';
+import { useUser } from '../../context/UserContext';
+
 const GenderPicker = forwardRef(({ onSelect, removeFocusFromAll, name, label, form, field }, ref) => {
-    const [selectedGender, setSelectedGender] = useState(field.value || ''); // Стейт для выбранного пола
+
+    const [selectedGender, setSelectedGender] = useState(field.value || '');
     const [isFocused, setFocused] = useState(false);
+    const { user, setUser } = useUser();
+
+    const commonText = appConfig[user.language]["common"];
 
     //console.log("Render GenderPicker, field = ", field);
 
@@ -42,7 +49,9 @@ const GenderPicker = forwardRef(({ onSelect, removeFocusFromAll, name, label, fo
                         handleFocus();
                     }}
                 >
-                    <Text style={[inputStyles.text, selectedGender === 'male' && styles.radioTextSelected]}>Male</Text>
+                    <Text style={[inputStyles.text, selectedGender === 'male' && styles.radioTextSelected]}>
+                        {commonText["Male"]}
+                    </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     //activeOpacity={1}
@@ -53,7 +62,9 @@ const GenderPicker = forwardRef(({ onSelect, removeFocusFromAll, name, label, fo
                         handleFocus();
                     }}
                 >
-                    <Text style={[inputStyles.text, selectedGender === 'female' && styles.radioTextSelected]}>Female</Text>
+                    <Text style={[inputStyles.text, selectedGender === 'female' && styles.radioTextSelected]}>
+                        {commonText["Female"]}
+                    </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.radioButton, styles.borderLeft, selectedGender === 'other' && styles.selectedButton]}
@@ -63,7 +74,9 @@ const GenderPicker = forwardRef(({ onSelect, removeFocusFromAll, name, label, fo
                         handleFocus();
                     }}
                 >
-                    <Text style={[inputStyles.text, selectedGender === 'other' && styles.radioTextSelected]}>Other</Text>
+                    <Text style={[inputStyles.text, selectedGender === 'other' && styles.radioTextSelected]}>
+                        {commonText["Other"]}
+                    </Text>
                 </TouchableOpacity>
 
                 {/* Поле ввода, которое появляется при выборе "Other" */}

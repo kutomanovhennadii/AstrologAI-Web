@@ -38,10 +38,26 @@ export default function UserGate() {
                 </View>
             </Container>
             <Stack.Navigator initialRouteName="SignIn">
-                {/* <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
-                <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
-                <Stack.Screen name="Terms" component={Terms} options={{ headerShown: false }} />
-                <Stack.Screen name="Verification" component={Verification} options={{ headerShown: false }} /> */}
+                {/* <Stack.Screen
+                    name="SignIn"
+                    component={SignIn}
+                    options={{ headerShown: false }}
+                /> */}
+                 <Stack.Screen
+                    name="SignUp"
+                    component={SignUp}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Terms"
+                    component={Terms}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Verification"
+                    component={Verification}
+                    options={{ headerShown: false }}
+                />
                 <Stack.Screen
                     name="Profile"
                     component={ProfileScreenWrapper}
@@ -57,8 +73,11 @@ export default function UserGate() {
                     component={SubscriptionScreenWrapper}
                     options={{ headerShown: false }}
                 />
-
-                <Stack.Screen name="GreetingForm" component={GreetingForm} options={{ headerShown: false }} />
+                <Stack.Screen
+                    name="GreetingForm"
+                    component={GreetingForm}
+                    options={{ headerShown: false }}
+                /> 
             </Stack.Navigator>
         </NavigationContainer>
     );
