@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useField } from 'formik';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import inputStyles from '../../styles/InputStyles';
 import designConstants from '../../styles/designConstants';
@@ -16,7 +17,11 @@ const CheckboxLabel = ({ name, label }) => {
     return (
         <TouchableOpacity onPress={toggleCheckbox} style={styles.container}>
             <View style={[inputStyles.border, styles.checkbox]}>
-                <Text style={styles.icon}>{field.value ? '✔️' : ''}</Text>
+                {/* <Text style={styles.icon}>{field.value ? '✔️' : ''}</Text> */}
+                <MaterialCommunityIcons
+                    name="check-bold"
+                    color={field.value ? colors.blueBell : "transparent"}
+                    style={styles.icon} />
             </View>
             <Text style={[inputStyles.text, inputStyles.left20]}>{label}</Text>
         </TouchableOpacity>
@@ -35,7 +40,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     icon: {
-        fontSize: 26,
+        fontSize: 60,
+        margin: -20
     },
 });
 

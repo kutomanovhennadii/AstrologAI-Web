@@ -69,7 +69,7 @@ const CheckboxLabelLink = React.forwardRef((props, ref) => {
                         color={field.value ? colors.blueBell : "transparent"}
                         style={styles.icon} />
                 </View>
-                <View style={styles.center}>
+                <View style={[styles.center, styles.paddingLeft]}>
                     <PromptWithActionLink
                         promt={label}
                         buttonText={placeholder}
@@ -105,7 +105,12 @@ const styles = StyleSheet.create({
     center: {
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 1,
+        //borderColor: "red"
     },
+    paddingLeft: {
+        paddingLeft: 10
+    }
 });
 
 export default CheckboxLabelLink;
