@@ -52,7 +52,7 @@ const CheckboxLabelLink = React.forwardRef((props, ref) => {
                     setFocused(false);
                 }}
                 onFocus={() => {
-                    console.log("onFocus")
+                    //console.log("onFocus")
                     if (ref.current && name) {
                         ref.current.myUniqueId = name;
                     }

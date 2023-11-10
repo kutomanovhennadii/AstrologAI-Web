@@ -25,7 +25,7 @@ const GenderPicker = forwardRef(({ onSelect, removeFocusFromAll, name, label, fo
     }));
 
     const handleFocus = () => {
-        // console.log("Focus GenderPicker");
+        //console.log("Focus GenderPicker");
         if (ref.current && name) {
             ref.current.myUniqueId = name;
         }

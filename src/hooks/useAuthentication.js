@@ -7,15 +7,15 @@ export const useAuthentication = () => {
     const [loading, setLoading] = useState(false);
 
     const authenticateUser = useCallback(async ({ email, password }) => {
-        console.log(`Email: ${email}`);
-        console.log(`Password: ${password}`);
+        //console.log(`Email: ${email}`);
+        //console.log(`Password: ${password}`);
 
         try {
             setLoading(true);
             const data = await authenticateOnServer({ email, password });
             setLoading(false);
 
-            console.log("authenticateUser data = ", data)
+            //console.log("authenticateUser data = ", data)
             if ((data && data.token) && (user.email === email) && (user.password === password)) {
                 setUser(prevUser => ({
                     ...prevUser,
@@ -24,13 +24,13 @@ export const useAuthentication = () => {
                 }));
                 return true;
             } else {
-                console.log('Bad auth')
+                //console.log('Bad auth')
                 // Здесь можно обработать ситуацию, когда аутентификация не успешна
                 return false;
             }
         } catch (error) {
             // Здесь можно обработать ошибку при аутентификации
-            console.error(error);
+            //console.error(error);
             return false;
         }
     }, [setUser, setLoading]);

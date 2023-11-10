@@ -34,7 +34,7 @@ const DateInput = React.forwardRef(({ label, field, form, removeFocusFromAll, na
         if (ref.current && name) {
             ref.current.myUniqueId = name;
         }
-        console.log("Set name ", ref.current.myUniqueId);
+        //console.log("Set name ", ref.current.myUniqueId);
         removeFocusFromAll(ref);
         setFocused(true);
         setShowDatePicker(!showDatePicker);

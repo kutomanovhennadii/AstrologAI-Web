@@ -31,7 +31,7 @@ export const UserProvider = ({ children }) => {
 
     // Следим за изменениями состояния `user` и выводим его в консоль
     useEffect(() => {
-        console.log('User state changed:', user);
+        //console.log('User state changed:', user);
         // Здесь вы можете добавить POST запрос к серверу
     }, [user]);
 

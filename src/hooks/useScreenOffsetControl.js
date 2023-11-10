@@ -26,7 +26,7 @@ export const useScreenOffsetControl = () => {
 
     // Обновление высоты динамического контента
     const updateContentHeight = (newHeight) => {
-        // console.log("updateContentHeight");
+        //console.log("updateContentHeight");
         if (Math.abs(dynamicContentHeightRef.current - newHeight) > 0.5) {
             dynamicContentHeightRef.current = newHeight;
             if (standardContextHeightRef.current == 0) {
@@ -133,7 +133,7 @@ export const useScreenOffsetControl = () => {
         updateScreenOffset(correctedValue);
 
         //Выводим отладочную информацию
-        // console.log(
+        //console.log(
         //     "recalculateScreenOffset: keyboardVisible =", keyboardVisibleRef.current,
         //     "\n                         dynamicContentHeightRef =", dynamicContentHeightRef.current,
         //     "\n                         standartContextHightRef =", standardContextHeightRef.current,

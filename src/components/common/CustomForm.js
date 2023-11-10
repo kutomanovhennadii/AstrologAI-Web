@@ -36,13 +36,13 @@ const CustomForm = ({
                         {fieldsConfig.map((fieldConfig, index) => {
                             //console.log('Создание элемента для:', fieldConfig.name, 'с компонентом:', fieldConfig.component);
                             if (!fieldConfig.component) {
-                                console.error(`Компонент для ${fieldConfig.name} не определен или равен null`);
+                                //console.error(`Компонент для ${fieldConfig.name} не определен или равен null`);
                             }
 
                             return (
                                 <Field key={index} name={fieldConfig.name}>
                                     {({ field, form }) => {
-                                        
+
                                         //console.log("fieldConfig.component:", typeof fieldConfig.component);
                                         return React.createElement(
                                             fieldConfig.component,

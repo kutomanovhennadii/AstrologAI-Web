@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-import { veryficateOnServer } from '../services/veryficateOnServer'; 
+import { veryficateOnServer } from '../services/veryficateOnServer';
 import { useUser } from '../context/UserContext';
 
 export const useVerification = () => {
@@ -8,9 +8,9 @@ export const useVerification = () => {
     const [loading, setLoading] = useState(false);
 
     const verifyUser = useCallback(async () => {
-        // console.log(`Name: ${user.name}`);
-        // console.log(`Email: ${user.email}`);
-        // console.log(`Password: ${user.password}`);
+        //console.log(`Name: ${user.name}`);
+        //console.log(`Email: ${user.email}`);
+        //console.log(`Password: ${user.password}`);
 
         try {
             setLoading(true);
@@ -32,7 +32,7 @@ export const useVerification = () => {
                 // Сюда можно добавить логику, которая будет обрабатывать полученный код
                 return verificationCode;
             } else {
-                console.log('Verification failed')
+                //console.log('Verification failed')
                 // Обработка ситуации, когда верификация не удалась
                 return null;
             }

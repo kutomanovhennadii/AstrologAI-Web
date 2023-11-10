@@ -83,7 +83,7 @@ const FilteredPicker = forwardRef((props, ref) => {
                                         style={[styles.listItem]}
                                         onPress={() => {
                                             Keyboard.dismiss();
-                                            console.log("Selected ", item.value);
+                                            //console.log("Selected ", item.value);
                                             form.setFieldValue(field.name, item.value);
                                             removeFocusFromAll(ref);
                                             //setFocused(false);

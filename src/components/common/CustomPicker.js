@@ -4,7 +4,7 @@ import { Field } from 'formik';
 import { Picker } from '@react-native-picker/picker';
 
 const CustomPicker = React.forwardRef((props, ref) => {
-    console.log("Render CustomPicker")
+    //console.log("Render CustomPicker")
 
     const { label, options, removeFocusFromAll, name, validate, onSelectOption } = props;
     const [isFocused, setFocused] = useState(false);
@@ -12,7 +12,7 @@ const CustomPicker = React.forwardRef((props, ref) => {
     useEffect(() => {
         if (ref.current && name) {
             ref.current.myUniqueId = name;
-            console.log("Set ref name ", name)
+            //console.log("Set ref name ", name)
         }
     }, [name]);
 

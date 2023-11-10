@@ -12,6 +12,7 @@ const useAstrobotImages = () => {
         const astrobots = appConfig[user.language].Astrobots;
         const loadedImages = astrobots.reduce((acc, astrobot) => {
             acc[astrobot.name] = imageContext('./' + astrobot.image);
+            //console.log("useAstrobotImages acc =", acc, astrobot.image)
             return acc;
         }, {});
 
