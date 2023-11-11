@@ -69,7 +69,7 @@ const inputStyles = StyleSheet.create({
     scaledLogo: {
         paddingTop: 25,
         marginBottom: -20,
-        transform: [{ scale: 0.5 }],
+        transform: [{ scale: 0.7 }],
     },
     bottom10: {
         paddingBottom: 10,

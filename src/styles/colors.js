@@ -1,6 +1,7 @@
 // colors.js
 const colors = {
-    textColor: "#CACCA9",
+    textColor: "rgb(216,181,112)",
+    //textColor: "#CACCA9",
     secondaryText: '#777777',
     highlightedText: '#FF5733',
     borderColor: "#fafafa",
@@ -12,7 +13,8 @@ const colors = {
     backdropColorDark: 'rgb(198, 198, 156)',
 
     // gold: "#FFD700",
-    gold: "#FFE55C",
+    gold: "rgb(216,181,112)",
+    //gold: "#FFE55C",
     darkBlue: "#1E2A38",
     bronze: "#B87333",
     paleBlue: "#7FDBFF",

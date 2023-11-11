@@ -18,7 +18,7 @@ const IconButton = ({ name, icon, onSubmit }) => {
                     source={icon}
                     style={styles.imageStyle}
                 />
-                <Text style={inputStyles.text}>{name}</Text>
+                <Text style={[inputStyles.text, styles.text]}>{name}</Text>
             </TouchableOpacity>
         </View>
 
@@ -43,8 +43,15 @@ const styles = StyleSheet.create({
         // resizeMode: 'contain'
         width: '100%',
         height: '100%',
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        borderRadius: designConstants.borderRadius,
+        borderWidth: 1,
+        borderColor: colors.gold
+    },
+    text: {
+        color: colors.gold
     }
+
 
 });
 
