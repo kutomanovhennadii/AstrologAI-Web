@@ -21,13 +21,20 @@ const GreetingForm = ({ navigation }) => {
     const greetingPage = appConfig[user.language]["GreetingPage"];
 
     const images = {
-        "Welcome": require('../../static/image/midjourneycat_by_Bess_Hamiti_Starry_sky_realistic_photo.png'),
-        "Daily": require('../../static/image/midjourneycat_by_Tami_Bone_Starry_sky_realistic_photo.png'),
-        "Profile": require('../../static/image/midjourneycat_by_Banksy_Starry_sky_realistic_photo.png'),
-        "Astrobot": require('../../static/image/midjourneycat_by_David_Carson_Starry_sky_realistic_photo.png'),
-        "Content": require('../../static/image/midjourneycat_by_Neville_Brody_Starry_sky_realistic_photo.png'),
-        "Push": require('../../static/image/midjourneycat_by_Scarlett_Hooft_Graafland_Starry_sky_realistic_photo.png'),
-        "Premium": require('../../static/image/midjourneycat_by_Peter_Saville_Starry_sky_realistic_photo.png'),
+        "Welcome": require('../../static/image/Sky1.png'),
+        //"Welcome": require('../../static/image/midjourneycat_by_Bess_Hamiti_Starry_sky_realistic_photo.png'),
+        "Daily": require('../../static/image/Sky2.png'),
+        //"Daily": require('../../static/image/midjourneycat_by_Tami_Bone_Starry_sky_realistic_photo.png'),
+        "Profile": require('../../static/image/Sky3.png'),
+        //"Profile": require('../../static/image/midjourneycat_by_Banksy_Starry_sky_realistic_photo.png'),
+        "Astrobot": require('../../static/image/Sky4.png'),
+        //"Astrobot": require('../../static/image/midjourneycat_by_David_Carson_Starry_sky_realistic_photo.png'),
+        "Content": require('../../static/image/Sky5.png'),
+        //"Content": require('../../static/image/midjourneycat_by_Neville_Brody_Starry_sky_realistic_photo.png'),
+        "Push": require('../../static/image/Sky6.png'),
+        //"Push": require('../../static/image/midjourneycat_by_Scarlett_Hooft_Graafland_Starry_sky_realistic_photo.png'),
+        "Premium": require('../../static/image/Sky7.png'),
+        //"Premium": require('../../static/image/midjourneycat_by_Peter_Saville_Starry_sky_realistic_photo.png'),
         // ...
     };
 

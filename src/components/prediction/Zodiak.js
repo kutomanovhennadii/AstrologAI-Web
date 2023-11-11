@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
         top: 30
     },
     buttonContainer: {
+        paddingTop: 20,
         width: '33.333%',
         //padding: 5,
 

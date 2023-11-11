@@ -80,9 +80,12 @@ const styles = StyleSheet.create({
 
     },
     image: {
-        width: 280,
-        height: 280,
-        marginTop: 0, // Отступ сверху
+        width: 270,
+        height: 270,
+        marginTop: 10,
+        borderRadius: designConstants.borderRadius,
+        borderWidth: 1,
+        borderColor: colors.gold
         //marginBottom: 10,
         // borderWidth: 1,
         // borderColor: "red", 

@@ -12,6 +12,8 @@ export function useFonts() {
                 'Raleway-Black': require('../static/fonts/raleway/Raleway-Black.ttf'),
                 'Raleway-Medium': require('../static/fonts/raleway/Raleway-Medium.ttf'),
                 'Raleway-Heavy': require('../static/fonts/raleway.heavy.ttf'),
+                'Raleway-Italic': require('../static/fonts/raleway/Raleway-Italic.ttf'),
+                'Raleway-LightItalic': require('../static/fonts/raleway/Raleway-LightItalic.ttf'),
             });
             setFontLoaded(true);
         }
