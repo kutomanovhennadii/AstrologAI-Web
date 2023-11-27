@@ -12,15 +12,17 @@ export const useAuthentication = () => {
 
         try {
             setLoading(true);
-            const data = await authenticateOnServer({ email, password });
+            const response = await authenticateOnServer({ email, password });
             setLoading(false);
 
             //console.log("authenticateUser data = ", data)
-            if ((data && data.token) && (user.email === email) && (user.password === password)) {
+            if (response && response.token) {
+                localStorage.setItem('userToken', response.token);
+
                 setUser(prevUser => ({
                     ...prevUser,
-                    isAuthenticated: true,
-                    token: data.token
+                    ...response,
+                    userToken: response.token
                 }));
                 return true;
             } else {

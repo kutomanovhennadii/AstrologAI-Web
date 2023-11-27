@@ -1,7 +1,5 @@
 import axios from 'axios';
-import { IS_TEST_MODE } from '../config/config'; // Убедитесь, что путь указан правильно
-
-const BASE_URL = 'https://your-api-url.com'; // Замените на URL вашего API
+import { IS_TEST_MODE, BASE_URL } from '../config/config'; // Убедитесь, что путь указан правильно
 
 export const authenticateOnServer = async ({ email, password }) => {
     if (IS_TEST_MODE) {
@@ -10,8 +8,24 @@ export const authenticateOnServer = async ({ email, password }) => {
             setTimeout(() => {
                 const mockResponse = {
                     user: {
-                        email: email, // Предполагается, что email правильный
-                        // Дополнительные данные пользователя могут быть здесь
+                        isAuthenticated: true,
+                        registrated: true,
+                        astrobot: "Bruce",
+                        language: 'Русский',
+                        generalContent: true,
+                        businessContent: true,
+                        relationContent: true,
+                        healthContent: false,
+                        aspectsContent: false,
+                        gender: "male",
+                        birthDate: "1966-09-04",
+                        birthTime: "00:53:28",
+                        birthCountry: "Ukraine",
+                        birthCity: "Kharkov",
+                        biography: '',
+                        subsciptionType: 'Premium',
+                        subsciptionPerMonth: 0,
+                        subscriptionPerYear: 0,
                     },
                     token: 'fake-jwt-token'
                 };
@@ -21,9 +35,24 @@ export const authenticateOnServer = async ({ email, password }) => {
     } else {
         // Реальная логика аутентификации
         try {
-            const response = await axios.post(`${BASE_URL}/auth/login`, {
+            const response = await axios.post(`${BASE_URL}/api/login`, {
                 email,
                 password
+            }).then(response => {
+                const token = response.data.token;
+                localStorage.setItem('token', token);
+
+                // Запрос данных пользователя
+                axios.get(`${BASE_URL}/api/user_data`, { headers: { "Authorization": `Bearer ${token}` } })
+                    .then(response => {
+                        // Обработка данных пользователя
+                    });
+
+                // Запрос контента
+                axios.get(`${BASE_URL}/api/content_data`, { headers: { "Authorization": `Bearer ${token}` } })
+                    .then(response => {
+                        // Обработка контента
+                    });
             });
 
             if (response.data) {

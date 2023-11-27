@@ -29,6 +29,7 @@
     "react-native-datepicker": "^1.7.2",
     "react-native-datepicker-dialog": "^0.0.9",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-sqlite-storage": "^6.0.1",
     "react-native-svg": "^13.9.0",
     "react-native-unimodules": "^0.14.10",
     "react-native-vector-icons": "^10.0.0",

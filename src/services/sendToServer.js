@@ -8,11 +8,7 @@ const sendToServer = async (endpoint, data) => {
         // Имитация ответа сервера в тестовом режиме
         return new Promise(resolve => {
             setTimeout(() => {
-                resolve({
-                    status: 'success',
-                    data: data,
-                    message: 'Data is saved in test mode'
-                });
+                resolve(data);
             }, 500); // Имитация задержки сети в полсекунды
         });
     } else {
@@ -20,7 +16,7 @@ const sendToServer = async (endpoint, data) => {
         try {
             const response = await axios.post(url, data);
 
-            if (response.data) {
+            if (response.status == 200) {
                 return response.data;
             }
 
