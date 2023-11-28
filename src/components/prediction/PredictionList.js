@@ -1,46 +1,48 @@
 import React, { useRef, useEffect } from 'react';
-import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, Image, FlatList, StyleSheet } from 'react-native';
 
 import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
 
 const PredictionList = ({ articles, onLoadMore, astrobotImages, selectedZodiac }) => {
-    //console.log("PredictionList ", selectedZodiac);
-
     const scrollRef = useRef(null);
+
     useEffect(() => {
         if (scrollRef.current) {
-            scrollRef.current.scrollTo({ x: 0, y: 0, animated: true });
+            scrollRef.current.scrollToOffset({ offset: 0, animated: true });
         }
     }, [articles]);
 
+    const renderItem = ({ item }) => (
+        <View key={item.id} style={styles.itemContainer}>
+            <View style={styles.header}>
+                <Image
+                    source={astrobotImages[item.astrobot]}
+                    style={styles.astrobotImage}
+                />
+                <View style={styles.titleContainer}>
+                    <Text style={[inputStyles.titleText, styles.titleText]}>
+                        {selectedZodiac} {item.title}
+                    </Text>
+                </View>
+            </View>
+            <Text style={[inputStyles.text, styles.descriptionText]}>
+                {item.description}
+            </Text>
+        </View>
+    );
+
     return (
         <View style={styles.container}>
-            <ScrollView
+            <FlatList
                 ref={scrollRef}
-                onScroll={({ nativeEvent }) => {
-                    if (nativeEvent.contentOffset.y >= (nativeEvent.contentSize.height - nativeEvent.layoutMeasurement.height) * 0.9) {
-                        onLoadMore();
-                    }
-                }}
+                data={articles}
+                renderItem={renderItem}
+                keyExtractor={item => item.id.toString()}
+                onEndReached={onLoadMore}
+                onEndReachedThreshold={0.1}
                 showsVerticalScrollIndicator={true}
-            >
-                {articles.map((item, index) => (
-                    <View key={index.toString()} style={styles.itemContainer}>
-                        <View style={styles.header}>
-                            <Image
-                                source={astrobotImages[item.astrobot]}
-                                style={styles.astrobotImage}
-                            />
-                            <View style={styles.titleContainer}>
-                                <Text style={[inputStyles.titleText, styles.titleText]}>{selectedZodiac} {item.title}</Text>
-                            </View>
-                        </View>
-                        <Text style={[inputStyles.text, styles.descriptionText]}>{item.description}</Text>
-                    </View>
-                ))}
-            </ScrollView>
-            {/* <View style={styles.fakeScrollbar} /> */}
+            />
         </View>
     );
 };

@@ -18,7 +18,7 @@ export const UserProvider = ({ children }) => {
         healthContent: false,
         aspectsContent: false,
         gender: "male",
-        birthDate: "1966-09-04",  
+        birthDate: "1966-09-04",
         birthTime: "00:53:28",
         birthCountry: "Ukraine",
         birthCity: "Kharkov",
@@ -26,7 +26,8 @@ export const UserProvider = ({ children }) => {
         subsciptionType: 'Premium',
         subsciptionPerMonth: 0,
         subscriptionPerYear: 0,
-        verificationCode: "1234"
+        verificationCode: "1234",
+        registratedDate: "2023-01-01",
     });
 
     // Следим за изменениями состояния `user` и выводим его в консоль

@@ -13,6 +13,7 @@ import { sendToServer } from '../../services/sendToServer'
 
 import appConfig from '../../static/json/appConfig.json';
 import { useUser } from '../../context/UserContext';
+import { nextArticles } from '../../database/articlesManager';
 
 const imageContext = require.context('../../static/image', true);
 
@@ -22,35 +23,14 @@ const buttonsTop = [
     { label: 'Month', iconName: 'calendar-month' },
 ];
 
-const prediction = {
-    'Day': {
-        title: '27.10.2023',
-        astrobot: 'Bruce',
-        description: "Lorem ipsum dolor sit amet consectetur. Purus eget rhoncus egestas adipiscing parturient ut nec ut gravida. Enim urna aenean eu id quisque diam mattis morbi. Imperdiet turpis nunc porta neque at ullamcorper dignissim. Diam fermentum quam blandit enim enim sed adipiscing. Vitae eu cras faucibus viverra in eget. A consequat aliquam cursus nulla aliquam molestie mattis sit tristique. Massa etiam id in malesuada morbi. Faucibus nunc quam adipiscing tellus facilisis. Neque leo nulla quis leo. Proin sagittis adipiscing vitae feugiat neque mattis ac. Commodo a habitant pellentesque a pellentesque lacinia cum dolor tortor. Sollicitudin id lectus ut libero at. Nunc massa congue fames non. Sit lectus integer platea orci elementum habitasse. Vitae sagittis orci eros aliquam cursus. Tortor facilisis mauris ipsum ut magna. Ac vel commodo lectus elementum et sem. Tortor eleifend lacus vestibulum et lacus amet. A at varius est massa interdum. Pharetra donec id facilisi in sed ut. Pellentesque sem ipsum augue in tincidunt ornare quam pulvinar in. Tortor quam nisi gravida dignissim. Tellus velit proin auctor quis tortor. Rutrum mauris id habitant a at tristique at cursus ut. Tortor eleifend lacus vestibulum et lacus amet. A at varius est massa interdum. Pharetra donec id facilisi in sed ut. Pellentesque sem ipsum augue in tincidunt ornare quam pulvinar in. Tortor quam nisi gravida dignissim. Tellus velit proin auctor quis tortor."
-    },
-    'Week': {
-        title: '20.10.2023 - 27.10.2023',
-        astrobot: 'Alex',
-        description: "Lorem ipsum dolor sit amet consectetur. Purus eget rhoncus egestas adipiscing parturient ut nec ut gravida. Enim urna aenean eu id quisque diam mattis morbi. Imperdiet turpis nunc porta neque at ullamcorper dignissim. Diam fermentum quam blandit enim enim sed adipiscing. Vitae eu cras faucibus viverra in eget. A consequat aliquam cursus nulla aliquam molestie mattis sit tristique. Massa etiam id in malesuada morbi. Faucibus nunc quam adipiscing tellus facilisis. Neque leo nulla quis leo. Proin sagittis adipiscing vitae feugiat neque mattis ac. Commodo a habitant pellentesque a pellentesque lacinia cum dolor tortor. Sollicitudin id lectus ut libero at. Nunc massa congue fames non. Sit lectus integer platea orci elementum habitasse. Vitae sagittis orci eros aliquam cursus. Tortor facilisis mauris ipsum ut magna. Ac vel commodo lectus elementum et sem. Tortor eleifend lacus vestibulum et lacus amet. A at varius est massa interdum. Pharetra donec id facilisi in sed ut. Pellentesque sem ipsum augue in tincidunt ornare quam pulvinar in. Tortor quam nisi gravida dignissim. Tellus velit proin auctor quis tortor. Rutrum mauris id habitant a at tristique at cursus ut. Tortor eleifend lacus vestibulum et lacus amet. A at varius est massa interdum. Pharetra donec id facilisi in sed ut. Pellentesque sem ipsum augue in tincidunt ornare quam pulvinar in. Tortor quam nisi gravida dignissim. Tellus velit proin auctor quis tortor."
-    },
-    'Month': {
-        title: '01.10.2023 - 31.10.2023',
-        astrobot: 'Eva',
-        description: "Lorem ipsum dolor sit amet consectetur. Purus eget rhoncus egestas adipiscing parturient ut nec ut gravida. Enim urna aenean eu id quisque diam mattis morbi. Imperdiet turpis nunc porta neque at ullamcorper dignissim. Diam fermentum quam blandit enim enim sed adipiscing. Vitae eu cras faucibus viverra in eget. A consequat aliquam cursus nulla aliquam molestie mattis sit tristique. Massa etiam id in malesuada morbi. Faucibus nunc quam adipiscing tellus facilisis. Neque leo nulla quis leo. Proin sagittis adipiscing vitae feugiat neque mattis ac. Commodo a habitant pellentesque a pellentesque lacinia cum dolor tortor. Sollicitudin id lectus ut libero at. Nunc massa congue fames non. Sit lectus integer platea orci elementum habitasse. Vitae sagittis orci eros aliquam cursus. Tortor facilisis mauris ipsum ut magna. Ac vel commodo lectus elementum et sem. Tortor eleifend lacus vestibulum et lacus amet. A at varius est massa interdum. Pharetra donec id facilisi in sed ut. Pellentesque sem ipsum augue in tincidunt ornare quam pulvinar in. Tortor quam nisi gravida dignissim. Tellus velit proin auctor quis tortor. Rutrum mauris id habitant a at tristique at cursus ut. Tortor eleifend lacus vestibulum et lacus amet. A at varius est massa interdum. Pharetra donec id facilisi in sed ut. Pellentesque sem ipsum augue in tincidunt ornare quam pulvinar in. Tortor quam nisi gravida dignissim. Tellus velit proin auctor quis tortor."
-    },
-}
-
 const PredictionContent = ({ selectedZodiac }) => {
     const [selectedTop, handleSelectionChangeTop] = useButtonSelection(buttonsTop);
-    const { user, setUser } = useUser();
+    const { user } = useUser();
     const [astrobotImages, setAstrobotImages] = useState([]);
-
-    //const astrobotImages = useAstrobotImages();
+    const [articles, setArticles] = useState([]);
 
     // Загрузка изображений 
     const astrobots = appConfig[user.language].Astrobots;
-
-    //console.log("Astrobots =", astrobots);
 
     useEffect(() => {
         const loadedImages = astrobots.reduce((acc, astrobot) => {
@@ -58,36 +38,24 @@ const PredictionContent = ({ selectedZodiac }) => {
             return acc;
         }, {});
         setAstrobotImages(loadedImages);
-        //console.log("loadedImages =", loadedImages);
     }, []);
 
+    useEffect(() => {
+        loadArticles();
+    }, [selectedTop, selectedZodiac, user]);
 
-    //console.log("PredictionContent astrobotImages = ", astrobotImages)
+    const loadArticles = async () => {
+        const recipient = selectedZodiac !== "" ? selectedZodiac : user.name;
+        const articleType = selectedTop.label[0].toUpperCase(); // Первая буква от selectedTop
 
-    const getArticlesByKey = (predictionArray, key) => {
-        return predictionArray.filter(article => article[key] !== undefined).map(article => article[key]);
+        const newArticles = await nextArticles(user, recipient, articleType);
+        setArticles(newArticles);
     };
 
-    const onLoadMore = () => {
-        //console.log("PredictionContent onLoadMore");
-
-        const predictionData =
-        {
-            predictionPeriod: selectedTop,
-            // todayDate
-            // number articles
-        }
-
-        sendToServer('prediction', predictionData)
-            .then(response => {
-                console.log("Response from server", response);
-            })
-            .catch(error => {
-                console.error("Error sending astrobot to server: ", error)
-            });
+    const onLoadMore = async () => {
+        const newArticles = await nextArticles(user, selectedZodiac, selectedTop.label[0].toUpperCase());
+        setArticles(prevArticles => [...prevArticles, ...newArticles]);
     };
-
-    //console.log("Render PredictionContent, selectedZodiac", selectedZodiac);
 
     return (
         <View style={[inputStyles.size100, { flex: 1 }]}>
@@ -99,7 +67,7 @@ const PredictionContent = ({ selectedZodiac }) => {
 
             <View style={{ flex: 1 }}>
                 <PredictionList
-                    articles={getArticlesByKey([prediction, prediction], selectedTop)}
+                    articles={articles}
                     onLoadMore={onLoadMore}
                     astrobotImages={astrobotImages}
                     selectedZodiac={selectedZodiac}

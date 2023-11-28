@@ -2,10 +2,15 @@ import React, { useEffect } from 'react';
 import { useUser } from '../../context/UserContext';
 import UserGate from './UserGate';
 import Prediction from '../prediction/Prediction';
-import { sendUserToken } from '../../utils/sendUserToken'
+import { sendUserToken } from '../../services/sendUserToken'
+import initializeDatabase from '../../database/databaseSetup';
 
 const EntryPoint = () => {
     const { user, setUser } = useUser();
+
+    useEffect(() => {
+        initializeDatabase();
+    }, []);
 
     useEffect(() => {
         const savedToken = localStorage.getItem('userToken');
