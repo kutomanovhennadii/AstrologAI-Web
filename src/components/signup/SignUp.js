@@ -6,7 +6,7 @@ import SocialLogin from '../socialLogin/SocialLogin';
 import PromptWithActionLink from '../common/PromptWithActionLink';
 import SignUpForm from './SignUpForm';
 import inputStyles from '../../styles/InputStyles';
-import { useVerification } from '../../hooks/useVerification';
+import { useRegistration } from '../../hooks/useVerification';
 
 import { useUser } from '../../context/UserContext';
 import appConfig from '../../static/json/appConfig.json';
@@ -14,7 +14,9 @@ import appConfig from '../../static/json/appConfig.json';
 const SignUp = ({ navigation, route }) => {
     const { termsAccepted = false } = (route && route.params) || {};
     const { user, setUser } = useUser();
-    const { verifyUser, loading } = useVerification();
+    const [authError, setAuthError] = useState(null);
+    const [initialValues, setInitialValues] = useState({ name: '', email: '', password: '' });
+    const { registerUser, loading } = useRegistration();
 
     const commonText = appConfig[user.language]["common"];
 
@@ -26,16 +28,22 @@ const SignUp = ({ navigation, route }) => {
         navigation.navigate('Terms');
     };
 
-    const goToVerification = async (value) => {
-        //console.log("SignUp goToVerification value = ", value)
-        setUser(prevUser => ({
-            ...prevUser,
-            name: value.userName,
-            email: value.email,
-            password: value.password
-        }));
-        const verificationCode = await verifyUser();
-        navigation.navigate('Verification');
+    const onSubmit = async (values) => {
+        const response = await registerUser(values);
+
+        if (response.success) {
+            if (response.status === 200 && !user.is_registration_completed) {
+                navigation.navigate('Profile');
+            }
+        } else if (response.status === 201) {
+
+            navigation.navigate('Verification');
+        }
+
+        else {
+            setAuthError(response.error);
+            setInitialValues(values); // Сохраняем введенные данные
+        }
     };
 
     if (loading) {
@@ -55,10 +63,13 @@ const SignUp = ({ navigation, route }) => {
                 </Text>
             </Container>
 
+            {authError && <Text style={inputStyles.errorText}>{authError}</Text>}
+
             <SignUpForm
+                initialValues={initialValues}
                 termsAccepted={termsAccepted}
                 goToTerms={goToTerms}
-                onSubmit={goToVerification}
+                onSubmit={onSubmit}
             />
             <SocialLogin />
             <View style={inputStyles.bottom10}>

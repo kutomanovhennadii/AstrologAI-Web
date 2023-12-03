@@ -1,32 +1,42 @@
-import { fetchArticles } from '../services/fetchArticles';
+import fetchArticles from '../services/fetchArticles';
 import { addArticles, getAllArticles, deleteArticles } from './articlesModel';
 
 const NUMBER_OF_ARTICLES = 6; // Количество статей для загрузки
-const LIMIT_OF_DAILY_ARTICLES = 30; // Максимальное количество статей для 'D'
-const LIMIT_OF_WEEKLY_OR_MONTHLY_ARTICLES = 12; // Для 'W' и 'M'
+const LIMIT_OF_DAILY_ARTICLES = 0; // Максимальное количество статей для 'D'
+const LIMIT_OF_WEEKLY_OR_MONTHLY_ARTICLES = 0; // Для 'W' и 'M'
 
 let currentIndex = 0;
 let currentRecipient = '';
 let currentArticleType = '';
 let articles = [];
 
-const nextArticles = async (user, recipient, articleType) => {
+const nextArticles = async (user, recipient, articleType, startIndex = null) => {
+    //console.log('Next articles:', recipient, articleType, currentIndex, currentArticleType, currentRecipient);
+
+    currentIndex = startIndex !== null ? startIndex : currentIndex;
+
     if (currentRecipient !== recipient || currentArticleType !== articleType) {
         currentRecipient = recipient;
         currentArticleType = articleType;
         currentIndex = 0;
 
+        //console.log('Next articles _:', currentIndex, currentArticleType, currentRecipient);
         // Получаем все статьи для данного recipient и articleType
-        articles = await getAllArticles(currentRecipient, currentArticleType);
+        articles = await getAllArticles({ recipient: currentRecipient, articleType: currentArticleType });
+        //console.log('Articles:', articles);
 
         // Проверяем количество статей и удаляем старые
         await checkAndRemoveOldArticles(articles, articleType);
-    }
 
+    }
+    //console.log('Next articles 2:', recipient, articleType, currentIndex, currentArticleType, currentRecipient);
     articles = await checkAndFetchMissingArticles(user, currentRecipient, currentArticleType, currentIndex, NUMBER_OF_ARTICLES);
+    //console.log('Articles:', articles);
+
     result = articles.slice(currentIndex, currentIndex + NUMBER_OF_ARTICLES);
 
     currentIndex += NUMBER_OF_ARTICLES;
+    //console.log('Next articles 3:', currentIndex);
 
     return result;
 };
@@ -56,9 +66,10 @@ const checkAndRemoveOldArticles = async (articles, articleType) => {
 
 const checkAndFetchMissingArticles = async (user, recipient, articleType, startIndex, number) => {
     try {
+        //console.log('Check and fetch missing articles:', recipient, articleType, startIndex, number);
         // Получаем данные о пользователе
         const userName = user.name; // Имя пользователя
-        const userRegistrationDate = new Date(userData.registratedDate); // Дата регистрации пользователя
+        const userRegistrationDate = new Date(user.registratedDate); // Дата регистрации пользователя
         const appDate = new Date('2023-01-27'); // Дата выхода приложения
 
         // Получаем список дат, за которые нужно проверить наличие статей
@@ -73,10 +84,12 @@ const checkAndFetchMissingArticles = async (user, recipient, articleType, startI
         const missingDates = filteredDates.filter(date => {
             return !articles.some(article => article.publication_date === date);
         });
+       //console.log('Missing dates:', missingDates);
 
         // Запрашиваем недостающие статьи
         if (missingDates.length > 0) {
             const newArticles = await fetchArticles(recipient, articleType, missingDates);
+            //console.log('New articles:', newArticles);
             await addArticles(newArticles);
             articles = articles.concat(newArticles);
         }
@@ -98,11 +111,14 @@ const getDatesToCheck = (articleType, startIndex, number) => {
     let startDate = new Date();
 
     if (articleType === 'W') {
-        startDate.setDate(1); // Первый день текущего месяца
+        // Устанавливаем дату на воскресенье текущей недели
+        startDate.setDate(startDate.getDate() - startDate.getDay());
     } else if (articleType === 'M') {
-        startDate.setDate(startDate.getDate() - startDate.getDay()); // Воскресенье текущей недели
-    } // Для 'D' startDate остается текущим днем
+        // Устанавливаем дату на первый день текущего месяца
+        startDate.setDate(1);
+    }
 
+    //console.log('Start date:', articleType, startDate);
     for (let i = startIndex; i < startIndex + number; i++) {
         const checkDate = new Date(startDate);
 
@@ -116,7 +132,7 @@ const getDatesToCheck = (articleType, startIndex, number) => {
 
         dates.push(checkDate.toISOString().split('T')[0]);
     }
-
+    //console.log('Dates to check:', dates);
     return dates;
 };
 

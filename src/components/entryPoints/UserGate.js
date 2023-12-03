@@ -38,7 +38,7 @@ export default function UserGate() {
                 </View>
             </Container>
             <Stack.Navigator initialRouteName="SignIn">
-                {/* <Stack.Screen
+                <Stack.Screen
                     name="SignIn"
                     component={SignIn}
                     options={{ headerShown: false }}
@@ -72,7 +72,7 @@ export default function UserGate() {
                     name="Subscription"
                     component={SubscriptionScreenWrapper}
                     options={{ headerShown: false }}
-                /> */}
+                />
                 <Stack.Screen
                     name="GreetingForm"
                     component={GreetingForm}

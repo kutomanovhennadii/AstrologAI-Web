@@ -1,22 +1,28 @@
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { IS_TEST_MODE, BASE_URL } from '../config/config';
 
 const fetchArticles = async (recipient, articleType, missingDates) => {
-    const endpoint = '/api/content_data';
+    //console.log('Fetch articles:', recipient, articleType, missingDates);
+
+    const endpoint = '/api/content';
     const url = `${BASE_URL}${endpoint}`;
-    const token = localStorage.getItem('token'); // Получаем токен из localStorage
+    const token = await AsyncStorage.getItem('userToken');
+    
 
     if (IS_TEST_MODE) {
         // В тестовом режиме возвращаем фиктивные данные
         return new Promise(resolve => {
             setTimeout(() => {
-                resolve(missingDates.map(date => ({
+                resolve(missingDates.map((date, index) => ({
+                    id: Math.random().toString(36).substr(2, 9),
                     recipient,
                     astrobot: 'Bruce',
                     articleType,
                     publication_date: date,
-                    title: `Тестовая статья для ${date}`,
-                    content: 'Это тестовое содержание статьи.'
+                    title: `Тест для ${date}`,
+                    content: 'Это тестовое содержание статьи. Это тестовое содержание статьи. Это тестовое содержание статьи.'
                 })));
             }, 500); // Имитация задержки сети
         });

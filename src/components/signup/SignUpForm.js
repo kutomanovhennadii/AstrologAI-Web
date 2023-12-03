@@ -14,7 +14,7 @@ import { componentInstaller } from '../../utils/componentInstaller';
 import { useUser } from '../../context/UserContext';
 
 // Основной компонент формы профиля
-const SignUpForm = ({ onSubmit, goToTerms, termsAccepted = false }) => {
+const SignUpForm = ({ onSubmit, goToTerms, initialValues, termsAccepted = false }) => {
 
     const { user, setUser } = useUser();
 
@@ -64,13 +64,7 @@ const SignUpForm = ({ onSubmit, goToTerms, termsAccepted = false }) => {
                     fieldsConfig={fieldsConfig}
                     refs={refs}
                     removeFocusFromAll={removeFocusFromAll}
-                    initialValues={{
-                        userName: '',
-                        email: '',
-                        password: '',
-                        cofirmPassword: '',
-                        agreeToTerms: termsAccepted
-                    }}
+                    initialValues={initialValues}
                     validationSchema={validationSchema}
                     onSubmit={onSubmit}
                     submitText={submitText}

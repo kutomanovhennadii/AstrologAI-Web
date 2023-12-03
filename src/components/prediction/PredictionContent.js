@@ -24,6 +24,8 @@ const buttonsTop = [
 ];
 
 const PredictionContent = ({ selectedZodiac }) => {
+    //console.log('PredictionContent selectedZodiac:', selectedZodiac);
+
     const [selectedTop, handleSelectionChangeTop] = useButtonSelection(buttonsTop);
     const { user } = useUser();
     const [astrobotImages, setAstrobotImages] = useState([]);
@@ -45,15 +47,20 @@ const PredictionContent = ({ selectedZodiac }) => {
     }, [selectedTop, selectedZodiac, user]);
 
     const loadArticles = async () => {
-        const recipient = selectedZodiac !== "" ? selectedZodiac : user.name;
-        const articleType = selectedTop.label[0].toUpperCase(); // Первая буква от selectedTop
+        const recipient = selectedZodiac ? selectedZodiac : user.name;
+        const articleType = selectedTop[0].toUpperCase(); 
 
-        const newArticles = await nextArticles(user, recipient, articleType);
+        const newArticles = await nextArticles(user, recipient, articleType, 0);
+        //console.log('Load articles:', newArticles);
         setArticles(newArticles);
     };
 
     const onLoadMore = async () => {
-        const newArticles = await nextArticles(user, selectedZodiac, selectedTop.label[0].toUpperCase());
+        const recipient = selectedZodiac ? selectedZodiac : user.name;
+        const articleType = selectedTop[0].toUpperCase();
+
+        //console.log('Load more articles:', recipient, articleType);
+        const newArticles = await nextArticles(user, recipient, articleType);
         setArticles(prevArticles => [...prevArticles, ...newArticles]);
     };
 

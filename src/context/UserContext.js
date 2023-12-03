@@ -9,7 +9,7 @@ export const UserProvider = ({ children }) => {
         password: 'XShe$1234',
         zodiacSign: null,
         isAuthenticated: true,
-        registrated: true,
+        isRegistrated: true,
         astrobot: "Bruce",
         language: 'Русский',
         generalContent: true,

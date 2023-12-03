@@ -17,6 +17,9 @@ const inputStyles = StyleSheet.create({
     size100: {
         width: "100%",
         height: "100%",
+        paddingHorizontal: 8,
+        // borderWidth: 1,
+        // borderColor: "red"
     },
     width50: {
         width: '49%',

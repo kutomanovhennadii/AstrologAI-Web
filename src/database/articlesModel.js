@@ -1,102 +1,63 @@
-import SQLite from 'react-native-sqlite-storage';
+import * as SQLite from 'expo-sqlite';
 
-const database = SQLite.openDatabase({ name: 'articles.db', location: 'default' });
+const database = SQLite.openDatabase('articles.db');
 
-const addArticle = (article, callback) => {
-    database.transaction(tx => {
-        tx.executeSql(
-            'INSERT INTO Articles (recipient, astrobot, article_type, publication_date, title, content) VALUES (?, ?, ?, ?, ?, ?);',
-            [article.recipient, article.astrobot, article.article_type, article.publication_date, article.title, article.content],
-            (_, result) => callback(null, result),
-            (_, error) => callback(error)
-        );
+const executeSql = (sql, params = []) => {
+    return new Promise((resolve, reject) => {
+        database.transaction(tx => {
+            tx.executeSql(
+                sql,
+                params,
+                (_, result) => resolve(result),
+                (_, error) => reject(error)
+            );
+        });
     });
+};
+
+const addArticle = async (article) => {
+    const sql = 'INSERT INTO Articles (recipient, astrobot, article_type, publication_date, title, content) VALUES (?, ?, ?, ?, ?, ?);';
+    const params = [article.recipient, article.astrobot, article.article_type, article.publication_date, article.title, article.content];
+    return await executeSql(sql, params);
 };
 
 const addArticles = async (articles) => {
-    return new Promise((resolve, reject) => {
-        database.transaction(tx => {
-            articles.forEach(article => {
-                tx.executeSql(
-                    'INSERT INTO Articles (recipient, astrobot, article_type, publication_date, title, content) VALUES (?, ?, ?, ?, ?, ?);',
-                    [article.recipient, article.astrobot, article.article_type, article.publication_date, article.title, article.content],
-                    (_, result) => { },
-                    (_, error) => { console.log('Error adding article: ' + error.message); }
-                );
-            });
-        }, (error) => {
-            console.log('Transaction error: ' + error.message);
-            reject(error);
-        }, () => {
-            console.log('Transaction completed successfully');
-            resolve('Articles added successfully');
-        });
-    });
+    for (let article of articles) {
+        //await addArticle(article);
+    }
+    //console.log('Articles added successfully');
 };
 
-const getArticles = ({ recipient, articleType, startNumber, endNumber }) => {
-    return new Promise((resolve, reject) => {
-        const limit = endNumber - startNumber + 1;
-        database.transaction(tx => {
-            tx.executeSql(
-                'SELECT * FROM Articles WHERE recipient = ? AND article_type = ? ORDER BY publication_date DESC LIMIT ? OFFSET ?;',
-                [recipient, articleType, limit, startNumber],
-                (_, result) => resolve(result.rows.raw()),
-                (_, error) => reject(error)
-            );
-        });
-    });
+const getArticles = async ({ recipient, articleType, startNumber, endNumber }) => {
+    const limit = endNumber - startNumber + 1;
+    const sql = 'SELECT * FROM Articles WHERE recipient = ? AND article_type = ? ORDER BY publication_date DESC LIMIT ? OFFSET ?;';
+    return await executeSql(sql, [recipient, articleType, limit, startNumber]);
 };
 
 const getAllArticles = async ({ recipient, articleType }) => {
-    return new Promise((resolve, reject) => {
-        database.transaction(tx => {
-            tx.executeSql(
-                'SELECT * FROM Articles WHERE recipient = ? AND article_type = ? ORDER BY publication_date DESC;',
-                [recipient, articleType],
-                (_, result) => resolve(result.rows.raw()),
-                (_, error) => reject(error)
-            );
-        });
-    });
+    //console.log('Get all articles:', recipient, articleType);
+    const sql = 'SELECT * FROM Articles WHERE recipient = ? AND article_type = ? ORDER BY publication_date DESC;';
+    const result = await executeSql(sql, [recipient, articleType]);
+
+    // Возвращаем только массив с результатами
+    return result.rows._array;
 };
 
-const updateArticle = (id, newValues, callback) => {
-    database.transaction(tx => {
-        tx.executeSql(
-            'UPDATE Articles SET recipient = ?, astrobot = ?, article_type = ?, publication_date = ?, title = ?, content = ? WHERE id = ?;',
-            [newValues.recipient, newValues.astrobot, newValues.article_type, newValues.publication_date, newValues.title, newValues.content, id],
-            (_, result) => callback(null, result),
-            (_, error) => callback(error)
-        );
-    });
+const updateArticle = async (id, newValues) => {
+    const sql = 'UPDATE Articles SET recipient = ?, astrobot = ?, article_type = ?, publication_date = ?, title = ?, content = ? WHERE id = ?;';
+    const params = [newValues.recipient, newValues.astrobot, newValues.article_type, newValues.publication_date, newValues.title, newValues.content, id];
+    return await executeSql(sql, params);
 };
 
 const deleteArticle = async (id) => {
-    return new Promise((resolve, reject) => {
-        database.transaction(tx => {
-            tx.executeSql(
-                'DELETE FROM Articles WHERE id = ?;',
-                [id],
-                (_, result) => resolve(result),
-                (_, error) => reject(error)
-            );
-        });
-    });
+    const sql = 'DELETE FROM Articles WHERE id = ?;';
+    return await executeSql(sql, [id]);
 };
 
 const deleteArticles = async (ids) => {
-    return new Promise((resolve, reject) => {
-        database.transaction(tx => {
-            const placeholders = ids.map(() => '?').join(', ');
-            tx.executeSql(
-                `DELETE FROM Articles WHERE id IN (${placeholders});`,
-                ids,
-                (_, result) => resolve(result),
-                (_, error) => reject(error)
-            );
-        });
-    });
+    const placeholders = ids.map(() => '?').join(', ');
+    const sql = `DELETE FROM Articles WHERE id IN (${placeholders});`;
+    return await executeSql(sql, ids);
 };
 
 export { addArticles, getAllArticles, deleteArticles };

@@ -18,21 +18,25 @@ const SignIn = ({ navigation }) => {
     const [authError, setAuthError] = useState(null);
     const [initialValues, setInitialValues] = useState({ email: '', password: '' });
     const { user, setUser } = useUser();
-
+    
     const commonText = appConfig[user.language]["common"];
-
 
     const goToSignUp = () => {
         navigation.navigate('SignUp');
     };
 
     const onSubmit = async (values) => {
-        //console.log('onSubmit called', values);
-        const isAuthenticated = await authenticateUser(values);
+        const response = await authenticateUser(values);
+        console.log('Response:', response);
 
-        if (!isAuthenticated) {
-            setAuthError("Yikes! Something went sideways. Care to try again?");
-            setInitialValues(values); // Сохраняем введенные данные
+        if (!response.success) {
+            if (!user.isRegistrated) {
+                navigation.navigate('Profile');
+            }
+            else {
+                setAuthError(response.error);
+                setInitialValues(values); // Сохраняем введенные данные
+            }
         }
     };
 

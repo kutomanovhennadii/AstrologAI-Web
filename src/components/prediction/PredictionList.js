@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { View, Text, Image, FlatList, StyleSheet } from 'react-native';
 
 import inputStyles from '../../styles/InputStyles';
@@ -6,12 +6,14 @@ import colors from '../../styles/colors';
 
 const PredictionList = ({ articles, onLoadMore, astrobotImages, selectedZodiac }) => {
     const scrollRef = useRef(null);
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     useEffect(() => {
-        if (scrollRef.current) {
+        if (isInitialLoad && scrollRef.current) {
             scrollRef.current.scrollToOffset({ offset: 0, animated: true });
+            setIsInitialLoad(false); // Установите в false после первой загрузки
         }
-    }, [articles]);
+    }, [isInitialLoad, articles]);
 
     const renderItem = ({ item }) => (
         <View key={item.id} style={styles.itemContainer}>
@@ -27,7 +29,7 @@ const PredictionList = ({ articles, onLoadMore, astrobotImages, selectedZodiac }
                 </View>
             </View>
             <Text style={[inputStyles.text, styles.descriptionText]}>
-                {item.description}
+                {item.content}
             </Text>
         </View>
     );
