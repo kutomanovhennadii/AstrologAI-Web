@@ -15,30 +15,25 @@ export const useRegistration = () => {
 
             if (response && response.data && response.status === 200) {
                 await AsyncStorage.setItem('userToken', response.data.token);
-                if (!response.data.user.is_registration_completed) {
+                setUser(prevUser => ({
+                    ...prevUser,
+                    ...response.data.user,
+                }));
+
+                if (response.data.user.is_registration_completed) {
                     setUser(prevUser => ({
                         ...prevUser,
-                        ...response.data.user,
-                    }));
-                } else {
-                    setUser(prevUser => ({
-                        ...prevUser,
-                        ...response.data.user,
                         isAuthenticated: true
                     }));
                 }
                 return { success: true, status: 200 };
             } else if (response && response.data && response.status === 201) {
-                setUser(prevUser => ({
-                    ...prevUser,
-                    ...response.data.user,
-                }));
                 return { success: true, status: 201 };
             } else {
-                return { success: false, error: response?.data?.error || 'Registration error' };
+                return { success: false, status: 400, error: response?.data?.error || 'Registration error' };
             }
         } catch (error) {
-            return { success: false, error: error.message || 'Registration error' };
+            return { success: false, status: 500, error: error.message || 'Registration error' };
         } finally {
             setLoading(false);
         }

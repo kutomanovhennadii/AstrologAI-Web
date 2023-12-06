@@ -4,15 +4,15 @@ import { IS_TEST_MODE } from '../config/config';
 export async function facebookService() {
     try {
         if (IS_TEST_MODE) {
-            // Имитация задержки и возвращение моковых данных
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            const userData = {
-                name: 'Mock User',
-                email: 'mockemail@example.com'
-            };
-            return { token: 'mock_access_token', userData };
+            return new Promise(resolve => setTimeout(() => {
+                resolve({
+                    status: 200,
+                    data: {
+                        token: 'mock_access_token'
+                    }
+                });
+            }, 1000));
         } else {
-            // Инициализация и запрос на вход через Facebook
             await Facebook.initializeAsync({
                 appId: 'YOUR_FACEBOOK_APP_ID', // Замените на свой App ID
             });
@@ -21,20 +21,22 @@ export async function facebookService() {
             });
 
             if (result.type === 'success') {
-                // Получаем токен доступа и данные пользователя
-                const response = await fetch(`https://graph.facebook.com/me?fields=name,email&access_token=${result.token}`);
-                const userData = await response.json();
-                return { token: result.token, userData: { name: userData.name, email: userData.email } };
+                return {
+                    status: 200,
+                    data: {
+                        token: result.token
+                    }
+                };
             } else if (result.type === 'cancel') {
-                // Обработка отмены пользователем
-                return { cancelled: true };
+                return { status: 400, data: { cancelled: true } };
             } else {
-                throw new Error('Something went wrong obtaining the access token');
+                return { status: 500, data: { error: 'Something went wrong obtaining the access token' } };
             }
         }
     } catch (error) {
-        // Логгирование ошибки
-        console.error(error);
-        throw error;
+        return {
+            status: 500,
+            data: { error: error.message }
+        };
     }
 }

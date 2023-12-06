@@ -1,36 +1,51 @@
 import axios from 'axios';
-import { IS_TEST_MODE } from '../config/config'; // Убедитесь, что путь указан правильно
+import { IS_TEST_MODE, BASE_URL } from '../config/config';
 
-const BASE_URL = 'https://your-api-url.com'; // Замените на URL вашего API
+export const veryficateOnServer = async ({ name, email, password, verification }) => {
+    const endpoint = '/api/verifyUser'; // Укажите здесь конечную точку для отправки токена
+    const url = `${BASE_URL}/${endpoint}`;
 
-export const veryficateOnServer = async ({ name, email, password }) => {
     if (IS_TEST_MODE) {
-        // Имитация ответа сервера в тестовом режиме
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             setTimeout(() => {
-                const mockResponse = {
-                    verificationCode: '1234' // Имитация верификационного кода
-                };
-                resolve(mockResponse);
-            }, 500); // Имитация задержки сети в полсекунды
+                resolve({
+                    status: 200,
+                    data:
+                    {
+                        token: 'fake-token',
+                        user: {
+                            isRegistrated: true,
+                            astrobot: "Bruce",
+                            language: 'Русский',
+                            generalContent: true,
+                            businessContent: true,
+                            relationContent: true,
+                            healthContent: false,
+                            aspectsContent: false,
+                            gender: "male",
+                            birthDate: "1966-09-04",
+                            birthTime: "00:53:28",
+                            birthCountry: "Ukraine",
+                            birthCity: "Kharkov",
+                            biography: '',
+                            subsciptionType: 'Premium',
+                            subsciptionPerMonth: 0,
+                            subscriptionPerYear: 0,
+                        }
+                    }
+                });
+            }, 500); // Имитация задержки сети
         });
     } else {
-        // Реальная логика верификации
+        // Реальная отправка токена на сервер
         try {
-            const response = await axios.post(`${BASE_URL}/verify`, {
-                name,
-                email,
-                password
-            });
-
-            if (response.data && response.data.verificationCode && response.data.verificationCode.length === 4) {
-                return response.data.verificationCode;
-            }
-
-            throw new Error('Invalid verification code received');
+            const response = await axios.post(url, { name, email, password, verification });
+            return response.data;
         } catch (error) {
-            console.error('Verification error:', error);
-            throw error;
+            return {
+                status: 500,
+                data: { error: error.message }
+            };
         }
     }
 };

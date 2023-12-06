@@ -7,53 +7,39 @@ import googleLogo from './GoogleLogo.png';
 
 import inputStyles from '../../styles/InputStyles';
 import { useSocialAuthentication } from '../../hooks/useSocialAuthentication';
-import { googleService } from '../../services/googleService';
-import { facebookService } from '../../services/facebookService';
 
 import { useUser } from '../../context/UserContext';
 import appConfig from '../../static/json/appConfig.json';
 
-const SocialLogin = () => {
+const SocialLogin = ({ navigation }) => {
     const [authError, setAuthError] = useState(null);
     const { user, setUser } = useUser();
-
+    const { authenticateSocial, loading } = useSocialAuthentication();
     const commonText = appConfig[user.language]["common"];
 
-    const handlePress = (platform) => {
-        // Ваш код для авторизации
-        //console.log(`Signing in with ${platform}`);
-    };
+    const onSubmit = async (values) => {
+        console.log("onSubmit", values);
+        setAuthError("");
 
-    // Использование хука для аутентификации через Google
-    const { authenticateUser: authenticateGoogleUser, loading: loadingGoogle } = useSocialAuthentication(googleService);
+        const response = await authenticateSocial(values);
+        console.log("onSubmit response", response);
 
-    // Использование хука для аутентификации через Facebook
-    const { authenticateUser: authenticateFacebookUser, loading: loadingFacebook } = useSocialAuthentication(facebookService);
-
-    const onGoogleSubmit = async () => {
-        const isAuthenticated = await authenticateGoogleUser();
-        if (!isAuthenticated) {
-            setAuthError(commonText["Oops! Something went wrong with Google sign in. Care to try again?"]);
+        if (response.success) {
+            navigation.navigate('GreetingForm');
+        } else {
+            setAuthError(response.error);
         }
     };
-
-    const onFacebookSubmit = async () => {
-        const isAuthenticated = await authenticateFacebookUser();
-        if (!isAuthenticated) {
-            setAuthError(commonText["Oops! Something went wrong with Facebook sign in. Care to try again?"]);
-        }
-    };
-    const loading = loadingGoogle || loadingFacebook;
-
+  
     return (
         <View style={styles.container}>
             <Text style={inputStyles.text}>
                 {commonText["Or sign in with..."]}
             </Text>
             <View style={styles.continueWithSocialsParent}>
-                <SocialLoginButton imageSource={facebookLogo} onPress={onFacebookSubmit} />
-                <SocialLoginButton imageSource={appleLogo} onPress={() => handlePress('Apple')} style={styles.continueWithAppleLeftAli1} />
-                <SocialLoginButton imageSource={googleLogo} onPress={onGoogleSubmit} />
+                <SocialLoginButton imageSource={facebookLogo} onPress={() => onSubmit("facebook")} />
+                <SocialLoginButton imageSource={appleLogo} onPress={() => onSubmit("apple")} style={styles.continueWithAppleLeftAli1} />
+                <SocialLoginButton imageSource={googleLogo} onPress={() => onSubmit("google")} />
             </View>
             {loading && <ActivityIndicator size="large" color="#0000ff" />}
             {authError && <Text>{authError}</Text>}

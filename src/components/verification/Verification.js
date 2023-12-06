@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 
 import Container from '../common/Container';
 import VerificationForm from './VerificationForm';
+import { useRegistration } from '../../hooks/useRegistration';
 
 import inputStyles from '../../styles/InputStyles';
 import designConstants from '../../styles/designConstants';
@@ -19,7 +20,8 @@ const Verification = ({ navigation }) => {
     //console.log("Render Verification")
 
     const { user, setUser } = useUser();
-    const { verifyUser, loading } = useVerification();
+    const { verifyUser, loading: verificationLoading } = useVerification();
+    const { registerUser, loading: registrationLoading } = useRegistration();
     const [authError, setAuthError] = useState(null);
     const [initialValues, setInitialValues] = useState({
         square0: '',
@@ -30,29 +32,26 @@ const Verification = ({ navigation }) => {
 
     const commonText = appConfig[user.language]["common"];
 
-    const onSubmit = (values) => {
-        //console.log("Verification values = ", values);
-        //console.log("Verification user.verificationCode = ", user.verificationCode);
-        if (user.verificationCode[0] == values.square0 &&
-            user.verificationCode[1] == values.square1 &&
-            user.verificationCode[2] == values.square2 &&
-            user.verificationCode[3] == values.square3) {
-            setAuthError(null);
-            setUser(prevUser => ({
-                ...prevUser,
-                registrated: false,
-            }));
-            //console.log("Verification onSibmit ")
+    const onSubmit = async (values) => {
+        let name = user.name
+        let email = user.email
+        let password = user.password
+        let verification = values.square0 + values.square1 + values.square2 + values.square3
+
+        const response = await verifyUser({ name, email, password, verification });
+        console.log("onResend - response", response)
+
+        if (response.success) {
+            console.log("onResend - success")
             navigation.navigate('GreetingForm');
-        }
-        else {
-            setAuthError("Something went sideways. Care to try again?");
+        } else {
+            setAuthError(response.error);
             setInitialValues({
                 square0: '',
                 square1: '',
                 square2: '',
                 square3: '',
-            }); // Сохраняем введенные данные
+            });
         }
     };
 
@@ -63,8 +62,26 @@ const Verification = ({ navigation }) => {
     useBackHandler(onBack);
 
     const onResend = async () => {
-        const verificationCode = await verifyUser();
-        //console.log("Verification onResend");
+        console.log("onResend")
+
+        let name = user.name
+        let email = user.email
+        let password = user.password
+        const response = await registerUser({ name, email, password });
+        console.log("onResend - response", response)
+
+        if (response.success) {
+
+            navigation.navigate('Profile');
+        } else {
+            setAuthError(response.error);
+            setInitialValues({
+                square0: '',
+                square1: '',
+                square2: '',
+                square3: '',
+            });
+        }
     }
 
     return (
@@ -94,7 +111,7 @@ const Verification = ({ navigation }) => {
                 initialValues={initialValues}
             />
 
-            {loading && (
+            {(verificationLoading || registrationLoading) && (
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <ActivityIndicator size="large" color="#0000ff" />
                 </View>

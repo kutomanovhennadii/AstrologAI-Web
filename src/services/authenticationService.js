@@ -58,6 +58,9 @@ export const authenticateOnServer = async ({ email, password }) => {
 
     } catch (error) {
         console.error('Authentication error:', error);
-        throw error;
+        return {
+            status: 500,
+            data: { error: error.message }
+        };
     }
 };

@@ -1,33 +1,63 @@
 import axios from 'axios';
-import { IS_TEST_MODE } from '../config/config'; // Убедитесь, что путь указан правильно
+import { IS_TEST_MODE, BASE_URL } from '../config/config'; // Убедитесь, что путь указан правильно
 
-export async function authenticateSocialOnServer(idToken, email) {
+export const authenticateSocialOnServer = async (data) => {
+    console.log('authenticateSocialOnServer data', data);
+    const { socialNetwork, token } = data;
+    console.log('authenticateSocialOnServer', socialNetwork, token);
+    
+    const endpoint = '/api/authenticateSocial'; // Укажите здесь конечную точку для аутентификации
+    const url = `${BASE_URL}${endpoint}`;
+
+    console.log('authenticateSocialOnServer IS_TEST_MODE', IS_TEST_MODE);
     if (IS_TEST_MODE) {
-        // Логика для тестового режима
-        return new Promise((resolve) => {
+        // Имитация ответа сервера для тестового режима
+        return new Promise(resolve => {
+            console.log('authenticateSocialOnServer IS_TEST_MODE');
             setTimeout(() => {
-                const mockResponse = {
-                    user: {
-                        email: email
-                    },
-                    token: 'fake-jwt-token'
-                };
-
-                resolve(mockResponse);
-            }, 500); // Имитация задержки сети в полсекунды
+                resolve({
+                    status: 200,
+                    data: {
+                        token: 'fake-server-token',
+                        user: {
+                            isRegistrated: true,
+                            astrobot: "Bruce",
+                            language: 'Русский',
+                            generalContent: true,
+                            businessContent: true,
+                            relationContent: true,
+                            healthContent: false,
+                            aspectsContent: false,
+                            gender: "male",
+                            birthDate: "1966-09-04",
+                            birthTime: "00:53:28",
+                            birthCountry: "Ukraine",
+                            birthCity: "Kharkov",
+                            biography: '',
+                            subsciptionType: 'Premium',
+                            subsciptionPerMonth: 0,
+                            subscriptionPerYear: 0,
+                        }
+                    }
+                });
+            }, 500);
         });
     } else {
-        // Реальная логика для работы с сервером
+        // Реальная отправка данных на сервер
         try {
-            const response = await axios.post('https://your-server.com/auth/google', {
-                idToken,
-                email
+            const response = await axios.post(url, {
+                socialNetwork,
+                token,
             });
-
-            return response.data;
+            return {
+                status: response.status,
+                data: response.data
+            };
         } catch (error) {
-            console.error('Error during server authentication:', error);
-            throw error.response || error;
+            return {
+                status: 500,
+                data: { error: error.message }
+            };
         }
     }
-}
+};

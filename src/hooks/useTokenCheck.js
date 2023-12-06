@@ -9,37 +9,43 @@ export const useTokenCheck = () => {
     const [loading, setLoading] = useState(false);
 
     const checkToken = useCallback(async () => {
+        //console.log('Checking token...');
         setLoading(true);
         const savedToken = await AsyncStorage.getItem('userToken');
-        console.log('Saved token:', savedToken);
+        //console.log('Saved token:', savedToken);
 
         if (savedToken) {
             try {
                 const response = await sendUserToken(savedToken);
 
                 if (response.status === 200) {
-                    setUser({
-                        ...response.data,
+                    setUser(prevUser => ({
+                        ...prevUser,
+                        ...response.data.user,
                         isAuthenticated: true
-                    });
+                    }));
                 } else {
-                    setUser({
-                        ...response.data,
+                    setUser(prevUser => ({
+                        ...prevUser,
+                        ...response.data.user,
                         isAuthenticated: false
-                    });
+                    }));
                 }
             } catch (error) {
                 console.error('Error during token verification:', error);
-                setUser({
-                    ...response.data,
+                setUser(prevUser => ({
+                    ...prevUser,
+                    ...response.data.user,
                     isAuthenticated: false
-                });
+                }));
             }
         } else {
-            setUser({
-                ...response.data,
+            //console.log('Token not found');
+            setUser(prevUser => ({
+                ...prevUser,
                 isAuthenticated: false
-            });
+            }));
+            //console.log('Token not found');
         }
         setLoading(false);
     }, [setUser]);

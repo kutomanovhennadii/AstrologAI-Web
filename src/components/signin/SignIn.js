@@ -18,7 +18,7 @@ const SignIn = ({ navigation }) => {
     const [authError, setAuthError] = useState(null);
     const [initialValues, setInitialValues] = useState({ email: '', password: '' });
     const { user, setUser } = useUser();
-    
+
     const commonText = appConfig[user.language]["common"];
 
     const goToSignUp = () => {
@@ -62,7 +62,9 @@ const SignIn = ({ navigation }) => {
             <SignInForm onSubmit={onSubmit} initialValues={initialValues} />
 
             <View style={styles.top50}>
-                <SocialLogin />
+                <SocialLogin
+                    navigation={navigation}
+                />
             </View>
 
             <View style={inputStyles.bottom10}>

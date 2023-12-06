@@ -1,8 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BASE_URL = 'http://yourserver.com'; // замените на URL вашего сервера
-const IS_TEST_MODE = false; // или true, если вы в тестовом режиме
+import { IS_TEST_MODE, BASE_URL } from '../config/config';
 
 export const registerOnServer = async ({ name, email, password }) => {
     try {
@@ -12,7 +11,11 @@ export const registerOnServer = async ({ name, email, password }) => {
                 status: 201,
                 data: {
                     message: 'User registered successfully. Please check your email for the verification code.',
-                    // Добавьте здесь любые другие фейковые данные, если необходимо
+                    user: {
+                        name: name,
+                        email: email,
+                        password: password,
+                    }
                 }
             };
         } else {
@@ -21,7 +24,9 @@ export const registerOnServer = async ({ name, email, password }) => {
             return response;
         }
     } catch (error) {
-        // Возвращаем объект ошибки для обработки в вышележащей функции
-        return error.response;
+        return {
+            status: 500,
+            data: { error: error.message }
+        };
     }
 };
