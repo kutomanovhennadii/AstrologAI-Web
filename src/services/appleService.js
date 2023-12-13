@@ -3,7 +3,7 @@ import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { IS_TEST_MODE } from '../config/config'; // Путь к вашему конфигурационному файлу
 
 export async function appleService() {
-    console.log('appleService');
+    // console.log('appleService');
     try {
         if (IS_TEST_MODE) {
             // Возвращение фейкового токена для тестового режима

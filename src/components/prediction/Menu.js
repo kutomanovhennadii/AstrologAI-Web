@@ -14,8 +14,9 @@ import { useUser } from '../../context/UserContext';
 import DatePredictionForm from './DatePrediction'
 import appConfig from '../../static/json/appConfig.json';
 import useBackHandler from '../../hooks/useBackHandler';
+import logout from '../../services/logout';
 
-const Menu = ({onBack}) => {
+const Menu = ({ onBack }) => {
     const [selectedMenu, setSelectedMenu] = useState(null);
     const { user, setUser } = useUser();
     const menuNames = appConfig[user.language]["menuNames"];
@@ -51,9 +52,10 @@ const Menu = ({onBack}) => {
         setSelectedMenu('Subscription');
     };
 
-    const onSubmitLogout = () => {
-        //console.log('Log out button clicked');
+    const onSubmitLogout = async () => {
+        console.log('Log out button clicked');
         setSelectedMenu('Logout');
+        await logout();
         setUser(prevUser => ({
             ...prevUser,
             isAuthenticated: false
@@ -125,7 +127,9 @@ const styles = StyleSheet.create({
     },
     button: {
         borderRadius: designConstants.borderRadius,
-        backgroundColor: colors.blueBell,
+        backgroundColor: colors.darkBlue,
+        borderWidth: 1,
+        borderColor: colors.lightText,
         width: '100%',
         height: designConstants.inputHeight,
         justifyContent: 'center',
@@ -135,7 +139,7 @@ const styles = StyleSheet.create({
     text: {
         letterSpacing: 1,
         textTransform: 'uppercase',
-        color: '#000',
+        color: colors.lightText,
         textAlign: 'center',
         fontSize: 16,
         fontFamily: "Raleway-SemiBold",

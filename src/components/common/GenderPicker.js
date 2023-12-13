@@ -116,14 +116,14 @@ const styles = StyleSheet.create({
         height: designConstants.inputHeight - 2,
     },
     selectedButton: {
-        backgroundColor: colors.blueBell,
-        color: 'black',
-        borderColor: colors.blueBell,
+        backgroundColor: colors.darkBlue,
+        color: colors.textColor,
+        borderColor: colors.textColor,
         borderWidth: 1,
         borderRadius: designConstants.borderRadius - 2,
     },
     radioTextSelected: {
-        color: 'black',
+        color: colors.textColor,
     },
     inputText: {
         paddingLeft: 10,

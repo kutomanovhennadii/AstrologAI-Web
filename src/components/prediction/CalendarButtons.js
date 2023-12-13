@@ -24,7 +24,7 @@ const CalendarButtons = ({ buttons, selected, onSelectionChange }) => {
                     <MaterialCommunityIcons
                         name={button.iconName}
                         size={25}
-                        color={selected === button.label ? colors.blueBell : colors.backdropColorLight}
+                        color={selected === button.label ? colors.blueBell : colors.borderBlue}
                     />
                 </TouchableOpacity>
             ))}

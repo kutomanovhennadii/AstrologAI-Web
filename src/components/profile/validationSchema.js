@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 export const profileValidationSchema = Yup.object({
     gender: Yup.string()
         .required('Required field gender'),
-    birthDate: Yup.date()
+    birth_date: Yup.date()
         .test('is-different', 'Date should be different from the default', function (value) {
             const defaultDate = new Date();
             return (
@@ -12,11 +12,11 @@ export const profileValidationSchema = Yup.object({
             );
         })
         .required('Required field'),
-    birthTime: Yup.string()
+    birth_time: Yup.string()
         .required('Required field birtTime'),
-    birthCountry: Yup.string()
+    birth_country: Yup.string()
         .required('Required field country'),
-    birthCity: Yup.string()
+    birth_city: Yup.string()
         .required('Required field city'),
-    biography: Yup.string()
+    //biography: Yup.string()
 });

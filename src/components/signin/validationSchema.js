@@ -8,8 +8,8 @@ export const makeValidationSchema = (userLanguage) => {
     const commonText = appConfig[userLanguage]["common"];
 
     return Yup.object({
-        email: Yup.string()
-            .email(commonText['Invalid email'])
+        username: Yup.string()
+            .min(5, commonText['User name must contain at least 6 characters'])
             .required(commonText['Required field']),
         password: Yup.string()
             .min(8, commonText['Password must contain at least 8 characters'])

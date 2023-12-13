@@ -49,7 +49,7 @@ const inputStyles = StyleSheet.create({
     border: {
         //alignSelf: "stretch",
         borderRadius: designConstants.borderRadius,
-        borderColor: colors.blueBell,
+        borderColor: colors.borderBlue, 
         borderWidth: designConstants.borderWidth,
         paddingHorizontal: designConstants.paddingHorizontal,
         paddingVertical: 0,
@@ -58,7 +58,7 @@ const inputStyles = StyleSheet.create({
         marginTop: 2,
     },
     focused: {
-        borderColor: colors.darkSeaGreen,
+        borderColor: colors.borderBlueFocused,
         //border: 3,
     },
     errorText: {

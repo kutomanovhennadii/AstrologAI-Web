@@ -99,12 +99,12 @@ const SubscriptionPage = ({ data, onSubmit }) => {
 const styles = StyleSheet.create({
     container: {
         padding: 16,
-        width: width - 40,
+        width: width - 60,
         height: height - 260,
         marginHorizontal: 20,
         marginTop: 20,
         borderRadius: designConstants.borderRadius,
-        borderColor: colors.blueBell,
+        borderColor: colors.textColor,
         borderWidth: designConstants.borderWidth,
         paddingHorizontal: designConstants.paddingHorizontal,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -145,6 +145,8 @@ const styles = StyleSheet.create({
         marginTop: 16,
         flexWrap: 'wrap',
         textAlign: 'justify',
+        fontSize: 15,
+        lineHeight: 22,
     },
     submitFrame: {
         left: 16,
@@ -159,6 +161,7 @@ const styles = StyleSheet.create({
     submitButton: {
         flex: 1, // Для равной широны
         marginHorizontal: 5, // Половина просвета между кнопками
+        paddingRight: 20
     },
 });
 

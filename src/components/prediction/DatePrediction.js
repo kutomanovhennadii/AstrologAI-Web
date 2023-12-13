@@ -10,7 +10,7 @@ import useBackHandler from '../../hooks/useBackHandler';
 
 import CustomForm from '../common/CustomForm';
 import { componentInstaller } from '../../utils/componentInstaller';
-import { sendToServer } from '../../services/sendToServer'
+import { sendUserInfoToServer } from '../../services/sendUserInfoToServer'
 
 import { useUser } from '../../context/UserContext';
 
@@ -24,7 +24,7 @@ const DatePredictionForm = ({ onSubmit, onBack }) => {
             datePrediction: data.datePrediction,
         }));
 
-        sendToServer('datePrediction', data)
+        sendUserInfoToServer('datePrediction', data)
             .then(response => {
                 console.log("Response from server", response);
             })

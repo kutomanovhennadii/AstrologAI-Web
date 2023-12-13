@@ -7,23 +7,42 @@ export const registerOnServer = async ({ name, email, password }) => {
     try {
         if (IS_TEST_MODE) {
             // Возвращаем фейковый ответ в тестовом режиме
-            return {
-                status: 201,
-                data: {
-                    message: 'User registered successfully. Please check your email for the verification code.',
-                    user: {
-                        name: name,
-                        email: email,
-                        password: password,
+            return new Promise(resolve => setTimeout(() => {
+                resolve({
+                    status: 201,
+                    data: {
+                        message: 'User registered successfully. Please check your email for the verification code.',
+                        user: {
+                            name: name,
+                            email: email,
+                            password: password,
+                        }
                     }
-                }
-            };
+                });
+            }, 500));
+
         } else {
+            const endpoint = '/api/register/'; // Укажите здесь конечную точку для отправки токена
+            const url = `${BASE_URL}${endpoint}`;
+            console.log('authenticateOnServer URL:', url);
+
             // Реальный запрос к серверу
-            const response = await axios.post(`${BASE_URL}/api/register`, { name, email, password });
-            return response;
+            console.log('registerOnServer name:', name);
+
+            const response = await axios.post(url, { name, email, password }, {
+                validateStatus: function (status) {
+                    return status < 600; // Резолвит промис для всех статусов меньше 500
+                }
+            });
+
+            console.log('registerOnServer response.data.data:', response.data.data);
+            return {
+                status: response.status,
+                data: response.data.data
+            };
         }
     } catch (error) {
+        console.log('registerOnServer error:', error);
         return {
             status: 500,
             data: { error: error.message }

@@ -11,6 +11,7 @@ const SubmitButton = ({ text, onSubmit }) => {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
+                    //console.log("SubmitButton onPress");
                     onSubmit();
                 }}
             >
@@ -27,7 +28,9 @@ const styles = StyleSheet.create({
     },
     button: {
         borderRadius: designConstants.borderRadius,
-        backgroundColor: colors.blueBell,
+        backgroundColor: colors.darkBlue,
+        borderWidth: 1,
+        borderColor: colors.textColor,
         width: '100%',
         height: designConstants.inputHeight,
         justifyContent: 'center',
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
     text: {
         letterSpacing: 1,
         textTransform: 'uppercase',
-        color: '#000',
+        color: colors.textColor,
         textAlign: 'center',
         fontSize: 16,
         fontFamily: "Raleway-SemiBold",

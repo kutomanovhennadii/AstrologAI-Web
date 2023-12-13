@@ -1,6 +1,8 @@
 // colors.js
 const colors = {
-    textColor: "rgb(216,181,112)",
+    //textColor: "#d8b570",
+    textColor: "#e3cb9a",
+    lightText: "#e3cb9a",
     //textColor: "#CACCA9",
     secondaryText: '#777777',
     highlightedText: '#FF5733',
@@ -15,7 +17,9 @@ const colors = {
     // gold: "#FFD700",
     gold: "rgb(216,181,112)",
     //gold: "#FFE55C",
-    darkBlue: "#1E2A38",
+    darkBlue: "#20202A", 
+    borderBlue: "#414153",
+    borderBlueFocused: "#8282A6",
     bronze: "#B87333",
     paleBlue: "#7FDBFF",
     darkPurple: "#4B0082",

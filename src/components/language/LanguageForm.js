@@ -1,11 +1,12 @@
 // Импорт необходимых модулей
-import React from 'react';
-import { View } from 'react-native';
+import React, { useState } from 'react';
+import { View, ActivityIndicator, Text, StyleSheet } from 'react-native';
 
 import appConfig from '../../static/json/appConfig.json';
 
 import { languageValidationSchema } from './validationSchema';
 import useFocusManagement from '../../hooks/useFocusManagement';
+
 import { useScreenOffsetControl } from '../../hooks/useScreenOffsetControl';
 import useBackHandler from '../../hooks/useBackHandler';
 
@@ -17,12 +18,12 @@ import { useUser } from '../../context/UserContext';
 import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
 
+import { useSendUserInfo } from '../../hooks/useSendUserInfo';
 // Основной компонент формы профиля
 const LanguageForm = ({ onSubmit, onBack }) => {
-
-    //console.log("Render LanguageForm")
-
     const { user, setUser } = useUser();
+    const { sendUserInfo, loading } = useSendUserInfo();
+    const [authError, setAuthError] = useState(null);
 
     // Загрузка метаданных полей из JSON
     const fieldMetadataArray = appConfig[user.language]["languageMetadataArray"];
@@ -59,16 +60,28 @@ const LanguageForm = ({ onSubmit, onBack }) => {
         }
     }));
 
-    const onSubmitForm = (value) => {
-        //console.log("value = ", value)
-        setUser(prevUser => ({
-            ...prevUser,
-            language: value.language
-        }));
-        onSubmit();
-    }
+    const onSubmitForm = async (values) => {
+        console.log('LanguageForm onSubmitForm values:', values);
+        const response = await sendUserInfo('user_data/', { language: values.language });
+        console.log('LanguageForm onSubmitForm response:', response);
+
+        if (!response.success) {
+            setAuthError(response.error);
+        }
+        else {
+            onSubmit();
+        }
+    };
 
     useBackHandler(onBack);
+
+    if (loading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
 
     return (
         <View style={[inputStyles.size100, { flex: 1, top: 50 }]}>
@@ -91,10 +104,18 @@ const LanguageForm = ({ onSubmit, onBack }) => {
                     onSubmit={onSubmitForm}
                     submitText={commonText["Select"]}
                 />
+
+                {authError && <Text style={[inputStyles.errorText, styles.padding]}>{authError}</Text>}
             </View>
         </View>
 
     );
 };
+
+const styles = StyleSheet.create({
+    padding: {
+        paddingTop: 20
+    },
+});
 
 export default LanguageForm;

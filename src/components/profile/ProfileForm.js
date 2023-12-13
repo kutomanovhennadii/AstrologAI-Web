@@ -1,6 +1,6 @@
 // Импорт необходимых модулей
-import React from 'react';
-import { View } from 'react-native';
+import React, { useState } from 'react';
+import { View, ActivityIndicator, Text } from 'react-native';
 
 import appConfig from '../../static/json/appConfig.json';
 
@@ -12,37 +12,49 @@ import { getComponentByName, getAdditionalPropsByName } from './getComponent'
 
 import CustomForm from '../common/CustomForm';
 import { componentInstaller } from '../../utils/componentInstaller';
-import { sendToServer } from '../../services/sendToServer'
+import { sendUserInfoToServer } from '../../services/sendUserInfoToServer'
+
+import inputStyles from '../../styles/InputStyles';
 
 import { useUser } from '../../context/UserContext';
+import { useSendUserInfo } from '../../hooks/useSendUserInfo';
+import getLocation from '../../services/getLocation';
 
 // Основной компонент формы профиля
 const ProfileForm = ({ onSubmit }) => {
     const { user, setUser } = useUser();
+    const { sendUserInfo, loading } = useSendUserInfo();
+    const [authError, setAuthError] = useState(null);
 
     const commonText = appConfig[user.language]["common"];
 
-    const onSubmitForm = (profileData) => {
-        setUser(prevUser => ({
-            ...prevUser,
+    const onSubmitForm = async (profileData) => {
+        console.log('ProfileForm onSubmitForm values:', profileData);
+
+        location = await getLocation();
+        console.log('ProfileForm onSubmitForm location:', location);
+
+        const response = await sendUserInfo('user_data/', {
             gender: profileData.gender,
-            birthDate: profileData.birthDate,
-            birthTime: profileData.birthTime,
-            birthCountry: profileData.birthCountry,
-            birthCity: profileData.birthCity,
+            birth_date: profileData.birth_date,
+            birth_time: profileData.birth_time,
+            birth_country: profileData.birth_country,
+            birth_city: profileData.birth_city,
             biography: profileData.biography,
-        }));
+            residence_longitude: location.longitude,
+            residence_latitude: location.latitude,
+            update_profile: true,
+        });
+        console.log('LanguageForm onSubmitForm response:', response);
 
-        sendToServer('profile', profileData)
-            .then(response => {
-                console.log("Response from server", response);
-            })
-            .catch(error => {
-                console.error("Error sending astrobot to server: ", error)
-            });
+        if (!response.success) {
+            setAuthError(response.error);
+        }
+        else {
+            onSubmit();
+        }
+    };
 
-        onSubmit();
-    }
     const submitText = user.registrated ? commonText["Select"] : commonText["Continue"];
 
     // Загрузка метаданных полей из JSON
@@ -73,6 +85,14 @@ const ProfileForm = ({ onSubmit }) => {
         additionalProps: getAdditionalPropsByName(metadata.name, countryList, cityList, onSelectCountry, onSelectCity)
     }));
 
+    if (loading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
+
     return (
         <View {...panResponder.panHandlers}
             style={[{ marginTop: screenOffset }]}
@@ -82,16 +102,18 @@ const ProfileForm = ({ onSubmit }) => {
                 //console.log("Height = ", height);
             }}
         >
+            {authError && <Text style={inputStyles.errorText}>{authError}</Text>}
+
             <CustomForm
                 fieldsConfig={fieldsConfig}
                 refs={refs}
                 removeFocusFromAll={removeFocusFromAll}
                 initialValues={{
                     gender: user.gender,
-                    birthDate: user.birthDate,
-                    birthTime: user.birthTime,
-                    birthCountry: user.birthCountry,
-                    birthCity: user.birthCity,
+                    birth_date: user.birth_date,
+                    birth_time: user.birth_time,
+                    birth_country: user.birth_country,
+                    birth_city: user.birth_city,
                     biography: user.biography,
                 }}
                 validationSchema={profileValidationSchema}

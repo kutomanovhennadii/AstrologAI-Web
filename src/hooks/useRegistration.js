@@ -13,6 +13,8 @@ export const useRegistration = () => {
             setLoading(true);
             const response = await registerOnServer({ name, email, password });
 
+            console.log('registerUser response:', response);
+
             if (response && response.data && response.status === 200) {
                 await AsyncStorage.setItem('userToken', response.data.token);
                 setUser(prevUser => ({

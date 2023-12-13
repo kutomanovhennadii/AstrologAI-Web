@@ -4,33 +4,48 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IS_TEST_MODE, BASE_URL } from '../config/config'; // Убедитесь, что путь указан правильно
 import { sendUserToken } from './sendUserToken';
 
-export const authenticateOnServer = async ({ email, password }) => {
+export const authenticateOnServer = async ({ username, password }) => {
     try {
-        let response;
+        let serverResponse;
 
         if (!IS_TEST_MODE) {
+            const endpoint = '/api/login/'; // Укажите здесь конечную точку для отправки токена
+            const url = `${BASE_URL}${endpoint}`;
+            console.log('authenticateOnServer URL:', url);
+            console.log('authenticateOnServer username:', username);
+            //console.log('authenticateOnServer Password:', password);
+
             // Реальная логика аутентификации
-            response = await axios.post(`${BASE_URL}/api/login`, { email, password });
+            const serverResponse = await axios.post(url, { username, password }, {
+                validateStatus: function (status) {
+                    return status < 500; // Резолвит промис для всех статусов меньше 500
+                }
+            });
+            console.log('authenticateOnServer response:', serverResponse);
+            console.log('authenticateOnServer response data:', serverResponse.data);
+            console.log('authenticateOnServer response data.data.error:', serverResponse.data.data.error);
+            console.log('authenticateOnServer response.status:', serverResponse.status);
 
             // Проверка, есть ли ошибка аутентификации
-            if (response.status === 400) {
+            if (serverResponse.status === 400) {
                 // Возвращаем ошибку, не выбрасываем исключение
-                return { error: response.data.error };
+                console.log('authenticateOnServer Error:', serverResponse.data.data.error);
+                return serverResponse.data;
             }
 
-            if (!response.data) {
+            if (!serverResponse.data) {
                 throw new Error('No data received');
             }
 
-            // Сохраняем токен в AsyncStorage
-            await AsyncStorage.setItem('userToken', response.data.token);
+            response = serverResponse.data;
+
         } else {
             // В тестовом режиме используем фейковые данные
             response = {
                 data: {
                     token: 'fake-token',
                     user: {
-                        registrated: true,
+                        is_registration_completed: true,
                         astrobot: "Bruce",
                         language: 'Русский',
                         generalContent: true,
@@ -40,13 +55,13 @@ export const authenticateOnServer = async ({ email, password }) => {
                         name: "hkutomanov",
                         aspectsContent: false,
                         gender: "male",
-                        birthDate: "1966-09-04",
-                        birthTime: "00:53:28",
-                        birthCountry: "Ukraine",
-                        birthCity: "Kharkov",
+                        birth_date: "1966-09-04",
+                        birth_time: "00:53:28",
+                        birth_country: "Ukraine",
+                        birth_city: "Kharkov",
                         biography: '',
-                        subsciptionType: 'Premium',
-                        subsciptionPerMonth: 0,
+                        subscriptionType: 'Premium',
+                        subscriptionPerMonth: 0,
                         subscriptionPerYear: 0,
                     },
                 },
@@ -54,7 +69,7 @@ export const authenticateOnServer = async ({ email, password }) => {
         }
 
         // Возвращаем данные пользователя и токен
-        return response;
+        return response.data;
 
     } catch (error) {
         console.error('Authentication error:', error);

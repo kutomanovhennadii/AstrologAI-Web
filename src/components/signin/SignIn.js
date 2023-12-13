@@ -9,6 +9,7 @@ import SignInForm from './SignInForm';
 import inputStyles from '../../styles/InputStyles';
 
 import { useAuthentication } from '../../hooks/useAuthentication';
+import getSystemLanguage from '../../services/getSystemLanguage';
 import { useUser } from '../../context/UserContext';
 import appConfig from '../../static/json/appConfig.json';
 
@@ -19,6 +20,14 @@ const SignIn = ({ navigation }) => {
     const [initialValues, setInitialValues] = useState({ email: '', password: '' });
     const { user, setUser } = useUser();
 
+    useEffect(() => {
+        // if (!user.language) {
+            const language = getSystemLanguage();
+            setUser({ ...user, language: language });
+            console.log('System Language :', language);
+        // }
+    }, []);
+
     const commonText = appConfig[user.language]["common"];
 
     const goToSignUp = () => {
@@ -27,16 +36,14 @@ const SignIn = ({ navigation }) => {
 
     const onSubmit = async (values) => {
         const response = await authenticateUser(values);
-        console.log('Response:', response);
+        console.log('SignIn onSubmit response:', response);
 
+        if (response.success && !user.is_registration_completed) {
+            navigation.navigate('Profile');
+        }
         if (!response.success) {
-            if (!user.isRegistrated) {
-                navigation.navigate('Profile');
-            }
-            else {
-                setAuthError(response.error);
-                setInitialValues(values); // Сохраняем введенные данные
-            }
+            setAuthError(response.error);
+            setInitialValues(values); // Сохраняем введенные данные
         }
     };
 

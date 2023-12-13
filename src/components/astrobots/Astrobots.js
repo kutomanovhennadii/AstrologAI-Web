@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
-
+import { View, FlatList, Text, StyleSheet, ActivityIndicator } from 'react-native';
 
 import AstrobotPage from "./AstrobotPage"
 
@@ -13,8 +12,6 @@ import useBackHandler from '../../hooks/useBackHandler';
 
 import { useUser } from '../../context/UserContext';
 import appConfig from '../../static/json/appConfig.json';
-
-import { sendToServer } from '../../services/sendToServer'
 
 export const AstrobotScreenWrapper = ({ navigation }) => {
     const onSubmit = () => {
@@ -30,11 +27,14 @@ export const AstrobotScreenWrapper = ({ navigation }) => {
     return <Astrobots onSubmit={onSubmit} onBack={onBack} />;
 };
 
+import { useSendUserInfo } from '../../hooks/useSendUserInfo';
 
 const Astrobots = ({ onSubmit, onBack }) => {
     const [astrobotImages, setAstrobotImages] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const { user, setUser } = useUser();
+    const { sendUserInfo, loading } = useSendUserInfo();
+    const [authError, setAuthError] = useState(null);
 
     // Загрузка изображений 
     const astrobots = appConfig[user.language].Astrobots;
@@ -57,32 +57,26 @@ const Astrobots = ({ onSubmit, onBack }) => {
             <AstrobotPage
                 image={astrobotImages[item.name]}
                 name={item.name}
-                title ={item.title}
+                title={item.title}
                 description={item.description}
-                onSubmit={onSelectAstrobot}
+                onSubmit={onSubmitForm}
             />
         );
     };
 
-    const onSelectAstrobot = async (astrobotData) => {
-        //console.log("Astrobot ", astrobotData, " selected");
-        setUser(prevUser => ({
-            ...prevUser,
-            astrobot: astrobotData
-        }));
+    const onSubmitForm = async (values) => {
+        //console.log('Astrobots onSubmitForm values:', values);
+        const response = await sendUserInfo('user_data/', { astrobot: values });
+        //console.log('Astrobots onSubmitForm response:', response);
 
-        sendToServer('astrobot', astrobotData)
-            .then(response => {
-                console.log("Response from server", response);
-            })
-            .catch(error => {
-                console.error("Error sending astrobot to server: ", error)
-            });
-
-        onSubmit();
-
-    }
-
+        if (response.status !== 200) {
+            setAuthError(response.error);
+        }
+        else {
+            //console.log('Astrobots onSubmitForm response.status:', response.status);
+            onSubmit();
+        }
+    };
     useBackHandler(onBack);
 
     // Обновление номера страницы
@@ -92,6 +86,14 @@ const Astrobots = ({ onSubmit, onBack }) => {
             setCurrentPage(firstVisibleItem.index);
         }
     }, []);
+
+    if (loading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
 
 
     return (
@@ -114,6 +116,8 @@ const Astrobots = ({ onSubmit, onBack }) => {
                     }}
                 />
             </View>
+
+            {authError && <Text style={inputStyles.errorText}>{authError}</Text>}
 
             {/* Пагинация */}
             <View style={styles.paginationDots}>

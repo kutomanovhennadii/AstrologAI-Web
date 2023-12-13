@@ -8,21 +8,33 @@ export const useAuthentication = () => {
     const { user, setUser } = useUser();
     const [loading, setLoading] = useState(false);
 
-    const authenticateUser = useCallback(async ({ email, password }) => {
+    const authenticateUser = useCallback(async ({ username, password }) => {
         try {
             setLoading(true);
-            const response = await authenticateOnServer({ email, password });
-            console.log('Response:', response);
 
-            if (response && response.data && response.data.token) {
-                await AsyncStorage.setItem('userToken', response.data.token);
+            const response = await authenticateOnServer({ username, password });
+            console.log('authenticateUser Response:', response);
+            console.log('authenticateUser Response.data:', response.data);
+           
 
+            if (response && response.token) {
+                await AsyncStorage.setItem('userToken', response.token);
+                console.log('authenticateUser Response.user:', response.user);
+                
                 setUser(prevUser => ({
                     ...prevUser,
-                    ...response.data.user,
-                    isAuthenticated: true,
+                    ...response.user,
                 }));
+                console.log('authenticateUser response.user.is_registration_completed', response.user.is_registration_completed);
 
+                if (response.user.is_registration_completed) {
+                    console.log('authenticateUser set isAuthenticated true');
+                    setUser(prevUser => ({
+                        ...prevUser,
+                        isAuthenticated: true
+                    }));
+                }
+                //console.log('authenticateUser 3');
                 return { success: true };
             } else {
                 // Возвращаем информацию об ошибке аутентификации
@@ -30,6 +42,7 @@ export const useAuthentication = () => {
             }
         } catch (error) {
             setLoading(false);
+            console.log('authenticateUser error:', error);
             // Возвращаем информацию об ошибке
             return { success: false, error: error.message };
         } finally {

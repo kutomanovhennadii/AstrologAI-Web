@@ -9,7 +9,6 @@ import useAstrobotImages from '../../hooks/loadAstrobotImages';
 
 import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
-import { sendToServer } from '../../services/sendToServer'
 
 import appConfig from '../../static/json/appConfig.json';
 import { useUser } from '../../context/UserContext';
@@ -24,7 +23,7 @@ const buttonsTop = [
 ];
 
 const PredictionContent = ({ selectedZodiac }) => {
-    //console.log('PredictionContent selectedZodiac:', selectedZodiac);
+    console.log('PredictionContent start');
 
     const [selectedTop, handleSelectionChangeTop] = useButtonSelection(buttonsTop);
     const { user } = useUser();
@@ -48,10 +47,11 @@ const PredictionContent = ({ selectedZodiac }) => {
 
     const loadArticles = async () => {
         const recipient = selectedZodiac ? selectedZodiac : user.name;
-        const articleType = selectedTop[0].toUpperCase(); 
+        const articleType = selectedTop[0].toUpperCase();
 
+        console.log('PredictionContent Load articles:', recipient, articleType);
         const newArticles = await nextArticles(user, recipient, articleType, 0);
-        //console.log('Load articles:', newArticles);
+        console.log('Load articles:', newArticles.length);
         setArticles(newArticles);
     };
 

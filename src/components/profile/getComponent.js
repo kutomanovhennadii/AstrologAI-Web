@@ -9,10 +9,10 @@ import MultilineInput from '../common/MultilineInput';
 export function getComponentByName(name) {
     switch (name) {
         case 'gender': return GenderPicker;
-        case 'birthDate': return DateInput;
-        case 'birthTime': return TimeInput;
-        case 'birthCountry': return FilteredPicker;
-        case 'birthCity': return FilteredPicker;
+        case 'birth_date': return DateInput;
+        case 'birth_time': return TimeInput;
+        case 'birth_country': return FilteredPicker;
+        case 'birth_city': return FilteredPicker;
         case "biography": return MultilineInput;
         default: return [];
     }
@@ -37,12 +37,12 @@ export function getAdditionalPropsByName(name, countryList, cityList, onSelectCo
             return {
                 onSelect: (gender, form) => form.setFieldValue("gender", gender)
             };
-        case 'birthCountry':
+        case 'birth_country':
             return {
                 options: countryList,
                 onSelect: onSelectCountry
             };
-        case 'birthCity':
+        case 'birth_city':
             return {
                 options: cityList,
                 onSelect: onSelectCity

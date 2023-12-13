@@ -23,13 +23,16 @@ const CustomForm = ({
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(values, actions) => {
+                //console.log('Внутри блока Formik, перед onSubmit');
                 onSubmit(values); // Здесь values - это значения формы
                 // Вы можете также использовать actions для выполнения дополнительных действий после отправки
             }}
             enableReinitialize={true}
         >
-            {({ handleSubmit, values }) => {
-                //console.log('Внутри блока Formik, перед View');
+            {({ handleSubmit, values, errors, touched, isValidating, isSubmitting }) => {
+                //console.log('Formik State:', { values, errors, touched, isValidating, isSubmitting });
+
+                //console.log("fieldsConfig ", fieldsConfig);
 
                 return (
                     <View>
@@ -72,7 +75,11 @@ const CustomForm = ({
                         })}
                         <SubmitButton
                             text={submitText}
-                            onSubmit={handleSubmit}
+                            onSubmit={() => {
+                                //console.log('CustomForm SubmitButton onPress')
+                                handleSubmit();
+                                //console.log('CustomForm SubmitButton handleSubmit выполнен');
+                            }}
                         />
                     </View>
                 );

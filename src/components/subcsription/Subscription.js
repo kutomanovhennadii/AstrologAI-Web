@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 
 import { useUser } from '../../context/UserContext';
 import appConfig from '../../static/json/appConfig.json';
@@ -8,8 +8,10 @@ import SubscriptionPage from './SubscriptionPage'
 import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
 
-import { sendToServer } from '../../services/sendToServer'
+import { sendUserInfoToServer } from '../../services/sendUserInfoToServer'
 import useBackHandler from '../../hooks/useBackHandler';
+
+import { useSendUserInfo } from '../../hooks/useSendUserInfo';
 
 export const SubscriptionScreenWrapper = ({ navigation }) => {
     const onSubmit = () => {
@@ -28,6 +30,8 @@ export const SubscriptionScreenWrapper = ({ navigation }) => {
 const Subscription = ({ onSubmit, onBack }) => {
     const [currentPage, setCurrentPage] = useState(0);
     const { user, setUser } = useUser();
+    const { sendUserInfo, loading } = useSendUserInfo();
+    const [authError, setAuthError] = useState(null);
 
     const subscribtionText = appConfig[user.language]["Subscribtion"]
     const commonText = appConfig[user.language]["common"];
@@ -51,26 +55,32 @@ const Subscription = ({ onSubmit, onBack }) => {
         }
     }, []);
 
-    const onSubmitForm = async (subscriptionData) => {
-        //console.log("Subscription onSubmitForm");
+    const onSubmitForm = async (values) => {
+        //console.log('Subscription onSubmitForm values:', values);
+        const response = await sendUserInfo('user_data/', {
+            subscriptionPerMonth: values.subscriptionPerMonth,
+            subscriptionPerYear: values.subscriptionPerYear,
+            subscriptionType: values.subscriptionType,
+        });
+        console.log('Subscription onSubmitForm response:', response); 
 
-        sendToServer('subscription', subscriptionData)
-            .then(response => {
-                console.log("Response from server", response);
-            })
-            .catch(error => {
-                console.error("Error sending astrobot to server: ", error)
-            });
-
-        setUser(prevUser => ({
-            ...prevUser,
-            isAuthenticated: true,
-        }));
-
-        onSubmit()
+        if (!response.success) {
+            setAuthError(response.error);
+        }
+        else {
+            onSubmit();
+        }
     };
 
     useBackHandler(onBack);
+
+    if (loading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
 
     //console.log("Render GreetingForm, currentPage = " + currentPage);
     return (

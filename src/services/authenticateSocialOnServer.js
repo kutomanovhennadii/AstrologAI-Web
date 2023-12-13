@@ -2,25 +2,25 @@ import axios from 'axios';
 import { IS_TEST_MODE, BASE_URL } from '../config/config'; // Убедитесь, что путь указан правильно
 
 export const authenticateSocialOnServer = async (data) => {
-    console.log('authenticateSocialOnServer data', data);
+    // console.log('authenticateSocialOnServer data', data);
     const { socialNetwork, token } = data;
-    console.log('authenticateSocialOnServer', socialNetwork, token);
-    
-    const endpoint = '/api/authenticateSocial'; // Укажите здесь конечную точку для аутентификации
+    // console.log('authenticateSocialOnServer', socialNetwork, token);
+
+    const endpoint = '/api/authenticateSocial/'; // Укажите здесь конечную точку для аутентификации
     const url = `${BASE_URL}${endpoint}`;
 
-    console.log('authenticateSocialOnServer IS_TEST_MODE', IS_TEST_MODE);
+    // console.log('authenticateSocialOnServer IS_TEST_MODE', IS_TEST_MODE);
     if (IS_TEST_MODE) {
         // Имитация ответа сервера для тестового режима
         return new Promise(resolve => {
-            console.log('authenticateSocialOnServer IS_TEST_MODE');
+            // console.log('authenticateSocialOnServer IS_TEST_MODE');
             setTimeout(() => {
                 resolve({
                     status: 200,
                     data: {
                         token: 'fake-server-token',
                         user: {
-                            isRegistrated: true,
+                            is_registration_completed: true,
                             astrobot: "Bruce",
                             language: 'Русский',
                             generalContent: true,
@@ -29,13 +29,13 @@ export const authenticateSocialOnServer = async (data) => {
                             healthContent: false,
                             aspectsContent: false,
                             gender: "male",
-                            birthDate: "1966-09-04",
-                            birthTime: "00:53:28",
-                            birthCountry: "Ukraine",
-                            birthCity: "Kharkov",
+                            birth_date: "1966-09-04",
+                            birth_time: "00:53:28",
+                            birth_country: "Ukraine",
+                            birth_city: "Kharkov",
                             biography: '',
-                            subsciptionType: 'Premium',
-                            subsciptionPerMonth: 0,
+                            subscriptionType: 'Premium',
+                            subscriptionPerMonth: 0,
                             subscriptionPerYear: 0,
                         }
                     }

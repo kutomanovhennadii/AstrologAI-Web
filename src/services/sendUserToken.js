@@ -2,18 +2,19 @@ import axios from 'axios';
 import { IS_TEST_MODE, BASE_URL } from '../config/config';
 
 const sendUserToken = async (token) => {
-    const endpoint = '/api/verifyUserToken'; // Укажите здесь конечную точку для отправки токена
-    const url = `${BASE_URL}/${endpoint}`;
+    const endpoint = '/api/verifyUserToken/'; // Укажите здесь конечную точку для отправки токена
+    const url = `${BASE_URL}${endpoint}`;
+    console.log('sendUserToken URL:', url);
 
     if (IS_TEST_MODE) {
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve({
-                    status: 400,
+                    status: 200,
                     data:
                     {
                         user: {
-                            isRegistrated: true,
+                            is_registration_completed: true,
                             astrobot: "Bruce",
                             language: 'Русский',
                             generalContent: true,
@@ -22,13 +23,13 @@ const sendUserToken = async (token) => {
                             healthContent: false,
                             aspectsContent: false,
                             gender: "male",
-                            birthDate: "1966-09-04",
-                            birthTime: "00:53:28",
-                            birthCountry: "Ukraine",
-                            birthCity: "Kharkov",
+                            birth_date: "1966-09-04",
+                            birth_time: "00:53:28",
+                            birth_country: "Ukraine",
+                            birth_city: "Kharkov",
                             biography: '',
-                            subsciptionType: 'Premium',
-                            subsciptionPerMonth: 0,
+                            subscriptionType: 'Premium',
+                            subscriptionPerMonth: 0,
                             subscriptionPerYear: 0,
                         }
                     }
@@ -38,8 +39,14 @@ const sendUserToken = async (token) => {
     } else {
         // Реальная отправка токена на сервер
         try {
+            console.log('sendUserToken Sending token:', token);
             const response = await axios.post(url, { token });
-            return response.data;
+            console.log('sendUserToken Response:', response);
+            console.log('registerOnServer response.data.data:', response.data.data);
+            return {
+                status: response.status,
+                data: response.data.data
+            };
         } catch (error) {
             return {
                 status: 500,

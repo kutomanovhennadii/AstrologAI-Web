@@ -35,7 +35,7 @@ export const useSocialAuthentication = () => {
                     socialNetwork: socialNetwork,
                     token: responseSocial.data.token
                 });
-                console.log('authenticateSocial responseServer', responseServer);
+               console.log('authenticateSocial responseServer', responseServer);
 
                 if (responseServer && responseServer.data && responseServer.status === 200) {
                     await AsyncStorage.setItem('userToken', responseServer.data.token);
@@ -51,7 +51,7 @@ export const useSocialAuthentication = () => {
                             isAuthenticated: true
                         }));
                     }
-                    console.log('authenticateSocial success : true');
+                    // console.log('authenticateSocial success : true');
                     return { success: true };
                 } else {
                     return { success: false, error: responseServer?.data?.error || 'Authentication error' };

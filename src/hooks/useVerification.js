@@ -9,25 +9,29 @@ export const useVerification = () => {
     const [loading, setLoading] = useState(false);
 
     const verifyUser = useCallback(async ({ name, email, password, verification }) => {
-        console.log("verifyUser", name, email, password, verification)
+        // console.log("verifyUser", name, email, password, verification)
+        // console.log("verifyUser user.language", user.language)
         try {
             setLoading(true);
             const response = await veryficateOnServer({
                 name: name,
                 email: email,
                 password: password,
-                verification: verification
+                verification: verification,
+                language: user.language
             });
-            console.log("verifyUser - response", response)
+            // console.log("verifyUser - response", response);
+            // console.log("verifyUser - response.data", response.data);
+            // console.log("verifyUser - response.data.token", response.data.token);
             if (response && response.data && response.status === 200) {
                 await AsyncStorage.setItem('userToken', response.data.token);
+                //console.log("verifyUser - response.data.token", response.data.token)
 
-                console.log("verifyUser - response.data.token", response.data.token)
                 setUser(prevUser => ({
                     ...prevUser,
                     ...response.data.user,
                 }));
-                console.log("verifyUser - success: true")
+                //console.log("verifyUser - success: true")
                 return { success: true };
             } else {
                 return { success: false, error: response?.data?.error || 'Registration error' };

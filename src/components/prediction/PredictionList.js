@@ -8,6 +8,9 @@ const PredictionList = ({ articles, onLoadMore, astrobotImages, selectedZodiac }
     const scrollRef = useRef(null);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
+    console.log('PredictionList start');
+    //console.log('PredictionList articles:', articles[0]);
+
     useEffect(() => {
         if (isInitialLoad && scrollRef.current) {
             scrollRef.current.scrollToOffset({ offset: 0, animated: true });
@@ -15,24 +18,29 @@ const PredictionList = ({ articles, onLoadMore, astrobotImages, selectedZodiac }
         }
     }, [isInitialLoad, articles]);
 
-    const renderItem = ({ item }) => (
-        <View key={item.id} style={styles.itemContainer}>
-            <View style={styles.header}>
-                <Image
-                    source={astrobotImages[item.astrobot]}
-                    style={styles.astrobotImage}
-                />
-                <View style={styles.titleContainer}>
-                    <Text style={[inputStyles.titleText, styles.titleText]}>
-                        {selectedZodiac} {item.title}
-                    </Text>
+    const renderItem = ({ item }) => {
+        // Логирование данных элемента
+        //console.log('Рендеринг элемента:', item);
+
+        return (
+            <View key={item.id} style={styles.itemContainer}>
+                <View style={styles.header}>
+                    <Image
+                        source={astrobotImages[item.astrobot]}
+                        style={styles.astrobotImage}
+                    />
+                    <View style={styles.titleContainer}>
+                        <Text style={[inputStyles.titleText, styles.titleText]}>
+                            {selectedZodiac} {item.title}
+                        </Text>
+                    </View>
                 </View>
+                <Text style={[inputStyles.text, styles.descriptionText]}>
+                    {item.content}
+                </Text>
             </View>
-            <Text style={[inputStyles.text, styles.descriptionText]}>
-                {item.content}
-            </Text>
-        </View>
-    );
+        );
+    };
 
     return (
         <View style={styles.container}>

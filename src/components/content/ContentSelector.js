@@ -1,6 +1,6 @@
 // Импорт необходимых модулей
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, ActivityIndicator, Text } from 'react-native';
 
 import appConfig from '../../static/json/appConfig.json';
 
@@ -16,6 +16,7 @@ import { useUser } from '../../context/UserContext';
 
 import inputStyles from '../../styles/InputStyles';
 import colors from '../../styles/colors';
+import { useSendUserInfo } from '../../hooks/useSendUserInfo';
 
 // Основной компонент формы профиля
 const ContentSelector = ({ onSubmit, onBack }) => {
@@ -23,6 +24,8 @@ const ContentSelector = ({ onSubmit, onBack }) => {
     //console.log("Render ContentSelector")
 
     const { user, setUser } = useUser();
+    const { sendUserInfo, loading } = useSendUserInfo();
+    const [authError, setAuthError] = useState(null);
 
     // Загрузка метаданных полей из JSON
     const fieldMetadataArray = appConfig[user.language]["contentMetadataArray"];
@@ -52,20 +55,34 @@ const ContentSelector = ({ onSubmit, onBack }) => {
         // }
     }));
 
-    const onSubmitForm = (value) => {
-        //console.log("value = ", value)
-        setUser(prevUser => ({
-            ...prevUser,
-            generalContent: value.generalContent,
-            businessContent: value.businessContent,
-            relationContent: value.relationContent,
-            healthContent: value.healthContent,
-            aspectsContent: value.aspectsContent
-        }));
-        onSubmit();
-    }
+    const onSubmitForm = async (values) => {
+        //console.log('LanguageForm onSubmitForm values:', values);
+        const response = await sendUserInfo('user_data/', {
+            generalContent: values.generalContent,
+            businessContent: values.businessContent,
+            relationContent: values.relationContent,
+            healthContent: values.healthContent,
+            aspectsContent: values.aspectsContent
+        });
+        //console.log('LanguageForm onSubmitForm response:', response);
+
+        if (!response.success) {
+            setAuthError(response.error);
+        }
+        else {
+            onSubmit();
+        }
+    };
 
     useBackHandler(onBack);
+
+    if (loading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
 
     return (
         <View style={[inputStyles.size100, { flex: 1, top: 50 }]}>
@@ -89,6 +106,8 @@ const ContentSelector = ({ onSubmit, onBack }) => {
                 onSubmit={onSubmitForm}
                 submitText={commonText["Select"]}
             />
+
+            {authError && <Text style={inputStyles.errorText}>{authError}</Text>}
             {/* </View> */}
         </View>
 

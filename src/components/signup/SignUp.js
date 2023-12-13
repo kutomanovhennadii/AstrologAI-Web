@@ -12,6 +12,9 @@ import { useUser } from '../../context/UserContext';
 import appConfig from '../../static/json/appConfig.json';
 
 const SignUp = ({ navigation, route }) => {
+
+    console.log("SignUp route", route);
+
     const { termsAccepted = false } = (route && route.params) || {};
     const { user, setUser } = useUser();
     const [authError, setAuthError] = useState(null);
@@ -29,7 +32,7 @@ const SignUp = ({ navigation, route }) => {
     };
 
     const onSubmit = async (values) => {
-        console.log("onSubmit", values);
+        console.log("onSubmit - ", values);
         setUser(prevUser => ({
             ...prevUser,
             name: values.name,

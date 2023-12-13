@@ -14,8 +14,8 @@ export const useCountryAndCity = (refs) => {
     const onSelectCountry = (country) => {
         //console.log("onSelectCountry refs", refs);
 
-        if (refs.birthCity.current) {
-            refs.birthCity.current.removeValue();
+        if (refs.birth_city.current) {
+            refs.birth_city.current.removeValue();
         }
         const newCityList = getCitiesByCountry(country).map(city => ({ label: city, value: city }));
         setLists(prevState => ({

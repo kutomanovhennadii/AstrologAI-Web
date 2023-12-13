@@ -13,7 +13,6 @@ import { useUser } from '../../context/UserContext';
 const screenWidth = Dimensions.get('window').width;
 
 const AstrobotPage = ({ name, title, image, description, onSubmit }) => {
-
     const { user, setUser } = useUser();
     const commonText = appConfig[user.language]["common"];
 

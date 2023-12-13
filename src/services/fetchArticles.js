@@ -6,10 +6,9 @@ import { IS_TEST_MODE, BASE_URL } from '../config/config';
 const fetchArticles = async (recipient, articleType, missingDates) => {
     //console.log('Fetch articles:', recipient, articleType, missingDates);
 
-    const endpoint = '/api/content';
+    const endpoint = '/api/content/';
     const url = `${BASE_URL}${endpoint}`;
-    const token = await AsyncStorage.getItem('userToken');
-    
+    console.log('Fetch articles URL:', url);
 
     if (IS_TEST_MODE) {
         // В тестовом режиме возвращаем фиктивные данные
@@ -29,23 +28,35 @@ const fetchArticles = async (recipient, articleType, missingDates) => {
     } else {
         // Реальный запрос на сервер
         try {
+            const token = await AsyncStorage.getItem('userToken');
+            console.log('Fetch articles Token:', token);
+            console.log('Fetch articles Dates:', missingDates);
+
             const response = await axios.get(url, {
                 params: {
                     recipient: recipient,
                     articleType: articleType,
-                    dates: missingDates
+                    dates: missingDates,
+                    token: token
                 },
                 headers: { "Authorization": `Bearer ${token}` }
             });
+            //console.log('Fetch articles Response:', response);
+            //console.log('Fetch articles Response.data:', response.data);
 
-            if (response.status === 200) {
-                return response.data.articles;
-            }
+
+            return {
+                status: response.status,
+                data: response.data.data
+            };
 
             throw new Error('No valid response received');
         } catch (error) {
             console.error(`Error fetching articles from ${url}:`, error);
-            throw error;
+            return {
+                status: 500,
+                data: { error: error.message }
+            };
         }
     }
 };

@@ -18,11 +18,11 @@ const SocialLogin = ({ navigation }) => {
     const commonText = appConfig[user.language]["common"];
 
     const onSubmit = async (values) => {
-        console.log("onSubmit", values);
+        // console.log("onSubmit", values);
         setAuthError("");
 
         const response = await authenticateSocial(values);
-        console.log("onSubmit response", response);
+        // console.log("onSubmit response", response);
 
         if (response.success) {
             navigation.navigate('GreetingForm');

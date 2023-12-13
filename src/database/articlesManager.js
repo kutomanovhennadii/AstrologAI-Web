@@ -84,14 +84,21 @@ const checkAndFetchMissingArticles = async (user, recipient, articleType, startI
         const missingDates = filteredDates.filter(date => {
             return !articles.some(article => article.publication_date === date);
         });
-       //console.log('Missing dates:', missingDates);
+        console.log('checkAndFetchMissingArticles Missing dates:', missingDates);
 
         // Запрашиваем недостающие статьи
         if (missingDates.length > 0) {
-            const newArticles = await fetchArticles(recipient, articleType, missingDates);
-            //console.log('New articles:', newArticles);
-            await addArticles(newArticles);
-            articles = articles.concat(newArticles);
+            const response = await fetchArticles(recipient, articleType, missingDates);
+            //console.log('checkAndFetchMissingArticles New articles:', response.data);
+            console.log('checkAndFetchMissingArticles New articles number:', response.data.length);
+            if (response.status === 200) {
+                const newArticles = response.data;
+                await addArticles(newArticles);
+                articles = articles.concat(newArticles);
+            }
+            else {
+                console.log('checkAndFetchMissingArticles Error:', response.data.error);
+            }
         }
 
         // Сортировка статей по убыванию даты

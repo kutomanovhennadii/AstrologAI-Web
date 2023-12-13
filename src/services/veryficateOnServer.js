@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { IS_TEST_MODE, BASE_URL } from '../config/config';
 
-export const veryficateOnServer = async ({ name, email, password, verification }) => {
-    const endpoint = '/api/verifyUser'; // Укажите здесь конечную точку для отправки токена
+export const veryficateOnServer = async ({ name, email, password, verification, language }) => {
+    const endpoint = '/api/verifyUser/'; // Укажите здесь конечную точку для отправки токена
     const url = `${BASE_URL}/${endpoint}`;
 
     if (IS_TEST_MODE) {
@@ -14,7 +14,7 @@ export const veryficateOnServer = async ({ name, email, password, verification }
                     {
                         token: 'fake-token',
                         user: {
-                            isRegistrated: true,
+                            is_registration_completed: true,
                             astrobot: "Bruce",
                             language: 'Русский',
                             generalContent: true,
@@ -23,13 +23,13 @@ export const veryficateOnServer = async ({ name, email, password, verification }
                             healthContent: false,
                             aspectsContent: false,
                             gender: "male",
-                            birthDate: "1966-09-04",
-                            birthTime: "00:53:28",
-                            birthCountry: "Ukraine",
-                            birthCity: "Kharkov",
+                            birth_date: "1966-09-04",
+                            birth_time: "00:53:28",
+                            birth_country: "Ukraine",
+                            birth_city: "Kharkov",
                             biography: '',
-                            subsciptionType: 'Premium',
-                            subsciptionPerMonth: 0,
+                            subscriptionType: 'Premium',
+                            subscriptionPerMonth: 0,
                             subscriptionPerYear: 0,
                         }
                     }
@@ -39,8 +39,20 @@ export const veryficateOnServer = async ({ name, email, password, verification }
     } else {
         // Реальная отправка токена на сервер
         try {
-            const response = await axios.post(url, { name, email, password, verification });
-            return response.data;
+
+            // console.log('veryficateOnServer name:', name);
+            // console.log('veryficateOnServer email:', email);
+            // console.log('veryficateOnServer password:', password);
+            // console.log('veryficateOnServer verification:', verification);
+            const response = await axios.post(url, { name, email, password, verification, language });
+            // console.log('veryficateOnServer response:', response);
+            // console.log('veryficateOnServer response.data:', response.data);
+            // console.log('veryficateOnServer response.data.data:', response.data.data);
+
+            return {
+                status: response.status,
+                data: response.data.data
+            };
         } catch (error) {
             return {
                 status: 500,

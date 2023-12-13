@@ -12,11 +12,12 @@ export const useTokenCheck = () => {
         //console.log('Checking token...');
         setLoading(true);
         const savedToken = await AsyncStorage.getItem('userToken');
-        //console.log('Saved token:', savedToken);
+        console.log('Saved token:', savedToken);
 
         if (savedToken) {
             try {
                 const response = await sendUserToken(savedToken);
+                console.log('Response:', response);
 
                 if (response.status === 200) {
                     setUser(prevUser => ({
@@ -50,5 +51,5 @@ export const useTokenCheck = () => {
         setLoading(false);
     }, [setUser]);
 
-    return { checkToken, loading };
+    return { checkToken, loading }; // Возвращаем объект с функцией и флагом загрузки
 };

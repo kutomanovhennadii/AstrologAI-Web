@@ -191,28 +191,28 @@
                 "screenOffset": 0
             },
             {
-                "name": "birthDate",
+                "name": "birth_date",
                 "label": "Date of Birth",
                 "screenOffset": 0,
                 "component": "DateInput",
                 "placeholder": "Select date of birth"
             },
             {
-                "name": "birthTime",
+                "name": "birth_time",
                 "label": "Time of Birth",
                 "screenOffset": 0,
                 "component": "TimeInput",
                 "placeholder": "Select time of birth"
             },
             {
-                "name": "birthCountry",
+                "name": "birth_country",
                 "label": "Select a country of birth",
                 "screenOffset": -110,
                 "component": "FilteredPicker",
                 "placeholder": "Enter text to search"
             },
             {
-                "name": "birthCity",
+                "name": "birth_city",
                 "label": "Select a city of birth",
                 "screenOffset": -210,
                 "component": "FilteredPicker",
@@ -228,11 +228,11 @@
         ],
         "signInMetadataArray": [
             {
-                "name": "email",
-                "label": "Email",
+                "name": "username",
+                "label": "User name",
                 "component": "CustomInput",
                 "screenOffset": 0,
-                "placeholder": "Enter your email"
+                "placeholder": "Enter your name"
             },
             {
                 "name": "password",
@@ -245,7 +245,7 @@
         ],
         "signUpMetadataArray": [
             {
-                "name": "userName",
+                "name": "name",
                 "label": "User name",
                 "component": "CustomInput",
                 "screenOffset": 136,
@@ -550,28 +550,28 @@
                 "screenOffset": 0
             },
             {
-                "name": "birthDate",
+                "name": "birth_date",
                 "label": "Дата рождения",
                 "screenOffset": 0,
                 "component": "DateInput",
                 "placeholder": "Выберите дату рождения"
             },
             {
-                "name": "birthTime",
+                "name": "birth_time",
                 "label": "Время рождения",
                 "screenOffset": 0,
                 "component": "TimeInput",
                 "placeholder": "Выберите время рождения"
             },
             {
-                "name": "birthCountry",
+                "name": "birth_country",
                 "label": "Выберите страну рождения",
                 "screenOffset": -110,
                 "component": "FilteredPicker",
                 "placeholder": "Введите текст для поиска"
             },
             {
-                "name": "birthCity",
+                "name": "birth_city",
                 "label": "Выберите город рождения",
                 "screenOffset": -210,
                 "component": "FilteredPicker",
@@ -587,11 +587,11 @@
         ],
         "signInMetadataArray": [
             {
-                "name": "email",
-                "label": "Электронная почта",
+                "name": "username",
+                "label": "Имя пользователя",
                 "component": "CustomInput",
                 "screenOffset": 0,
-                "placeholder": "Введите вашу электронную почту"
+                "placeholder": "Введите ваше имя"
             },
             {
                 "name": "password",
@@ -915,28 +915,28 @@
                 "screenOffset": 0
             },
             {
-                "name": "birthDate",
+                "name": "birth_date",
                 "label": "Дата народження",
                 "screenOffset": 0,
                 "component": "DateInput",
                 "placeholder": "Виберіть дату народження"
             },
             {
-                "name": "birthTime",
+                "name": "birth_time",
                 "label": "Час народження",
                 "screenOffset": 0,
                 "component": "TimeInput",
                 "placeholder": "Виберіть час народження"
             },
             {
-                "name": "birthCountry",
+                "name": "birth_country",
                 "label": "Виберіть країну народження",
                 "screenOffset": -110,
                 "component": "FilteredPicker",
                 "placeholder": "Введіть текст для пошуку"
             },
             {
-                "name": "birthCity",
+                "name": "birth_city",
                 "label": "Виберіть місто народження",
                 "screenOffset": -210,
                 "component": "FilteredPicker",
@@ -952,11 +952,11 @@
         ],
         "signInMetadataArray": [
             {
-                "name": "email",
-                "label": "Електронна пошта",
+                "name": "username",
+                "label": "Ім'я користувача",
                 "component": "CustomInput",
                 "screenOffset": 0,
-                "placeholder": "Введіть свою електронну пошту"
+                "placeholder": "Введіть своє ім'я"
             },
             {
                 "name": "password",
