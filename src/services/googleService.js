@@ -1,57 +1,65 @@
-//import * as Google from 'expo-auth-session/providers/google';
-import { ResponseType } from 'expo-auth-session';
-//import * as AuthSession from 'expo-auth-session';
-//import { AuthSession } from 'expo-auth-session';
-import * as Google from 'expo-google-app-auth';
+// import * as AuthSession from 'expo-auth-session';
 
+import * as AuthSession from 'expo-auth-session';
+
+import google_client_config from '../static/json/google_client_config.json';
 import { IS_TEST_MODE } from '../config/config';
-import googleClientConfig from '../static/json/googleClientConfig.json';
 
-export async function googleService() {
+export const googleService = async () => {
+    console.log('googleService IS_TEST_MODE', IS_TEST_MODE);
+    if (IS_TEST_MODE) {
+        // Фейковый ответ для тестового режима
+        return new Promise(resolve => setTimeout(() => {
+            resolve({
+                status: 200,
+                data: { token: 'mock_access_token' }
+            });
+        }, 500));
+    }
+
     try {
-        if (IS_TEST_MODE) {
-            return new Promise(resolve => setTimeout(() => {
-                resolve({
-                    status: 200,
-                    data: {
-                        token: 'mock_access_token'
-                    }
-                });
-            }, 500));
-        } else {
-            // const authConfig = {
-            //     androidClientId: googleClientConfig.installed.client_id,
-            //     responseType: AuthSession.ResponseType.Token,
-            // };
-            // const result = await AuthSession.startAsync({
-            //     authUrl: AuthSession.makeAuthUrl({
-            //         ...authConfig,
-            //         useProxy: true,
-            //         scopes: ['openid', 'profile', 'email']
-            //     }),
-            // });
+        // Параметры для Google OAuth
+        console.log('googleService google_client_config', google_client_config);
+        const config = {
+            responseType: 'token',
+            clientId: google_client_config.installed.client_id,
+            scopes: ['profile', 'email'],
+            redirectUri: AuthSession.makeRedirectUri({
+                scheme: 'astrologAI',
+                useProxy: true, // если вы тестируете на реальном устройстве
+            }),
+        };
+        console.log('googleService config', config);
 
-            const config = {
-                androidClientId: googleClientConfig.installed.client_id,
-                scopes: ['profile', 'email']
+        const request = new AuthSession.AuthRequest(config);
+        console.log('googleService request', request);
+
+        const discovery = {
+            authorizationEndpoint: 'https://accounts.google.com/o/oauth2/v2/auth',
+            tokenEndpoint: 'https://oauth2.googleapis.com/token',
+        };
+
+        console.log('googleService discovery', discovery);
+
+        // Получение URL для авторизации
+        const url = await request.makeAuthUrlAsync(discovery);
+        console.log('googleService url', url);
+
+        // Открытие запроса авторизации
+        const result = await request.promptAsync(discovery);
+        console.log('googleService result', result);
+
+        // // Анализ возвращаемого URL
+        // const parsed = await request.parseReturnUrlAsync("<URL From Server>");
+        // console.log('googleService parsed', parsed);
+
+        if (result.type === 'success') {
+            return {
+                status: 200,
+                data: { token: result.params.access_token },
             };
-
-            console.log('googleService config', config);
-
-            const result = await Google.logInAsync(config);
-            console.log('googleService result', result);
-
-            if (result.type === 'success') {
-                return {
-                    status: 200,
-                    data: {
-                        token: result.params.idToken
-                    }
-                };
-            } else {
-                console.log('googleService was cancelled');
-                return { status: 500, data: { error: 'Google Sign-In was cancelled' } };
-            }
+        } else {
+            return { status: 500, data: { error: 'Google Sign-In was cancelled' } };
         }
     } catch (error) {
         console.log('googleService error', error);
@@ -60,9 +68,5 @@ export async function googleService() {
             data: { error: error.message }
         };
     }
-}
-
-
-
-
+};
 

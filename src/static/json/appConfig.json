@@ -107,13 +107,13 @@
             }
         ],
         "Astrobots": [
-            {
-                "name": "Alex",
-                "title": "Alex",
-                "image": "Alex.png",
-                "description": "I'm Alex, and I'm here to redefine what you think you know about astrology and the future. Fueled by quantum computing, my engine delves deeper than stars and signs, tapping into algorithms that can actually shape what's next, not just predict it. Think bigger—think using this tech for early disease detection or preventing ecological disasters. With me, you're not just getting forecasts, you're engaging with a system that wants to make tomorrow better than today.",
-                "placeholder": "Hello there! \n\nWe wanted to let you know that your personalized astrology article is currently being crafted with great care and attention. As astrology is a complex and nuanced field, it takes a little time to ensure that every insight we provide is as accurate and meaningful as possible.\n\nWhile your article isn't ready just yet, we're working diligently to get it to you as soon as possible. And the good news is, you don't have to keep checking back for updates! We'll send you a push notification directly to your device as soon as your article is ready to read.\n\nThank you for your patience and understanding."
-            },
+          {
+            "name": "Alex",
+            "title": "Alex",
+            "image": "Alex.png",
+            "description": "I'm Alex, and I'm here to redefine what you think you know about astrology and the future. Fueled by quantum computing, my computer delves deeper than stars and signs, tapping into algorithms that can actually shape what's next, not just predict it. Think bigger—think using this tech for early disease detection or preventing ecological disasters. With me, you're not just getting forecasts, you're engaging with a system that wants to make tomorrow better than today.",
+            "placeholder": "Hello there! \n\nWe wanted to let you know that your personalized astrology article is currently being crafted with great care and attention. As astrology is a complex and nuanced field, it takes a little time to ensure that every insight we provide is as accurate and meaningful as possible.\n\nWhile your article isn't ready just yet, we're working diligently to get it to you as soon as possible. And the good news is, you don't have to keep checking back for updates! We'll send you a push notification directly to your device as soon as your article is ready to read.\n\nThank you for your patience and understanding."
+          },
             {
                 "name": "Eva",
                 "title": "Eva",

@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "scheme": "AstrologAI",
+    "scheme": "astrologAI",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -19,17 +19,15 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.astrologai.package",
+      "googleServicesFile": "./src/static/json/google_client_config.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.anonymous.AstrologAIWeb"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-localization"
-    ]
+    }
   }
 }

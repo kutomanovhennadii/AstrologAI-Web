@@ -1,14 +1,14 @@
-import * as Localization from 'expo-localization';
+// getSystemLanguage.js
 
 const getSystemLanguage = () => {
-    const languageCode = Localization.locale.split('-')[0];
+    //const languageCode = Localization.locale.split('-')[0];
     let language = 'English'; // значение по умолчанию
 
-    if (languageCode === 'ru') {
-        language = 'Русский';
-    } else if (languageCode === 'uk') {
-        language = 'Український';
-    }
+    // if (languageCode === 'ru') {
+    //     language = 'Русский';
+    // } else if (languageCode === 'uk') {
+    //     language = 'Український';
+    // }
 
     return language;
 };

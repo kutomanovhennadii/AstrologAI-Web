@@ -19,7 +19,9 @@ export const useSocialAuthentication = () => {
 
             let responseSocial;
             if (socialNetwork === 'google') {
+                console.log('authenticateSocial googleService');
                 responseSocial = await googleService();
+                console.log('authenticateSocial responseSocial', responseSocial);
             } else if (socialNetwork === 'facebook') {
                 responseSocial = await facebookService();
             } else if (socialNetwork === 'apple') {
@@ -35,7 +37,7 @@ export const useSocialAuthentication = () => {
                     socialNetwork: socialNetwork,
                     token: responseSocial.data.token
                 });
-               console.log('authenticateSocial responseServer', responseServer);
+                console.log('authenticateSocial responseServer', responseServer);
 
                 if (responseServer && responseServer.data && responseServer.status === 200) {
                     await AsyncStorage.setItem('userToken', responseServer.data.token);
@@ -60,6 +62,7 @@ export const useSocialAuthentication = () => {
                 return { success: false, error: responseSocial?.data?.error || 'Authentication error' };
             }
         } catch (error) {
+            console.log('authenticateSocial error', error);
             return { success: false, error: error.message || 'Authentication error' };
         } finally {
             setLoading(false);

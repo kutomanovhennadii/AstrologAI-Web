@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Linking } from 'react-native';
 
 import BackgroundImage from './src/components/common/BackgroundImage';
 import SignIn from './src/components/signin/SignIn'
@@ -20,6 +21,21 @@ import { UserProvider } from './src/context/UserContext';
 
 const App = () => {
 
+  useEffect(() => {
+    console.log('App useEffect');
+
+    const handleDeepLink = event => {
+      console.log("Received deep link: ", event.url);
+      // Здесь вы можете добавить дополнительную логику обработки URL
+    };
+
+    Linking.addEventListener('url', handleDeepLink);
+    console.log('App handleDeepLink', handleDeepLink);
+
+    return () => {
+      Linking.removeEventListener('url', handleDeepLink);
+    };
+  }, []);
 
   return (
     <UserProvider>

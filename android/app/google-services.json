@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "620492320578",
+    "project_id": "astrolgai",
+    "storage_bucket": "astrolgai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620492320578:android:08b8e138608e89bffe22db",
+        "android_client_info": {
+          "package_name": "com.astrologai.package"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "620492320578-evljcsfrjs9bo4tibne8ajti4cd2c6mc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaCUphySwPBo8uI8h4vTKQu8YZJTy1KcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620492320578-evljcsfrjs9bo4tibne8ajti4cd2c6mc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
